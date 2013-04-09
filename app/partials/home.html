@@ -1,0 +1,42 @@
+<div ng-repeat="q in questions">
+	
+	<div class="row">
+    	<div class="span12"><a class="btn btn-link" ng-click="questionDetail(q._id)" >{{q.body}} </a></div>
+    </div>
+    <div class="row">
+    	<div class="span1"><button class="btn btn-mini"><i class="icon-arrow-up"></i></button></div>
+    	<div class="span11">created by: <a href="#/user/{{q.creator}}">{{q.creator}}</a> date: {{q.date}} </div>
+    </div>
+	<div class="row">
+    	<div class="span1"><button class="btn btn-mini disabled">{{q.rank}}</button></div>
+    	<div class="span11">&nbsp;</div>
+    </div>
+    <div class="row">
+    	<div class="span1"><button class="btn btn-mini"><i class="icon-arrow-down"></i></button></div>
+    	<div class="span11">{{q.comments.length}} comments</div>
+    </div>
+	<!-- if -->
+	<span ng-hide="detail.id != q._id">
+		<div  class="row">
+			<div class="span1">Answer</div>
+			<div class="span11">{{detail.answer}}</div>
+		</div>
+		<div  class="row">
+			<div class="span1">Ideal</div>
+			<div class="span11">{{detail.ideal}}</div>
+		</div>
+	</span>
+	<!-- else -->
+	<span ng-hide="detail.id == q._id">
+		<div  class="row">
+			<div class="span1">&nbsp;</div>
+			<div class="span11">&nbsp;</div>
+		</div>
+		<div  class="row">
+			<div class="span1">&nbsp;</div>
+			<div class="span11">&nbsp;</div>
+		</div>
+	</span>
+	<!-- if end -->
+	<hr>
+</div>
