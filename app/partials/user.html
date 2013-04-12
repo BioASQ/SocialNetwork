@@ -1,1 +1,70 @@
-<p>{{title}}</p>
+<div data-ng-include src="'partials/navi.html'"></div>
+<!-- user -->
+<div class="container">
+    <div class="row">
+        <div class="span1">
+            <img data-ng-src={{user.img}} alt={{user.name}} />
+        </div>
+        <div class="span11">
+            {{user.name}}<br />
+            {{user.description}}
+        </div>
+    </div>
+
+    <div class="vspace"></div>
+
+    <div class="row">
+        <div class="span1"> </div>
+        <div class="span11">
+            <button class="btn" data-ng-click="message(user._id)">Message</button>
+            <button class="btn" data-ng-click="follow(user._id)">Follow</button>
+        </div>
+    </div>
+</div>
+
+<div class="vspace"></div>
+
+<!-- btns -->
+<div class="container">
+    <a data-ng-disabled="state == 'following'" class="btn btn-link" data-ng-click="showFollowing(user._id)">Following</a>
+    <a data-ng-disabled="state == 'followers'" class="btn btn-link" data-ng-click="showFollowers(user._id)">Followers</a>
+    <a data-ng-disabled="state == 'comments'"  class="btn btn-link" data-ng-click="showComments(user._id)" >Comments</a>
+</div>
+
+<div class="vspace"></div>
+
+<!-- table -->
+<div class="container">
+    <div data-ng-repeat="d in data">
+        <div class="row">
+            <div data-ng-switch data-on="state">
+                <!-- following -->
+                <div data-ng-switch-when="following">
+                            <!-- todo -->
+                            <div class="span1">
+                                <img data-ng-src={{d.img}} alt={{d.name}} /><br />
+                            </div>
+                            <div class="span11">
+                                {{d.name}} {{d.body}}
+                            </div>
+                </div>
+                <!-- followers -->
+                <div data-ng-switch-when="followers">
+                    <div class="span1">
+                        <img data-ng-src={{d.img}} alt={{d.name}} /><br />
+                    </div>
+                    <div class="span11">
+                        {{d.name}}
+                    </div>
+                </div>
+                <!-- comments -->
+                <div data-ng-switch-when="comments">
+                    <div class="span12">
+                        {{d.comment}}
+                    </div>
+                </div>
+                <div class="vspace"></div>
+            </div>
+        </div>
+    </div>
+</div>
