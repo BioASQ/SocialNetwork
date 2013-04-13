@@ -3,7 +3,6 @@
  *
  */
 BioASQ.HomeCtrl = function ($scope, $location, Questions) {
-    $scope.path = $location.path();
     // get questions
     Questions.getQuestions(function (data) {
         $scope.questions = data != null ? data : "error";
@@ -65,14 +64,12 @@ BioASQ.UserCtrl =  function ($scope, $location, Users) {
  *
  */
 BioASQ.TimelineCtrl = function ($scope, $location) {
-    $scope.path = $location.path();
 };
 
 /**
  *
  */
 BioASQ.MessageCtrl =  function ($scope, $location) {
-    $scope.path = $location.path();
 };
 
 BioASQ.controller('HomeCtrl', BioASQ.HomeCtrl);
