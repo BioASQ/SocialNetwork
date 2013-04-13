@@ -1,6 +1,6 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ', ['ngResource']);
+var BioASQ = angular.module('BioASQ',['ngResource','$strap.directives']);
 
 BioASQ.config(['$routeProvider', function($routeProvider) {
 
