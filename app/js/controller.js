@@ -40,22 +40,24 @@ BioASQ.UserCtrl =  function ($scope, $location, Users) {
     Users.getUser(id, function (data) {
         $scope.user = data != null ? data : "error";
     });
-    $scope.showComments = function(id){
-        Users.getComments(id, function(data){
-            $scope.data = data;
-            $scope.state = "comments";
-        });
-    };
-    $scope.showFollowers = function(id){
-        Users.getFollowers(id, function(data){
-            $scope.data = data;
-            $scope.state = "followers";
-        });
-    };
+
     $scope.showFollowing = function(id){
         Users.getFollowing(id, function(data){
             $scope.data = data;
-            $scope.state = "following";
+        });
+    };
+    // default 
+    $scope.showFollowing(id);
+
+    $scope.showComments = function(id){
+        Users.getComments(id, function(data){
+            $scope.data = data;
+        });
+    };
+
+    $scope.showFollowers = function(id){
+        Users.getFollowers(id, function(data){
+            $scope.data = data;
         });
     };
 };
