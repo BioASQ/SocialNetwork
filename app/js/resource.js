@@ -1,7 +1,10 @@
 'use strict';
+/**
+ *
+ **/
 BioASQ.factory('QuestionsRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/data/questions.js',
+        'http://' + $window.location.host + ':' + $window.location.port + '/questions',
         { callback: 'JSON_CALLBACK' },
         { get: { method: 'GET', isArray: true } }
     );
@@ -9,15 +12,17 @@ BioASQ.factory('QuestionsRes', function ($resource, $window) {
 
 BioASQ.factory('QuestionDetailRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/data/detail/:id/detail.js',
+        'http://' + $window.location.host + ':' + $window.location.port + '/questions/:id',
         { id: "@id", callback: 'JSON_CALLBACK' },
         { get: { method: 'GET', isArray: true } }
     );
 });
-
+/**
+ *
+ **/
 BioASQ.factory('UserRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/data/user/:id/user.js',
+        'http://' + $window.location.host + ':' + $window.location.port + '/users/:id',
         { id: "@id", callback: 'JSON_CALLBACK' },
         { get: { method: 'GET', isArray: true } }
     );
@@ -25,7 +30,7 @@ BioASQ.factory('UserRes', function ($resource, $window) {
 
 BioASQ.factory('CommentsRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/data/user/:id/comments.js',
+        'http://' + $window.location.host + ':' + $window.location.port + '/comments/:id',
         { id: "@id", callback: 'JSON_CALLBACK' },
         { get: { method: 'GET', isArray: true } }
     );
@@ -33,7 +38,7 @@ BioASQ.factory('CommentsRes', function ($resource, $window) {
 
 BioASQ.factory('FollowersRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/data/user/:id/followers.js',
+        'http://' + $window.location.host + ':' + $window.location.port + '/followers/:id',
         { id: "@id", callback: 'JSON_CALLBACK' },
         { get: { method: 'GET', isArray: true } }
     );
@@ -41,7 +46,7 @@ BioASQ.factory('FollowersRes', function ($resource, $window) {
 
 BioASQ.factory('FollowingRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/data/user/:id/following.js',
+        'http://' + $window.location.host + ':' + $window.location.port + '/following/:id',
         { id: "@id", callback: 'JSON_CALLBACK' },
         { get: { method: 'GET', isArray: true } }
     );

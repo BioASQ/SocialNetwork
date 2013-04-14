@@ -19,7 +19,7 @@ BioASQ.config(['$routeProvider', function($routeProvider) {
         controller: 'MessageCtrl'
     });
 
-    $routeProvider.when('/user/:creator', {
+    $routeProvider.when('/users/:creator', {
         templateUrl: 'partials/user.html',
         controller: 'UserCtrl'
     });
