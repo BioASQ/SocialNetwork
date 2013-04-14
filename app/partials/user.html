@@ -1,5 +1,6 @@
 <div data-ng-include src="'partials/navi.html'"></div>
-<!-- user -->
+<div class="vspace"></div>
+
 <div class="container">
     <div class="row">
         <div class="span1">
@@ -16,40 +17,42 @@
     <div class="row">
         <div class="span1"> </div>
         <div class="span11">
-            <button class="btn" data-ng-click="message(user._id)">Message</button>
+            <button class="btn" data-ng-click="message(user._id)" data-bs-modal="'partials/modalMessages.html'">Message</button>
             <button class="btn" data-ng-click="follow(user._id)">Follow</button>
         </div>
     </div>
-</div>
+</div><br />
 
 <div class="vspace"></div>
 
-<!-- btns -->
 <div class="container">
-    <a data-ng-disabled="state == 'following'" class="btn btn-link" data-ng-click="showFollowing(user._id)">Following</a>
-    <a data-ng-disabled="state == 'followers'" class="btn btn-link" data-ng-click="showFollowers(user._id)">Followers</a>
-    <a data-ng-disabled="state == 'comments'"  class="btn btn-link" data-ng-click="showComments(user._id)" >Comments</a>
-</div>
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-ng-href="#Following" data-toggle="tab" data-ng-click="showFollowing(user._id)">Following</a>
+            </li>
+            <li>
+                <a data-ng-href="#Followers" data-toggle="tab" data-ng-click="showFollowers(user._id)">Followers</a>
+            </li>
+            <li>
+                <a data-ng-href="#Comments" data-toggle="tab" data-ng-click="showComments(user._id)">Comments</a>
+            </li>
+        </ul>
 
-<div class="vspace"></div>
-
-<!-- table -->
-<div class="container">
-    <div data-ng-repeat="d in data">
-        <div class="row">
-            <div data-ng-switch data-on="state">
-                <!-- following -->
-                <div data-ng-switch-when="following">
-                            <!-- todo -->
-                            <div class="span1">
-                                <img data-ng-src={{d.img}} alt={{d.name}} /><br />
-                            </div>
-                            <div class="span11">
-                                {{d.name}} {{d.body}}
-                            </div>
+        <div class="tab-content">
+            <div class="tab-pane active" id="Following">
+               <div data-ng-repeat="d in data" class="row">
+                    <!-- todo -->
+                    <div class="span1">
+                        <img data-ng-src={{d.img}} alt={{d.name}} /><br />
+                    </div>
+                    <div class="span11">
+                        {{d.name}} {{d.body}}
+                    </div>
                 </div>
-                <!-- followers -->
-                <div data-ng-switch-when="followers">
+            </div>
+            <div class="tab-pane" id="Followers">
+                <div data-ng-repeat="d in data" class="row">
                     <div class="span1">
                         <img data-ng-src={{d.img}} alt={{d.name}} /><br />
                     </div>
@@ -57,13 +60,13 @@
                         {{d.name}}
                     </div>
                 </div>
-                <!-- comments -->
-                <div data-ng-switch-when="comments">
+            </div>
+            <div class="tab-pane" id="Comments">
+                <div data-ng-repeat="d in data" class="row">
                     <div class="span12">
                         {{d.comment}}
                     </div>
                 </div>
-                <div class="vspace"></div>
             </div>
         </div>
     </div>
