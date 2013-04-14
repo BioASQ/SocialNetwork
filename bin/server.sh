@@ -1,2 +1,2 @@
 #!/bin/sh
-cd app && python -m SimpleHTTPServer 8000
+cd app && python -u "../bin/server.py"

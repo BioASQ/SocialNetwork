@@ -1,2 +1,2 @@
 cd app
-python -m SimpleHTTPServer 8000
+python "../bin/server.py"
