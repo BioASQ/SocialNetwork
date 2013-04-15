@@ -16,7 +16,7 @@
 
     <div class="row">
         <div class="span1"> </div>
-        <div class="span11">
+        <div class="span11" data-ng-hide="me._id == user._id">
             <button class="btn" data-ng-click="message(user._id)" data-bs-modal="'partials/modalMessages.html'">Message</button>
             <button class="btn" data-ng-click="follow(user._id)">Follow</button>
         </div>

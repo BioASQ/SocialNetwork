@@ -4,4 +4,7 @@
         <li data-match-route="/timeline"><a data-ng-href="#/timeline">Timeline</a></li>
         <li data-match-route="/message"><a data-ng-href="#/message">Messages</a></li>
     </ul>
+    <ul class="nav pull-right">
+        <li data-match-route="/users/{{me._id}}"><a class="pull-right" data-ng-href="#/users/{{me._id}}">{{me.name}}</a></li>
+    </ul>
 </div>
