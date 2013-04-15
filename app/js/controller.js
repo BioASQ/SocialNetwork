@@ -29,6 +29,12 @@ BioASQ.HomeCtrl = function ($scope, $location, Questions, Me) {
             }
         });
     };
+
+    $scope.vote = function(id, dir){
+        Questions.vote(id, dir, function(data){
+            //...
+        });
+    };
 };
 
 /**
