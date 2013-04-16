@@ -1,10 +1,10 @@
-<div class="container navbar navbar-inner" data-bs-navbar>
+<div class="container navbar navbar-inner">
     <ul class="nav">
-        <li data-match-route="/home"><a data-ng-href="#/home">Home</a></li>
-        <li data-match-route="/timeline"><a data-ng-href="#/timeline">Timeline</a></li>
-        <li data-match-route="/message"><a data-ng-href="#/message">Messages</a></li>
+        <li data-ui-route="#/home"              data-ng-class="{active: $uiRoute}"><a data-ng-href="#/home">Home</a></li>
+        <li data-ui-route="#/timeline"          data-ng-class="{active: $uiRoute}"><a data-ng-href="#/timeline">Timeline</a></li>
+        <li data-ui-route="#/message"           data-ng-class="{active: $uiRoute}"><a data-ng-href="#/message">Messages</a></li>
     </ul>
     <ul class="nav pull-right">
-        <li data-match-route="/users/{{me._id}}"><a class="pull-right" data-ng-href="#/users/{{me._id}}">{{me.name}}</a></li>
+        <li data-ui-route="#/users/{{me._id}}"  data-ng-class="{active: $uiRoute}"><a data-ng-href="#/users/{{me._id}}" class="pull-right">{{me.name}}</a></li>
     </ul>
 </div>
