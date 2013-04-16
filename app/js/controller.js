@@ -50,7 +50,7 @@ BioASQ.UserCtrl = function ($scope, $location, Users, Me) {
         $scope.user = data != null ? data : "error";
     });
 
-    $scope.showFollowing = function(id){
+    $scope.showFollowing = function(){
         Users.getFollowing(id, function(data){
             $scope.data = data;
         });
@@ -58,13 +58,13 @@ BioASQ.UserCtrl = function ($scope, $location, Users, Me) {
     // default 
     $scope.showFollowing(id);
 
-    $scope.showComments = function(id){
+    $scope.showComments = function(){
         Users.getComments(id, function(data){
             $scope.data = data;
         });
     };
 
-    $scope.showFollowers = function(id){
+    $scope.showFollowers = function(){
         Users.getFollowers(id, function(data){
             $scope.data = data;
         });
