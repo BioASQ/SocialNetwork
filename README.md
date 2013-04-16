@@ -42,9 +42,40 @@ REST backend services
 
 JSON structure
 --------------
-* resources have the following format
+* comments have the following format:
 
         {
-            'type': 'Question|User|Comment',
+            "id": "123abc",
+            "type": "Comment",
+            "title": "Comment title",
+            "created": "2013-04-16T10:19",
+            "content": "Comment text",
+            "creator": "<user name>",
+            "replies": ["<array of Posts>"]
+        }
+
+* users have the following format:
+
+        {
+            "id": "halo123",
+            "email": "halo123@example.com",
+            "type": "User",
+            "first_name": "Frank",
+            "last_name": "Foster"
+        }
+
+* questions have the following format:
+
+        {
+            "id": "123abc",
+            "type": "Question",
+            "body": "Question body",
+            "creator": "not shown",
+            "type": "list|textual",
+            "answer": {
+                "id": "5678",
+                "body": "Answer body",
+                "annotations": ["<not shure if annotations are shown in SN>"]
+            }
         }
 
