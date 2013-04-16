@@ -30,9 +30,11 @@ BioASQ.HomeCtrl = function ($scope, $location, Questions, Me) {
         });
     };
 
-    $scope.vote = function(id, dir){
+    // vote a question
+    $scope.votes = { vote : []};
+    $scope.votes.call = function(id, dir){
         Questions.vote(id, dir, function(data){
-            //...
+            $scope.votes.vote[id] = data.rank;
         });
     };
 };

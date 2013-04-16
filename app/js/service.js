@@ -33,7 +33,7 @@ BioASQ.Questions.prototype.getDetail = function (id, callback) {
 BioASQ.Questions.prototype.vote = function (id, dir, callback) {
     this.VoteRes.post({ id : id, dir : dir },
         function (data, headers) {
-            callback(data);
+            callback(data[0]);
         },
         function (response) {
             callback(null);

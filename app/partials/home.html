@@ -3,6 +3,9 @@
 
 <div class="container">
     <div data-ng-repeat="q in questions">
+        <!-- init defaults -->
+        <span data-ng-init="votes.vote[q._id] = q.rank"></span>
+
         <!-- questions-->
         <div class="row">
             <div class="span12"><a class="btn btn-link" data-ng-click="questionDetail(q._id)" data-unique="1" data-placement="right" data-title={{q.body}} data-bs-popover="'answer.html'">{{q.body}} </a></div>
@@ -11,15 +14,15 @@
         <div class="vspace"></div>
 
         <div class="row">
-            <div class="span1 text-center"><button data-ng-click="vote(q._id, 'up'); q.rank = q.rank + 1" class="btn btn-mini"><i class="icon-arrow-up"></i></button></div>
+            <div class="span1 text-center"><button data-ng-click="votes.call(q._id, 'up')" class="btn btn-mini"><i class="icon-arrow-up"></i></button></div>
             <div class="span11">{{q.date}} created by <a data-ng-href="#/users/{{q.creatorID}}">{{q.creator}}</a></div>
         </div>
         <div class="row">
-            <div class="span1 text-center">{{q.rank}}</div>
+            <div class="span1 text-center">{{votes.vote[q._id]}}</div>
             <div class="span11">&nbsp;</div>
         </div>
         <div class="row">
-            <div class="span1 text-center"><button data-ng-click="vote(q._id, 'down'); q.rank = q.rank - 1" class="btn btn-mini"><i class="icon-arrow-down"></i></button></div>
+            <div class="span1 text-center"><button data-ng-click="votes.call(q._id, 'down')" class="btn btn-mini"><i class="icon-arrow-down"></i></button></div>
             <div class="span11">{{q.comments.length}} comments</div>
         </div>
         <hr>

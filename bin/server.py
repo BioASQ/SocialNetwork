@@ -105,7 +105,7 @@ def voteRes(id):
     if dir == 'down':
         questions[id]['rank'] =  int(questions[id]['rank']) - 1
 
-    return str(questions[id]['rank'])
+    return '[ { "rank" : ' + str(questions[id]['rank']) + ' } ]'
 
 @get('/login')
 def loginRes():
