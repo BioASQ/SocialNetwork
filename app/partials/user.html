@@ -16,8 +16,8 @@
 
     <div class="row">
         <div class="span1"> </div>
-        <div class="span11" data-ng-hide="me._id == user._id">
-            <button class="btn" data-ng-click="message(user._id)" data-bs-modal="'partials/modalMessages.html'">Message</button>
+        <div class="span11 btn-group" data-ng-hide="me._id == user._id">
+            <button class="btn" data-ng-click="open = true">Message</button>
             <button class="btn" data-ng-click="follow(user._id)">Follow</button>
         </div>
     </div>
@@ -26,23 +26,21 @@
 <div class="vspace"></div>
 
 <div class="container">
-    <div class="tabbable">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a data-ng-href="#Following" data-toggle="tab" data-ng-click="showFollowing(user._id)">Following</a>
-            </li>
-            <li>
-                <a data-ng-href="#Followers" data-toggle="tab" data-ng-click="showFollowers(user._id)">Followers</a>
-            </li>
-            <li>
-                <a data-ng-href="#Comments" data-toggle="tab" data-ng-click="showComments(user._id)">Comments</a>
-            </li>
-        </ul>
+    <!-- btns -->
+    <div class="btn-group" data-toggle="buttons-checkbox">
+        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'Following'" data-ng-click="showFollowing()">Following</button>
+        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'Followers'" data-ng-click="showFollowers()">Followers</button>
+        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'Comments'"  data-ng-click="showComments()">Comments</button>
+    </div>
+    <!-- btn active -->
+    <div data-ng-init="radioModel = 'Following'" class="vspace" ></div>
 
-        <div class="tab-content">
-            <div class="tab-pane active" id="Following">
-               <div data-ng-repeat="d in data" class="row">
-                    <!-- todo -->
+    <!-- table -->
+    <div data-ng-repeat="d in data">
+        <div class="row">
+            <div data-ng-switch data-on="radioModel">
+
+                <div data-ng-switch-when="Following">
                     <div class="span1">
                         <img data-ng-src={{d.img}} alt={{d.name}} /><br />
                     </div>
@@ -50,9 +48,8 @@
                         {{d.name}} {{d.body}}
                     </div>
                 </div>
-            </div>
-            <div class="tab-pane" id="Followers">
-                <div data-ng-repeat="d in data" class="row">
+
+                <div data-ng-switch-when="Followers">
                     <div class="span1">
                         <img data-ng-src={{d.img}} alt={{d.name}} /><br />
                     </div>
@@ -60,14 +57,30 @@
                         {{d.name}}
                     </div>
                 </div>
-            </div>
-            <div class="tab-pane" id="Comments">
-                <div data-ng-repeat="d in data" class="row">
+
+                <div data-ng-switch-when="Comments">
                     <div class="span12">
                         {{d.comment}}
                     </div>
                 </div>
+
+                <div class="vspace"></div>
+                <div class="vspace"></div>
             </div>
         </div>
+    </div>
+</div>
+
+<div data-modal="open" data-close="open = false" data-options="{backdropFade: true, dialogFade:true }">
+    <div class="modal-header">
+        <h4>{{user.name}}</h4>
+    </div>
+    <div class="modal-body">
+        <ul>
+            <li data-ng-repeat="item in ['1','2']">{{item}}</li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning cancel" data-ng-click="TODO();open = false">Cancel</button>
     </div>
 </div>
