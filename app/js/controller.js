@@ -2,11 +2,7 @@
 /**
  *
  */
-BioASQ.HomeCtrl = function ($scope, $location, Questions, Me) {
-
-    Me.login(function(){
-        $scope.me = Me.data;
-    });
+BioASQ.HomeCtrl = function ($scope, $location, Questions) {
 
     // get questions
     Questions.getQuestions(function (data) {
@@ -38,10 +34,7 @@ BioASQ.HomeCtrl = function ($scope, $location, Questions, Me) {
 /**
  *
  */
-BioASQ.UserCtrl = function ($scope, $location, Users, Me) {
-    Me.login(function(){
-        $scope.me = Me.data;
-    });
+BioASQ.UserCtrl = function ($scope, $location, Users) {
     // http://.../#/user/id
     var id = $location.path().substr($location.path().lastIndexOf('/') + 1);
     Users.getUser(id, function (data) {
@@ -72,19 +65,13 @@ BioASQ.UserCtrl = function ($scope, $location, Users, Me) {
 /**
  *
  */
-BioASQ.TimelineCtrl = function ($scope, $location, Me) {
-    Me.login(function(){
-        $scope.me = Me.data;
-    });
+BioASQ.TimelineCtrl = function ($scope, $location) {
 };
 
 /**
  *
  */
-BioASQ.MessageCtrl = function ($scope, $location, Me) {
-    Me.login(function(){
-        $scope.me = Me.data;
-    });
+BioASQ.MessageCtrl = function ($scope, $location) {
 };
 
 BioASQ.controller('HomeCtrl', BioASQ.HomeCtrl);

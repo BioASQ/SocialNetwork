@@ -28,3 +28,10 @@ BioASQ.config(['$routeProvider', function($routeProvider) {
         redirectTo: '/home'
     });
 }]);
+
+
+BioASQ.run(function($rootScope, Me) {
+    Me.login(function(){
+        $rootScope.me = Me.data;
+    });
+});
