@@ -3,9 +3,13 @@
  *  Questions service
  */
 BioASQ.Questions = function (QuestionsRes, QuestionDetailRes, VoteRes) {
+
     this.QuestionsRes = QuestionsRes;
     this.questions = null;
+
     this.QuestionDetailRes = QuestionDetailRes;
+    this.questionsDetail = [];
+
     this.VoteRes = VoteRes;
 };
 
@@ -32,6 +36,18 @@ BioASQ.Questions.prototype._getQuestions = function (callback) {
 };
 
 BioASQ.Questions.prototype.getDetail = function (id, callback) {
+    var self = this;
+    if(typeof this.questionsDetail[id] != 'undefined'){
+        callback(this.questionsDetail[id]);
+    }else{
+        this._getDetail(id, function(data){
+            callback(data);
+            self.questionsDetail[id] = data;
+        });
+    }
+};
+
+BioASQ.Questions.prototype._getDetail = function (id, callback) {
     this.QuestionDetailRes.get({ id : id },
         function (data, headers) {
             callback(data[0]);
