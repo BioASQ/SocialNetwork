@@ -4,13 +4,24 @@
  */
 BioASQ.Questions = function (QuestionsRes, QuestionDetailRes, VoteRes) {
     this.QuestionsRes = QuestionsRes;
+    this.questions = null;
     this.QuestionDetailRes = QuestionDetailRes;
     this.VoteRes = VoteRes;
 };
 
-
 BioASQ.Questions.prototype.getQuestions = function (callback) {
-    //var self = this;
+    var self = this;
+    if(this.questions != null)
+        callback(this.questions);
+    else{
+        this._getQuestions(function(data){
+            callback(data);
+            self.questions = data;
+        });
+    }
+};
+
+BioASQ.Questions.prototype._getQuestions = function (callback) {
     this.QuestionsRes.get(
         function (data, headers) {
             callback(data);
