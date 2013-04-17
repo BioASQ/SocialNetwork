@@ -4,26 +4,78 @@ from bottle import route, post, get, put, run, request, static_file
 #################################
 users = {}
 users['1'] = json.loads(
-'{"_id" : "1", "name" : "Bio. med. expert 1", "email": "bar@foo.com", "img" : "http://placehold.it/100x100&text==(", "description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis." }'
-)
+'{"id" : "1",'+
+'"email": "bar@foo.com",' +
+'"type": "User",' +
+'"first_name" : "Bio. med.",' +
+'"last_name" : "expert 1",' +
+'"img" : "http://placehold.it/100x100&text==(",'+
+'"description" : "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."' +
+'}')
 users['2'] = json.loads(
-'{"_id" : "2", "name" : "Bio. med. expert 2", "email": "foo@bar.com", "img" : "http://placehold.it/100x100&text==)", "description" : "Lorem ipsum dolor sit amet..." }'
-)
+'{"id" : "2",'+
+'"email": "bar@foo.com",' +
+'"type": "User",' +
+'"first_name" : "Bio. med.",' +
+'"last_name" : "expert 2",' +
+'"img" : "http://placehold.it/100x100&text==)",'+
+'"description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit."' +
+'}')
+
 #################################
 questions = {}
-questions['1'] = json.loads(
-'{"_id" : "1", "body": "Are CNEs particularly enriched in gene deserts?", "type": "yes/no", "creatorID": ' + users['1']['_id'] + ', "creator" : "' + users['1']['name'] + '", "date": "2013-02-26", "comments": [1,2] , "rank": 42 , "answer" : "yes", "ideal" : "more details"}'
-)
-questions['2'] = json.loads(
-'{"_id" : "2", "body": "Are CNEs particularly enriched in gene deserts?", "type": "yes/no", "creatorID": ' + users['2']['_id'] + ', "creator" : "' + users['2']['name'] + '", "date": "2013-02-27", "comments": [3,4,5] , "rank": 1337, "answer" : "no", "ideal" : "more details"}'
-)
+questions['3'] = json.loads(
+'{"id" : "3",' +
+'"type": "Question",' +
+'"body": "Are CNEs particularly enriched in gene deserts?",' +
+'"creator_first_name": "' + users['1']['first_name'] + '",' + 
+'"creator_last_name": "' + users['1']['last_name'] + '",' + 
+'"creator_id": "' + users['1']['id'] + '",' + 
+'"questionType": "textual",' +
+'"rank": 42, ' + 
+'"created": "2013-04-16T11:19",' + 
+'"answer":{'+
+    '"id": "5678", ' +
+    '"body": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis.", ' +
+    '"annotations":["<not sure if annotations are shown in SN>"]' + 
+    '}' +
+'}')
+
+questions['4'] = json.loads(
+'{"id" : "4",' +
+'"type": "Question",' +
+'"body": "Are CNEs particularly enriched in gene deserts?",' +
+'"creator_first_name": "' + users['2']['first_name'] + '",' + 
+'"creator_last_name": "' + users['2']['last_name'] + '",' + 
+'"creator_id": "' + users['2']['id'] + '",' + 
+'"questionType": "list",' +
+'"rank": 1337, ' + 
+'"created": "2012-04-16T11:19",' + 
+'"answer":{'+
+    '"id": "5678", ' +
+    '"body": "yes", '+
+    '"annotations":["<not sure if annotations are shown in SN>"]'+ 
+    '}' +
+'}')
 #################################
 comments = {}
-comments['1'] = json.loads(
-'{"_id" : "1", "creator": ' + json.dumps(users['2']) + ', "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
+comments['5'] = json.loads(
+'{"id" : "5", ' +
+'"type": "Comment",' +
+'"title": "Comment title",' +
+'"created": "2013-04-16T10:19",' + 
+'"creator": ' + json.dumps(users['2']) + ', ' +
+'"replies": ["<array of Posts>"],'
+'"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}'
 )
-comments['2'] = json.loads(
-'{"_id" : "2", "creator": ' + json.dumps(users['1']) + ', "comment": "Lorem ipsum dolor sit amet..."}'
+comments['6'] = json.loads(
+'{"id" : "6", ' +
+'"type": "Comment",' +
+'"title": "Comment title",' +
+'"created": "2012-03-16T10:19",' + 
+'"creator": ' + json.dumps(users['2']) + ', ' +
+'"replies": ["<array of Posts>"],'
+'"content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
 )
 
 #################################
@@ -31,14 +83,14 @@ following = {}
 following['1'] = json.loads(
 '[' +
 json.dumps(users['2']) + ',' +
-json.dumps(questions['2']) +
+json.dumps(questions['3']) +
 ']')
 
 following['2'] = json.loads(
 '[' +
 json.dumps(users['1']) + ',' +
-json.dumps(questions['1']) + ',' +
-json.dumps(questions['2']) +
+json.dumps(questions['3']) + ',' +
+json.dumps(questions['4']) +
 ']')
 #################################
 followers = {}
@@ -55,12 +107,12 @@ json.dumps(users['1']) +
 userComments = {}
 userComments['1'] = json.loads(
 '[' +
-json.dumps(comments['1']) +
+json.dumps(comments['5']) +
 ']')
 
 userComments['2'] = json.loads(
 '[' +
-json.dumps(comments['2']) +
+json.dumps(comments['6']) +
 ']')
 #################################
 @get('/following/:id')
