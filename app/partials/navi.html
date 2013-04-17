@@ -1,10 +1,20 @@
 <div class="container navbar navbar-inner">
-    <ul class="nav">
-        <li data-ui-route="#/home"              data-ng-class="{active: $uiRoute}"><a data-ng-href="#/home">Home</a></li>
-        <li data-ui-route="#/timeline"          data-ng-class="{active: $uiRoute}"><a data-ng-href="#/timeline">Timeline</a></li>
-        <li data-ui-route="#/message"           data-ng-class="{active: $uiRoute}"><a data-ng-href="#/message">Messages</a></li>
+    <ul class="nav" data-ng-init="inflectorType='humanize'">
+        <li data-ng-repeat="page in pages"
+            data-ui-route="#/{{page}}"
+            data-ng-class="{active: $uiRoute}">
+                <a  data-ng-init="inflectorText=page"
+                    data-ng-href="#/{{page}}">
+                        {{inflectorText|inflector:inflectorType}}
+                </a>
+        </li>
     </ul>
     <ul class="nav pull-right">
-        <li data-ui-route="#/users/{{me.id}}"  data-ng-class="{active: $uiRoute}"><a data-ng-href="#/users/{{me.id}}">{{me.first_name}} {{me.last_name}}</a></li>
+        <li data-ui-route="#/users/{{me.id}}"
+            data-ng-class="{active: $uiRoute}">
+                <a data-ng-href="#/users/{{me.id}}">
+                    {{me.first_name}} {{me.last_name}}
+                </a>
+        </li>
     </ul>
 </div>

@@ -2,20 +2,22 @@
 
 var BioASQ = angular.module('BioASQ',['ngResource', 'ui.bootstrap', 'ui']);
 
+BioASQ.pages = ['home', 'timeline', 'message'];
+
 BioASQ.config(['$routeProvider', function($routeProvider) {
 
-    $routeProvider.when('/home', {
-        templateUrl: 'partials/home.html',
+    $routeProvider.when('/' + BioASQ.pages[0], {
+        templateUrl: 'partials/' + BioASQ.pages[0] + '.html',
         controller: 'HomeCtrl'
     });
 
-    $routeProvider.when('/timeline', {
-        templateUrl: 'partials/timeline.html',
+    $routeProvider.when('/' + BioASQ.pages[1], {
+        templateUrl: 'partials/' + BioASQ.pages[1] + '.html',
         controller: 'TimelineCtrl'
     });
 
-    $routeProvider.when('/message', {
-        templateUrl: 'partials/messages.html',
+    $routeProvider.when('/' + BioASQ.pages[2], {
+        templateUrl: 'partials/' + BioASQ.pages[2] + '.html',
         controller: 'MessageCtrl'
     });
 
@@ -25,12 +27,15 @@ BioASQ.config(['$routeProvider', function($routeProvider) {
     });
 
     $routeProvider.otherwise({
-        redirectTo: '/home'
+        redirectTo: '/' + BioASQ.pages[0]
     });
 }]);
 
 
 BioASQ.run(function($rootScope, Me) {
+
+    $rootScope.pages = BioASQ.pages;
+
     Me.login(function(){
         $rootScope.me = Me.data;
     });
