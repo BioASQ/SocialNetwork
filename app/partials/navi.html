@@ -5,6 +5,6 @@
         <li data-ui-route="#/message"           data-ng-class="{active: $uiRoute}"><a data-ng-href="#/message">Messages</a></li>
     </ul>
     <ul class="nav pull-right">
-        <li data-ui-route="#/users/{{me._id}}"  data-ng-class="{active: $uiRoute}"><a data-ng-href="#/users/{{me._id}}">{{me.name}}</a></li>
+        <li data-ui-route="#/users/{{me.id}}"  data-ng-class="{active: $uiRoute}"><a data-ng-href="#/users/{{me.id}}">{{me.first_name}} {{me.last_name}}</a></li>
     </ul>
 </div>

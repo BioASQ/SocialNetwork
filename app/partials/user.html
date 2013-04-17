@@ -4,10 +4,10 @@
 <div class="container">
     <div class="row">
         <div class="span1">
-            <img data-ng-src={{user.img}} alt={{user.name}} />
+            <img data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
         </div>
         <div class="span11">
-            {{user.name}}<br />
+            {{user.first_name}} {{user.last_name}}<br />
             {{user.description}}
         </div>
     </div>
@@ -16,9 +16,9 @@
 
     <div class="row">
         <div class="span1"> </div>
-        <div class="span11 btn-group" data-ng-hide="me._id == user._id">
+        <div class="span11 btn-group" data-ng-hide="me.id == user.id">
             <button class="btn" data-ng-click="open = true">Message</button>
-            <button class="btn" data-ng-click="follow(user._id)">Follow</button>
+            <button class="btn" data-ng-click="follow()">Follow</button>
         </div>
     </div>
 </div><br />
@@ -33,54 +33,61 @@
         <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'Comments'"  data-ng-click="showComments()">Comments</button>
     </div>
     <!-- btn active -->
-    <div data-ng-init="radioModel = 'Following'" class="vspace" ></div>
-
+    <div data-ng-init="radioModel = 'Following'"></div>
     <!-- table -->
     <div data-ng-repeat="d in data">
         <div class="row">
             <div data-ng-switch data-on="radioModel">
-
                 <div data-ng-switch-when="Following">
-                    <div class="span1">
-                        <img data-ng-src={{d.img}} alt={{d.name}} /><br />
-                    </div>
-                    <div class="span11">
-                        {{d.name}} {{d.body}}
-                    </div>
-                </div>
 
-                <div data-ng-switch-when="Followers">
-                    <div class="span1">
-                        <img data-ng-src={{d.img}} alt={{d.name}} /><br />
+                    <div data-ng-switch data-on="d.type">
+                        <div data-ng-switch-when="Question"><div data-ng-include src="'template_Question.html'"></div></div>
+                        <div data-ng-switch-when="User">    <div data-ng-include src="'template_User.html'"></div></div>
                     </div>
-                    <div class="span11">
-                        {{d.name}}
-                    </div>
-                </div>
 
-                <div data-ng-switch-when="Comments">
-                    <div class="span12">
-                        {{d.comment}}
-                    </div>
                 </div>
+                <div data-ng-switch-when="Followers">       <div data-ng-include src="'template_User.html'"></div></div>
+                <div data-ng-switch-when="Comments">        <div data-ng-include src="'template_Comments.html'"></div></div>
 
-                <div class="vspace"></div>
                 <div class="vspace"></div>
             </div>
         </div>
     </div>
 </div>
 
+<script type="text/ng-template" id="template_User.html">
+    <div class="span1">
+        <img data-ng-src={{d.img}} alt="{{d.first_name}} {{d.last_name}}" /><br />
+    </div>
+    <div class="span11">
+        {{d.first_name}} {{d.last_name}}
+    </div>
+</script>
+<script type="text/ng-template" id="template_Comments.html">
+    <div class="span12">
+        {{d.content}}
+    </div>
+</script>
+<script type="text/ng-template" id="template_Question.html">
+    <div class="span12">{{d.body}}</div>
+</script>
+
 <div data-modal="open" data-close="open = false" data-options="{backdropFade: true, dialogFade:true }">
     <div class="modal-header">
         <h4>{{user.name}}</h4>
     </div>
     <div class="modal-body">
-        <ul>
-            <li data-ng-repeat="item in ['1','2']">{{item}}</li>
-        </ul>
+    <form>
+        <fieldset>
+            <legend>{{user.first_name}} {{user.last_name}}</legend>
+            <label>Write a message ...</label>
+            <input type="text" placeholder="Write a message ..." autofocus="autofocus" /><br />
+
+            <button type="submit" class="btn">Submit</button>
+        </fieldset>
+    </form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-warning cancel" data-ng-click="TODO();open = false">Cancel</button>
+        <button class="btn btn-inner cancel" data-ng-click="TODO();open = false">Cancel</button>
     </div>
 </div>
