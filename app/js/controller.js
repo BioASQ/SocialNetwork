@@ -13,21 +13,17 @@ BioASQ.HomeCtrl = function ($scope, $location, Questions, Me) {
         $scope.questions = data != null ? data : "error";
     });
 
-    // init detail
-    $scope.detail = { id : "" };
-
+    // TODO: put this cache to service
     // ng-click detail
+    $scope.details = { detail: []};
     $scope.questionDetail = function (id){
-        // show
-        Questions.getDetail(id, function (data) {
-            if (data != null) {
-                $scope.detail = {
-                                    id : id,
-                                    answer : data.answer,
-                                    ideal : data.ideal
-                                }
-            }
-        });
+        if(typeof $scope.details.detail[id] == 'undefined'){
+            Questions.getDetail(id, function (data) {
+                if (data != null) {
+                    $scope.details.detail[id] = data;
+                }
+            });
+        }
     };
 
     // vote a question
