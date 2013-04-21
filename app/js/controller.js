@@ -9,7 +9,6 @@ BioASQ.HomeCtrl = function ($scope, $location, Questions) {
         $scope.questions = data != null ? data : "error";
     });
 
-    // TODO: put this cache to service
     // ng-click detail
     $scope.details = [];
     $scope.questionDetail = function (id){
@@ -19,10 +18,9 @@ BioASQ.HomeCtrl = function ($scope, $location, Questions) {
     };
 
     // vote a question
-    $scope.votes = { vote : []};
-    $scope.votes.call = function(id, dir){
-        Questions.vote(id, dir, function(data){
-            $scope.votes.vote[id] = data.rank;
+    $scope.vote = function(id, dir){
+        Questions.vote(id, dir, function(rank){
+            // ...
         });
     };
 };

@@ -57,10 +57,19 @@ BioASQ.Questions.prototype._getDetail = function (id, callback) {
         });
 };
 
+// TODO: parameter index for questions to prevent angular.forEach ...
 BioASQ.Questions.prototype.vote = function (id, dir, callback) {
+    var self = this;
     this.VoteRes.post({ id : id, dir : dir },
         function (data, headers) {
-            callback(data[0]);
+
+            angular.forEach(self.questions , function(question, index){
+                if(question.id == id){
+                    self.questions[index].rank = data[0].rank;
+                    callback(self.questions[index].rank);
+                    console.log("s");
+                }
+            });
         },
         function (response) {
             callback(null);
@@ -147,6 +156,7 @@ BioASQ.Me.prototype._login = function (callback) {
             callback(null);
         });
 };
+
 BioASQ.service('Questions', BioASQ.Questions);
 BioASQ.service('Users', BioASQ.Users);
 BioASQ.service('Me', BioASQ.Me);
