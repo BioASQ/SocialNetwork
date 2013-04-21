@@ -18,7 +18,7 @@
 
                 <div class="row">
                     <div class="span1 text-center"><button data-ng-click="votes.call(q.id, 'up')" class="btn btn-mini"><i class="icon-arrow-up"></i></button></div>
-                    <div class="span5">{{q.created}} created by <a data-ng-href="#/users/{{q.creator_id}}">{{q.creator_first_name}} {{q.creator_last_name}}</a></div>
+                    <div class="span5">{{q.created}} created by <a data-ng-href="#!/users/{{q.creator_id}}">{{q.creator_first_name}} {{q.creator_last_name}}</a></div>
                 </div>
                 <div class="row">
                     <div class="span1 text-center">{{votes.vote[q.id]}}</div>

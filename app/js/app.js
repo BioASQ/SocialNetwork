@@ -5,7 +5,7 @@ var BioASQ = angular.module('BioASQ',['ngResource', 'ui.bootstrap', 'ui']);
 BioASQ.pages =      ['home', 'timeline', 'messages'];
 BioASQ.pagesCtrl =  ['HomeCtrl', 'TimelineCtrl', 'MessageCtrl'];
 
-BioASQ.config(['$routeProvider', function($routeProvider) {
+BioASQ.config(['$routeProvider', '$locationProvider', function($routeProvider,$locationProvider) {
 
     angular.forEach(BioASQ.pages , function(value, key){
         $routeProvider.when('/' + value, {
@@ -22,6 +22,7 @@ BioASQ.config(['$routeProvider', function($routeProvider) {
     $routeProvider.otherwise({
         redirectTo: '/' + BioASQ.pages[0]
     });
+    $locationProvider.html5Mode(false).hashPrefix('!');
 }]);
 
 
