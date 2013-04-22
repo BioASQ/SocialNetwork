@@ -2,11 +2,18 @@
 /**
  *
  */
-BioASQ.HomeCtrl = function ($scope, $location, Questions) {
+BioASQ.HomeCtrl = function ($scope, $location, Questions, Users) {
 
-    // get questions
-    Questions.getQuestions(function (data) {
-        $scope.questions = data != null ? data : "error";
+    // all res. ids that an user follows
+    Users.getFollowingIds($scope.me.id, function(data){
+        var followingIds = data;
+        // get questions
+        Questions.getQuestions(function (data) {
+            $scope.questions = data != null ? data : "error";
+            angular.forEach($scope.questions , function(question, index){
+                question.follows = followingIds.indexOf(question.id) == -1 ? false : true;
+            });
+        });
     });
 
     // ng-click detail
@@ -23,6 +30,13 @@ BioASQ.HomeCtrl = function ($scope, $location, Questions) {
             // ...
         });
     };
+
+    // follow a question
+    $scope.follow = function(id){
+        Questions.follow($scope.me.id, id, function(data){
+            // ...
+        });
+    }
 };
 
 /**
@@ -31,8 +45,12 @@ BioASQ.HomeCtrl = function ($scope, $location, Questions) {
 BioASQ.UserCtrl = function ($scope, $location, Users) {
     // http://.../#/user/id
     var id = $location.path().substr($location.path().lastIndexOf('/') + 1);
-    Users.getUser(id, function (data) {
-        $scope.user = data != null ? data : "error";
+    Users.getFollowingIds($scope.me.id, function(data){
+        var followingIds = data;
+        Users.getUser(id, function (data) {
+            $scope.user = data != null ? data : "error";
+            $scope.user.follows = followingIds.indexOf(id) == -1 ? false : true;
+        });
     });
 
     $scope.showFollowing = function(){
@@ -54,6 +72,12 @@ BioASQ.UserCtrl = function ($scope, $location, Users) {
             $scope.data = data;
         });
     };
+
+    $scope.follow = function(){
+        Users.follow($scope.me.id, $scope.user.id,  function(){
+
+        });
+    }
 };
 
 /**

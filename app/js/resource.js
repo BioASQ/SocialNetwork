@@ -54,6 +54,15 @@ BioASQ.factory('FollowingRes', function ($resource, $window) {
     );
 });
 
+// /follow/:id
+BioASQ.factory('FollowRes', function ($resource, $window) {
+    return $resource(
+        'http://' + $window.location.host + ':' + $window.location.port + '/follow/:id',
+        { id: '@id', callback: 'JSON_CALLBACK' },
+        { follow: { method: 'POST', params:{ who : '@who'}, isArray: true } }
+    );
+});
+
 // /vote/:id
 BioASQ.factory('VoteRes', function ($resource, $window) {
     return $resource(

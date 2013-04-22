@@ -2,7 +2,7 @@
 /**
  *  Questions service
  */
-BioASQ.Questions = function (QuestionsRes, QuestionDetailRes, VoteRes) {
+BioASQ.Questions = function (QuestionsRes, QuestionDetailRes, VoteRes,FollowRes) {
 
     this.QuestionsRes = QuestionsRes;
     this.questions = null;
@@ -11,6 +11,8 @@ BioASQ.Questions = function (QuestionsRes, QuestionDetailRes, VoteRes) {
     this.questionsDetail = [];
 
     this.VoteRes = VoteRes;
+
+    this.FollowRes = FollowRes
 };
 
 BioASQ.Questions.prototype.getQuestions = function (callback) {
@@ -67,7 +69,6 @@ BioASQ.Questions.prototype.vote = function (id, dir, callback) {
                 if(question.id == id){
                     self.questions[index].rank = data[0].rank;
                     callback(self.questions[index].rank);
-                    console.log("s");
                 }
             });
         },
@@ -76,14 +77,24 @@ BioASQ.Questions.prototype.vote = function (id, dir, callback) {
         });
 };
 
+BioASQ.Questions.prototype.follow = function (me, id, callback) {
+        this.FollowRes.follow({ who : me, id : id },
+        function (data, headers) {
+            callback(data);
+        },
+        function (response) {
+            callback(null);
+        });
+};
 /**
  * Users service
  */
-BioASQ.Users = function (UserRes,CommentsRes,FollowersRes,FollowingRes) {
+BioASQ.Users = function (UserRes,CommentsRes,FollowersRes,FollowingRes, FollowRes) {
     this.UserRes = UserRes;
     this.CommentsRes = CommentsRes;
     this.FollowersRes = FollowersRes;
     this.FollowingRes = FollowingRes;
+    this.FollowRes = FollowRes;
 };
 
 BioASQ.Users.prototype.getUser = function (id, callback) {
@@ -124,6 +135,26 @@ BioASQ.Users.prototype.getFollowing = function (id, callback) {
         function (response) {
             callback(null);
         });
+};
+
+BioASQ.Users.prototype.follow = function (me, id, callback) {
+    this.FollowRes.follow({ who : me, id : id },
+        function (data, headers) {
+            callback(data);
+        },
+        function (response) {
+            callback(null);
+        });
+};
+BioASQ.Users.prototype.getFollowingIds = function (id, callback) {
+
+    this.getFollowing(id,function(data){
+        var ids = [];
+        angular.forEach(data, function(v,k){
+            ids.push(v.id);
+        });
+        callback(ids);
+    });
 };
 
 /**

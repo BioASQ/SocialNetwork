@@ -2,6 +2,8 @@ import bottle
 import json
 from bottle import route, post, get, put, run, request, static_file
 #################################
+res = []
+
 users = {}
 users['1'] = json.loads(
 '{"id" : "1",'+
@@ -22,6 +24,8 @@ users['2'] = json.loads(
 '"description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit."' +
 '}')
 
+res.append(users['1'])
+res.append(users['2'])
 #################################
 questions = {}
 questions['3'] = json.loads(
@@ -40,7 +44,6 @@ questions['3'] = json.loads(
     '"annotations":["<not sure if annotations are shown in SN>"]' + 
     '}' +
 '}')
-
 questions['4'] = json.loads(
 '{"id" : "4",' +
 '"type": "Question",' +
@@ -57,6 +60,8 @@ questions['4'] = json.loads(
     '"annotations":["<not sure if annotations are shown in SN>"]'+ 
     '}' +
 '}')
+res.append(questions['3'])
+res.append(questions['4'])
 #################################
 comments = {}
 comments['5'] = json.loads(
@@ -77,44 +82,52 @@ comments['6'] = json.loads(
 '"replies": ["<array of Posts>"],'
 '"content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
 )
+res.append(comments['5'])
+res.append(comments['6'])
 
 #################################
 following = {}
-following['1'] = json.loads(
-'[' +
-json.dumps(users['2']) + ',' +
-json.dumps(questions['3']) +
-']')
+following[users['1']['id']] = []
+following[users['2']['id']] = []
 
-following['2'] = json.loads(
-'[' +
-json.dumps(users['1']) + ',' +
-json.dumps(questions['3']) + ',' +
-json.dumps(questions['4']) +
-']')
 #################################
 followers = {}
-followers['1'] = json.loads(
-'[' +
-json.dumps(users['2']) +
-']')
+followers[users['1']['id']] = []
+followers[users['2']['id']] = []
 
-followers['2'] = json.loads(
-'[' +
-json.dumps(users['1']) +
-']')
 #################################
 userComments = {}
 userComments['1'] = json.loads(
 '[' +
-json.dumps(comments['5']) +
+json.dumps(res[4]) +
 ']')
 
 userComments['2'] = json.loads(
 '[' +
-json.dumps(comments['6']) +
+json.dumps(res[5]) +
 ']')
 #################################
+@post('/follow/:id')
+def followRes(id):
+    global following
+    global followers
+
+    me = str(request.query.get('who'))
+    if me == 'None':
+        me = str(request.forms.get('who'))
+    id = int(id) - 1
+    resID = res[id]['id']
+
+    if not res[id] in following[me]:
+        following[me].append(res[id])
+        if len(followers) >= int(resID):
+            followers[resID].append(res[int(me) - 1])
+    else:
+        following[me].remove(res[id])
+        if len(followers) >= int(resID):
+            followers[resID].remove(res[int(me) - 1])
+    return json.dumps(following[me])
+
 @get('/following/:id')
 def userFollowingRes(id):
     global following
@@ -149,8 +162,9 @@ def questionsRes():
 def voteRes(id):
     global questions
 
-    #dir = str(request.forms.get('dir'))
     dir = str(request.query.get('dir'))
+    if dir == 'None':
+        dir = str(request.forms.get('dir'))
 
     if dir == 'up':
         questions[id]['rank'] =  int(questions[id]['rank']) + 1

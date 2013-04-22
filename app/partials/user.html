@@ -18,7 +18,8 @@
         <div class="span1"> </div>
         <div class="span11 btn-group" data-ng-hide="me.id == user.id">
             <button class="btn" data-ng-click="open = true">Message</button>
-            <button class="btn" data-ng-click="follow()">Follow</button>
+            <button class="btn" data-ng-click="follow(); user.follows = !user.follows" data-ui-if="!user.follows">Follow</button>
+            <button class="btn" data-ng-click="follow(); user.follows = !user.follows" data-ui-if="user.follows">Unfollow</button>
         </div>
     </div>
 </div><br />
@@ -60,7 +61,7 @@
         <img data-ng-src={{d.img}} alt="{{d.first_name}} {{d.last_name}}" /><br />
     </div>
     <div class="span11">
-        {{d.first_name}} {{d.last_name}}
+        <a data-ng-href="#!/users/{{d.id}}">{{d.first_name}} {{d.last_name}}</a>
     </div>
 </script>
 <script type="text/ng-template" id="template_Comments.html">
