@@ -16,10 +16,10 @@ BioASQ.Questions = function (QuestionsRes, QuestionDetailRes, VoteRes,FollowRes)
 };
 
 BioASQ.Questions.prototype.getQuestions = function (callback) {
-    var self = this;
     if(this.questions != null)
         callback(this.questions);
     else{
+        var self = this;
         this._getQuestions(function(data){
             callback(data);
             self.questions = data;
@@ -78,7 +78,7 @@ BioASQ.Questions.prototype.vote = function (id, dir, callback) {
 };
 
 BioASQ.Questions.prototype.follow = function (me, id, callback) {
-        this.FollowRes.follow({ who : me, id : id },
+    this.FollowRes.follow({ who : me, id : id },
         function (data, headers) {
             callback(data);
         },

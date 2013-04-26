@@ -22,6 +22,7 @@ BioASQ.config(['$routeProvider', '$locationProvider', function($routeProvider,$l
     $routeProvider.otherwise({
         redirectTo: '/' + BioASQ.pages[0]
     });
+
     $locationProvider.html5Mode(false).hashPrefix('!');
 }]);
 
