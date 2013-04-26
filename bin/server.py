@@ -69,7 +69,7 @@ comments['5'] = json.loads(
 '"type": "Comment",' +
 '"title": "Comment title",' +
 '"created": "2013-04-16T10:19",' + 
-'"creator": ' + json.dumps(users['2']) + ', ' +
+'"creator": ' + json.dumps(users['1']) + ', ' +
 '"replies": ["<array of Posts>"],'
 '"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}'
 )
@@ -82,8 +82,19 @@ comments['6'] = json.loads(
 '"replies": ["<array of Posts>"],'
 '"content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
 )
+comments['7'] = json.loads(
+'{"id" : "7", ' +
+'"type": "Comment",' +
+'"title": "Comment title",' +
+'"created": "2012-03-16T10:19",' + 
+'"creator": ' + json.dumps(users['1']) + ', ' +
+'"replies": ["<array of Posts>"],'
+'"content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
+)
+
 res.append(comments['5'])
 res.append(comments['6'])
+res.append(comments['7'])
 
 #################################
 following = {}
@@ -97,16 +108,22 @@ followers[users['2']['id']] = []
 
 #################################
 userComments = {}
-userComments['1'] = json.loads(
+userComments[users['1']['id']] = json.loads(
 '[' +
-json.dumps(res[4]) +
+json.dumps(res[4]) +','+
+json.dumps(res[6]) +
 ']')
 
-userComments['2'] = json.loads(
+userComments[users['2']['id']] = json.loads(
 '[' +
 json.dumps(res[5]) +
 ']')
 #################################
+@post('/all')
+def timelineRes():
+    global res
+    return json.dumps(res)
+
 @post('/follow/:id')
 def followRes(id):
     global following
