@@ -1,78 +1,65 @@
-<div data-ng-include src="'partials/navi.html'"></div>
+<div data-ng-include src="'partials/templates/navi.html'"></div>
+
 <div class="vspace"></div>
 
 <div class="container">
     <div class="row">
-        <div class="span1">
+        <div class="span2">
             <img data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
         </div>
-        <div class="span11">
-            {{user.first_name}} {{user.last_name}}<br />
-            {{user.description}}
+        <div class="span10">
+            <p><strong>{{user.first_name}} {{user.last_name}}</strong></p>
+            <p>{{user.description}}</p>
         </div>
     </div>
 
     <div class="vspace"></div>
 
     <div class="row">
-        <div class="span1"> </div>
-        <div class="span11 btn-group" data-ng-hide="me.id == user.id">
-            <button class="btn" data-ng-click="open = true">Message</button>
-            <button class="btn" data-ng-click="follow(); user.follows = !user.follows" data-ui-if="!user.follows">Follow</button>
-            <button class="btn" data-ng-click="follow(); user.follows = !user.follows" data-ui-if="user.follows">Unfollow</button>
-        </div>
+	    <div class="span12 btn-group" data-ng-hide="me.id == user.id">
+	        <button class="btn" data-ng-click="open = true">Message</button>
+	        <button class="btn" data-ng-click="follow(); user.follows = !user.follows" data-ui-if="!user.follows">Follow</button>
+	        <button class="btn" data-ng-click="follow(); user.follows = !user.follows" data-ui-if="user.follows">Unfollow</button>
+	    </div>
     </div>
-</div><br />
+</div>
+<br />
 
 <div class="vspace"></div>
 
 <div class="container">
     <!-- btns -->
-    <div class="btn-group" data-toggle="buttons-checkbox">
-        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'Following'" data-ng-click="showFollowing()">Following</button>
-        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'Followers'" data-ng-click="showFollowers()">Followers</button>
-        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'Comments'"  data-ng-click="showComments()">Comments</button>
+    <div class="btn-group-wrap">
+	    <div class="btn-group " data-toggle="buttons-checkbox">
+	        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'followings'" data-ng-click="showFollowing()">Following</button>
+	        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'followers'" data-ng-click="showFollowers()">Followers</button>
+	        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'comments'"  data-ng-click="showComments()">Comments</button>
+	    </div>
     </div>
+    <div class="vspace"></div>
     <!-- btn active -->
-    <div data-ng-init="radioModel = 'Following'"></div>
+    <div data-ng-init="radioModel = 'followings'"></div>
     <!-- table -->
     <div data-ng-repeat="d in data">
-        <div class="row">
+        <div class="row well">
             <div data-ng-switch data-on="radioModel">
-                <div data-ng-switch-when="Following">
+                <div data-ng-switch-when="followings">
 
                     <div data-ng-switch data-on="d.type">
-                        <div data-ng-switch-when="Question"><div data-ng-include src="'template_Question.html'"></div></div>
-                        <div data-ng-switch-when="User">    <div data-ng-include src="'template_User.html'"></div></div>
+                        <div data-ng-switch-when="Question"><div data-ng-include src="'partials/templates/question.html'"></div></div>
+                        <div data-ng-switch-when="User">    <div data-ng-include src="'partials/templates/user.html'"></div></div>
                     </div>
 
                 </div>
-                <div data-ng-switch-when="Followers">       <div data-ng-include src="'template_User.html'"></div></div>
-                <div data-ng-switch-when="Comments">        <div data-ng-include src="'template_Comments.html'"></div></div>
-
-                <div class="vspace"></div>
+                <div data-ng-switch-when="followers">       <div data-ng-include src="'partials/templates/user.html'"></div></div>
+                <div data-ng-switch-when="comments">        <div data-ng-include src="'partials/templates/comment.html'"></div></div>
             </div>
         </div>
     </div>
+    <div data-ui-if="data.length == 0" class="row well">No {{radioModel}} yet.</div>
 </div>
 
-<script type="text/ng-template" id="template_User.html">
-    <div class="span1">
-        <img data-ng-src={{d.img}} alt="{{d.first_name}} {{d.last_name}}" /><br />
-    </div>
-    <div class="span11">
-        <a data-ng-href="#!/users/{{d.id}}">{{d.first_name}} {{d.last_name}}</a>
-    </div>
-</script>
-<script type="text/ng-template" id="template_Comments.html">
-    <div class="span12">
-        {{d.content}}
-    </div>
-</script>
-<script type="text/ng-template" id="template_Question.html">
-    <div class="span12">{{d.body}}</div>
-</script>
-
+<!-- modal window -->
 <div data-modal="open" data-close="open = false" data-options="{backdropFade: true, dialogFade:true }">
     <div class="modal-header">
         <h4>{{user.name}}</h4>
