@@ -1,5 +1,14 @@
 'use strict';
 
+// /all
+BioASQ.factory('TimelineRes', function ($resource, $window) {
+    return $resource(
+        'http://' + $window.location.host + ':' + $window.location.port + '/all',
+        { id: '@id', callback: 'JSON_CALLBACK' },
+        { post: { method: 'POST', params:{ order : '@order'}, isArray: true } }
+    );
+});
+
 // /questions
 BioASQ.factory('QuestionsRes', function ($resource, $window) {
     return $resource(

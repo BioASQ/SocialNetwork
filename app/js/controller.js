@@ -4,19 +4,20 @@
  */
 BioASQ.HomeCtrl = function ($scope, $location, Questions, Users) {
 
-    // all res. ids that an user follows
+    // all ids the current user follows
     Users.getFollowingIds($scope.me.id, function(data){
         var followingIds = data;
         // get questions
         Questions.getQuestions(function (data) {
             $scope.questions = data != null ? data : "error";
+            // mark followed questions
             angular.forEach($scope.questions , function(question, index){
                 question.follows = followingIds.indexOf(question.id) == -1 ? false : true;
             });
         });
     });
 
-    // ng-click detail
+    // show question answers and cache them
     $scope.details = [];
     $scope.questionDetail = function (id){
         Questions.getDetail(id, function (data) {
@@ -37,7 +38,7 @@ BioASQ.HomeCtrl = function ($scope, $location, Questions, Users) {
             // ...
         });
     }
-};
+}
 
 /**
  *
@@ -75,22 +76,33 @@ BioASQ.UserCtrl = function ($scope, $location, Users) {
 
     $scope.follow = function(){
         Users.follow($scope.me.id, $scope.user.id,  function(){
-
+            if($scope.radioModel == 'followers')
+                $scope.showFollowers();
         });
     }
-};
+}
 
 /**
  *
  */
-BioASQ.TimelineCtrl = function ($scope, $location) {
-};
+BioASQ.TimelineCtrl = function ($scope, $location, TimelineRes) {
+    var order = '';
+
+    TimelineRes.post(
+        { order : order },
+        function (data, headers) {
+            $scope.data = data;
+        },
+        function (response) {
+            callback(null);
+        });
+}
 
 /**
  *
  */
 BioASQ.MessageCtrl = function ($scope, $location) {
-};
+}
 
 BioASQ.controller('HomeCtrl', BioASQ.HomeCtrl);
 BioASQ.controller('UserCtrl', BioASQ.UserCtrl);
