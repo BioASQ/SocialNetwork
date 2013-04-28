@@ -43,7 +43,8 @@ BioASQ.HomeCtrl = function ($scope, $location, Questions, Users) {
 /**
  *
  */
-BioASQ.UserCtrl = function ($scope, $location, Users) {
+BioASQ.UserCtrl = function ($scope, $location, Users, CommentRes) {
+
     // http://.../#/user/id
     var id = $location.path().substr($location.path().lastIndexOf('/') + 1);
     Users.getFollowingIds($scope.me.id, function(data){
@@ -79,6 +80,28 @@ BioASQ.UserCtrl = function ($scope, $location, Users) {
             if($scope.radioModel == 'followers')
                 $scope.showFollowers();
         });
+    }
+
+    // cache last user input
+    $scope.inputTitle = '';
+    $scope.inputMessage = '';
+    $scope.save = function(title, message){
+        $scope.inputTitle = title;
+        $scope.inputMessage = message;
+    }
+
+    // send message
+    $scope.send = function(title, message){
+        var creator = $scope.me;
+        CommentRes.post(
+            { id : id, creator : creator, content : message, title : title},
+            function (data, headers) {
+                console.log("sent");
+            },
+            function (response) {
+            }
+        );
+        $scope.open = false;
     }
 }
 
