@@ -1,0 +1,39 @@
+body {
+    padding-top: 40px;
+}
+.vspace{
+    height: 20px
+}
+.btn-group-wrap {
+    text-align: center;
+}
+
+/* ui-reset */
+.ui-resetwrap {
+    position: relative;
+    display: inline-block;
+
+}
+.ui-reset {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    display: none;
+    height: 100%;
+    cursor: pointer;
+}
+.ui-resetwrap:hover .ui-reset {
+    display: block;
+}
+.ui-reset {
+    width: 14px;
+    height: 14px;
+    margin: 7px;
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url(../img/glyphicons-halflings.png);
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+    background-position: -312px 0;
+}
