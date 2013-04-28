@@ -1,4 +1,5 @@
 <div class="span12">
-    <p><strong>{{d.title}}</strong> {{d.created}} <span data-ui-if="user.id != d.creator.id"> by <a data-ng-href="#!/users/{{d.creator.id}}">{{d.creator.first_name}} {{d.creator.last_name}}</a></span></p>
+    {{d.created}} <span data-ui-if="user.id != d.creator.id"> by <a data-ng-href="#!/users/{{d.creator.id}}">{{d.creator.first_name}} {{d.creator.last_name}}</a></span>
+    <h5>{{d.title}}</h5>
     <p>{{d.content}}</p>
 </div>
