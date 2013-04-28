@@ -1,0 +1,48 @@
+<div class = "modal-header">
+
+    <h4>{{user.name}}</h4>
+
+</div>
+<div class = "modal-body">
+
+<form name = "bioasqForm" class = "form-horizontal">
+
+    <fieldset>
+        <legend>{{user.first_name}} {{user.last_name}}</legend>
+        <input  type            = "text"
+                name            = "inputTitle"
+                id              = "inputTitle"
+                data-ng-change  = "save(inputTitle,inputMessage)"
+                data-ng-model   = "inputTitle"
+                placeholder     = "A title is required."
+                autofocus       = "autofocus"
+                required
+                data-ui-reset
+        />
+
+        <div class = "vspace"></div>
+
+        <textarea class="input-xxlarge"
+                rows            = "10"
+                name            = "inputMessage"
+                id              = "inputMessage"
+                data-ng-change  = "save(inputTitle,inputMessage)"
+                data-ng-model   = "inputMessage"
+                placeholder     = "A message is required."
+                required
+                data-ui-reset>
+        </textarea>
+    </fieldset>
+
+    <div class = "vspace"></div>
+
+    <button type = "submit"
+            class = "btn"
+            data-ng-disabled = "!bioasqForm.$valid"
+            data-ng-click = "send(inputTitle, inputMessage)">
+                Send
+    </button>
+
+</form>
+
+</div>

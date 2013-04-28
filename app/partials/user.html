@@ -5,10 +5,10 @@
 <div class="container">
     <div class="row">
         <div class="span2">
-            <img data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
+            <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
         </div>
         <div class="span10">
-            <p><strong>{{user.first_name}} {{user.last_name}}</strong></p>
+            <h2>{{user.first_name}} {{user.last_name}}</h2>
             <p>{{user.description}}</p>
         </div>
     </div>
@@ -61,21 +61,9 @@
 
 <!-- modal window -->
 <div data-modal="open" data-close="open = false" data-options="{backdropFade: true, dialogFade:true }">
-    <div class="modal-header">
-        <h4>{{user.name}}</h4>
-    </div>
-    <div class="modal-body">
-    <form>
-        <fieldset>
-            <legend>{{user.first_name}} {{user.last_name}}</legend>
-            <label>Write a message ...</label>
-            <input type="text" placeholder="Write a message ..." autofocus="autofocus" /><br />
 
-            <button type="submit" class="btn">Submit</button>
-        </fieldset>
-    </form>
-    </div>
+    <div data-ng-include src="'partials/templates/modal_comment.html'"></div>
+
     <div class="modal-footer">
-        <button class="btn btn-inner cancel" data-ng-click="TODO();open = false">Cancel</button>
+        <button class="btn cancel"  data-ng-click="open = false">Cancel</button>
     </div>
-</div>
