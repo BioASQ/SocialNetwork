@@ -119,6 +119,38 @@ userComments[users['2']['id']] = json.loads(
 json.dumps(res[5]) +
 ']')
 #################################
+last = 7;
+@post('/comment/:id')
+def commentRes(id):
+    global last
+    global comments
+    global res
+    creator = str(request.query.get('creator'))
+    if creator == 'None':
+        creator = str(request.forms.get('creator'))
+
+    content = str(request.query.get('content'))
+    if content == 'None':
+        content = str(request.forms.get('content'))
+
+    title = str(request.query.get('title'))
+    if title == 'None':
+        title = str(request.forms.get('title'))
+
+    #print json.loads(content)
+    last=last+1
+    comments[str(last)] = json.loads(
+    '{"id" : "'+str(last)+'", ' +
+    '"type": "Comment",' +
+    '"title": "'+title+'",' +
+    '"created": "2012-03-16T10:19",' + 
+    '"creator": ' + json.dumps(users[str(id)]) + ', ' +
+    '"replies": ["<array of Posts>"],'
+    '"content": "'+content+'"}'
+    )
+    res.append(comments[str(last)])
+    userComments[users[str(id)]['id']].append(comments[str(last)])
+
 @post('/all')
 def timelineRes():
     global res
