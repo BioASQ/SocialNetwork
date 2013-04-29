@@ -18,8 +18,10 @@
     <div class="row">
 	    <div class="span12 btn-group" data-ng-hide="me.id == user.id">
 	        <button class="btn" data-ng-click="open = true">Message</button>
-	        <button class="btn" data-ng-click="follow(); user.follows = !user.follows" data-ui-if="!user.follows">Follow</button>
-	        <button class="btn" data-ng-click="follow(); user.follows = !user.follows" data-ui-if="user.follows">Unfollow</button>
+	        <button class="btn" data-ng-click="follow(); user.follows = !user.follows">
+                <div data-ui-if="!user.follows">Follow</div>
+                <div data-ui-if="user.follows">Unfollow</div>
+	        </button>
 	    </div>
     </div>
 </div>
@@ -65,5 +67,5 @@
     <div data-ng-include src="'partials/templates/modal_comment.html'"></div>
 
     <div class="modal-footer">
-        <button class="btn cancel"  data-ng-click="open = false">Cancel</button>
+        <button class="btn cancel"  data-ng-click="open = false"><i class="icon-remove"></i></button>
     </div>

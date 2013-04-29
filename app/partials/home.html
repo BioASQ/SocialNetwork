@@ -44,8 +44,10 @@
                     <div class="span3">{{q.comments.length}} comments</div>
                     <!-- follow button -->
                     <div class="span2">
-                        <button class="btn" data-ng-click="follow(q.id); q.follows = !q.follows" data-ng-hide="q.follows">Follow</button>
-                        <button class="btn" data-ng-click="follow(q.id); q.follows = !q.follows" data-ng-show="q.follows">Unfollow</button>
+                        <button class="btn" data-ng-click="follow(q.id); q.follows = !q.follows">
+                            <div data-ui-if="!q.follows">Follow</div>
+                            <div data-ui-if="q.follows">Unfollow</div>
+                        </button>
                     </div>
                 </div>
             </div>
