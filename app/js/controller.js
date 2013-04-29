@@ -3,7 +3,6 @@
  *
  */
 BioASQ.HomeCtrl = function ($scope, $location, Questions, Users) {
-
     // all ids the current user follows
     Users.getFollowingIds($scope.me.id, function(data){
         var followingIds = data;
@@ -77,6 +76,7 @@ BioASQ.UserCtrl = function ($scope, $location, Users, CommentRes) {
 
     $scope.follow = function(){
         Users.follow($scope.me.id, $scope.user.id,  function(){
+            // update table if open
             if($scope.radioModel == 'followers')
                 $scope.showFollowers();
         });
@@ -92,11 +92,15 @@ BioASQ.UserCtrl = function ($scope, $location, Users, CommentRes) {
 
     // send message
     $scope.send = function(title, message){
+
+        message = JSON.stringify(message.split('\n'));
         var creator = $scope.me;
         CommentRes.post(
             { id : id, creator : creator, content : message, title : title},
             function (data, headers) {
-                console.log("sent");
+                // update table if open
+                if($scope.radioModel == 'comments')
+                    $scope.showComments();
             },
             function (response) {
             }

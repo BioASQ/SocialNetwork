@@ -37,3 +37,7 @@ body {
     background-repeat: no-repeat;
     background-position: -312px 0;
 }
+textarea {
+    resize:none;
+    height:220px;
+}

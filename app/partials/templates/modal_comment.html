@@ -4,12 +4,11 @@
 
 </div>
 <div class = "modal-body">
-
 <form name = "bioasqForm" class = "form-horizontal">
-
     <fieldset>
         <legend>{{user.first_name}} {{user.last_name}}</legend>
         <input  type            = "text"
+                class           = "input-xlarge"
                 name            = "inputTitle"
                 id              = "inputTitle"
                 data-ng-change  = "save(inputTitle,inputMessage)"
@@ -19,11 +18,16 @@
                 required
                 data-ui-reset
         />
+	    <button type = "submit"
+	            class = "btn"
+	            data-ng-disabled = "!bioasqForm.$valid"
+	            data-ng-click = "send(inputTitle, inputMessage)">
+	               <i class="icon-envelope"></i> Send
+	    </button>
 
         <div class = "vspace"></div>
 
         <textarea class="input-xxlarge"
-                rows            = "10"
                 name            = "inputMessage"
                 id              = "inputMessage"
                 data-ng-change  = "save(inputTitle,inputMessage)"
@@ -33,16 +37,5 @@
                 data-ui-reset>
         </textarea>
     </fieldset>
-
-    <div class = "vspace"></div>
-
-    <button type = "submit"
-            class = "btn"
-            data-ng-disabled = "!bioasqForm.$valid"
-            data-ng-click = "send(inputTitle, inputMessage)">
-                Send
-    </button>
-
 </form>
-
 </div>
