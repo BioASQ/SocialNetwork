@@ -38,7 +38,8 @@ questions['3'] = json.loads(
 '"creator_id": "' + users['1']['id'] + '",' + 
 '"questionType": "textual",' +
 '"rank": 42, ' + 
-'"created": "2013-04-16T11:19",' + 
+'"created":  "2013-04-16T11:19",' + 
+'"modified": "2013-05-16T11:19",' + 
 '"answer":{'+
     '"id": "5678", ' +
     '"body": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis.", ' +
@@ -54,7 +55,8 @@ questions['4'] = json.loads(
 '"creator_id": "' + users['2']['id'] + '",' + 
 '"questionType": "list",' +
 '"rank": 1337, ' + 
-'"created": "2012-04-16T11:19",' + 
+'"created":  "2012-04-16T11:19",' + 
+'"modified": "2012-05-16T12:49",' + 
 '"answer":{'+
     '"id": "5678", ' +
     '"body": "yes", '+
@@ -69,7 +71,8 @@ comments['5'] = json.loads(
 '{"id" : "5", ' +
 '"type": "Comment",' +
 '"title": "Comment title",' +
-'"created": "2013-04-16T10:19",' + 
+'"created": "2013-01-16T10:19",' + 
+'"modified": "2013-02-16T10:19",' + 
 '"creator": ' + json.dumps(users['1']) + ', ' +
 '"replies": ["<array of Posts>"],'
 '"content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit."]}'
@@ -79,6 +82,7 @@ comments['6'] = json.loads(
 '"type": "Comment",' +
 '"title": "Comment title",' +
 '"created": "2012-03-16T10:19",' + 
+'"modified": "2012-04-16T10:19",' + 
 '"creator": ' + json.dumps(users['2']) + ', ' +
 '"replies": ["<array of Posts>"],'
 '"content": ["Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."]}'
@@ -88,6 +92,7 @@ comments['7'] = json.loads(
 '"type": "Comment",' +
 '"title": "Comment title",' +
 '"created": "2012-03-16T10:19",' + 
+'"modified": "2012-03-18T10:19",' + 
 '"creator": ' + json.dumps(users['1']) + ', ' +
 '"replies": ["<array of Posts>"],'
 '"content": ["Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."]}'
