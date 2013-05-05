@@ -10,7 +10,5 @@
         </div>
     </div>
     <h5>{{d.title}}</h5>
-    <div data-ng-repeat="line in d.content">
-        {{line}}<br />
-    </div>
+    <div data-ng-bind-html-unsafe="d.content | parseContent"></div>
 </div>

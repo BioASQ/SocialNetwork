@@ -54,3 +54,12 @@ BioASQ.filter('dateDiff', function () {
         return prefix + ' ' +  diffLabel;
     };
 });
+
+BioASQ.filter('parseContent', function () {
+    return function (/*String*/plain) {
+        // parse html
+        plain = plain.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        // parse line breaks
+        return plain.replace(/\n/g, '<br>');
+    };
+});
