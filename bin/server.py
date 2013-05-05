@@ -75,7 +75,7 @@ comments['5'] = json.loads(
 '"modified": "2013-02-16T10:19",' + 
 '"creator": ' + json.dumps(users['1']) + ', ' +
 '"replies": ["<array of Posts>"],'
-'"content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit."]}'
+'"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}'
 )
 comments['6'] = json.loads(
 '{"id" : "6", ' +
@@ -85,17 +85,17 @@ comments['6'] = json.loads(
 '"modified": "2012-04-16T10:19",' + 
 '"creator": ' + json.dumps(users['2']) + ', ' +
 '"replies": ["<array of Posts>"],'
-'"content": ["Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."]}'
+'"content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
 )
 comments['7'] = json.loads(
 '{"id" : "7", ' +
 '"type": "Comment",' +
 '"title": "Comment title",' +
-'"created": "2012-03-16T10:19",' + 
-'"modified": "2012-03-18T10:19",' + 
+'"created": "2012-03-16T10:19",' +
+'"modified": "2012-03-18T10:19",' +
 '"creator": ' + json.dumps(users['1']) + ', ' +
 '"replies": ["<array of Posts>"],'
-'"content": ["Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."]}'
+'"content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
 )
 
 res.append(comments['5'])
@@ -145,14 +145,16 @@ def commentRes(id):
 
     last=last+1
     comments[str(last)] = json.loads(
-    '{"id" : "'+str(last)+'", ' +
-    '"type": "Comment",' +
-    '"title": "'+title+'",' +
-    '"created": "2012-03-16T10:19",' + 
-    '"creator": ' + json.dumps(users[str(id)]) + ', ' +
-    '"replies": ["<array of Posts>"],'
-    '"content": '+content+'}'
-    )
+    '{'+
+    '"id" :"' + str(last) + '" , ' +
+    '"type" : "Comment" , ' +
+    '"title" : ' + title + ' , ' +
+    '"created": "2012-03-16T10:19" , ' +
+    '"creator": ' + json.dumps(users[str(id)]) + ' , ' +
+    '"replies": ["<array of Posts>"] , ' +
+    '"content": ' + content +
+    '}')
+
     res.append(comments[str(last)])
     userComments[users[str(id)]['id']].append(comments[str(last)])
 

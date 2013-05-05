@@ -92,11 +92,8 @@ BioASQ.UserCtrl = function ($scope, $location, Users, CommentRes) {
 
     // send message
     $scope.send = function(title, message){
-
-        message = JSON.stringify(message.split('\n'));
-        var creator = $scope.me;
         CommentRes.post(
-            { id : id, creator : creator, content : message, title : title},
+            { id : id, creator : $scope.me, content : JSON.stringify(message), title : JSON.stringify(title)},
             function (data, headers) {
                 // update table if open
                 if($scope.radioModel == 'comments')
