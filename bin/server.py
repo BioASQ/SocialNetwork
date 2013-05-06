@@ -1,6 +1,8 @@
 import bottle
 import json
 import urlparse
+import datetime
+
 from bottle import route, post, get, put, run, request, static_file
 #################################
 res = []
@@ -122,7 +124,7 @@ json.dumps(res[6]) +
 
 userComments[users['2']['id']] = json.loads(
 '[' +
-json.dumps(res[5]) +
+#json.dumps(res[5]) +
 ']')
 #################################
 last = 7;
@@ -144,12 +146,13 @@ def commentRes(id):
         title = str(request.forms.get('title'))
 
     last=last+1
+    now = datetime.datetime.now()
     comments[str(last)] = json.loads(
     '{'+
     '"id" :"' + str(last) + '" , ' +
     '"type" : "Comment" , ' +
     '"title" : ' + title + ' , ' +
-    '"created": "2012-03-16T10:19" , ' +
+    '"created": "' + str(now) + '" , ' +
     '"creator": ' + json.dumps(users[str(id)]) + ' , ' +
     '"replies": ["<array of Posts>"] , ' +
     '"content": ' + content +
