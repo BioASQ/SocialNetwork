@@ -57,9 +57,13 @@ BioASQ.filter('dateDiff', function () {
 
 BioASQ.filter('parseContent', function () {
     return function (/*String*/plain) {
-        // parse html
-        plain = plain.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        // parse line breaks
-        return plain.replace(/\n/g, '<br>');
+        var res = '';
+        if(typeof(plain) === 'string'){
+            // replacing &, <, >, ", ', and /
+            res = plain.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g,'&quot;').replace(/\'/g,'&#x27;').replace(/\//g,'&#x2F;');
+            // replacing \n to line breaks
+            res = res.replace(/\n/g, '<br>');
+        }
+        return res;
     };
 });
