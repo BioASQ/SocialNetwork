@@ -95,7 +95,7 @@ JSON structure
             modified: "2013-04-18T11:31"
             content: "Comment text",
             creator: "<user name>",
-            replies: ["<array of Posts>"]
+            reply_of: "<parent comment>"
         }
 
 * users have the following format:
