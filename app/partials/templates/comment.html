@@ -5,8 +5,8 @@
         </div>
     </div>
     <div data-ui-if="user.id == d.creator.id">
-        <div data-ng-init="old=d.created; new=currentDate()">
-            {{ ' ' | dateDiff:old:new }} by {{d.creator.first_name}} {{d.creator.last_name}}
+        <div data-ng-init="date=d.created">
+            {{ ' ' | dateDiff:date }} by {{d.creator.first_name}} {{d.creator.last_name}}
         </div>
     </div>
     <h5>{{d.title}}</h5>

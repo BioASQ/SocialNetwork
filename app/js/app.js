@@ -31,10 +31,6 @@ BioASQ.run(function($rootScope, Me) {
 
     $rootScope.pages = BioASQ.pages;
 
-    $rootScope.currentDate = function() {
-        return new Date().toISOString();
-    }
-
     Me.login(function(){
         $rootScope.me = Me.data;
     });

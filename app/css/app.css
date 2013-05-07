@@ -1,6 +1,10 @@
 body {
     padding-top: 40px;
 }
+textarea {
+    resize:none;
+    height:220px;
+}
 .vspace{
     height: 20px
 }
@@ -36,8 +40,4 @@ body {
     background-position: 14px 14px;
     background-repeat: no-repeat;
     background-position: -312px 0;
-}
-textarea {
-    resize:none;
-    height:220px;
 }

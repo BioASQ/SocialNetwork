@@ -27,7 +27,7 @@
                         </button>
                     </div>
                     <!-- user link -->
-                    <div class="span5" data-ng-init="old=q.created; new=currentDate()">created by <a data-ng-href="#!/users/{{q.creator_id}}">{{q.creator_first_name}} {{q.creator_last_name}}</a>{{ ' ' | dateDiff:old:new }}</div>
+                    <div class="span5" data-ng-init="date=q.created">created by <a data-ng-href="#!/users/{{q.creator_id}}">{{q.creator_first_name}} {{q.creator_last_name}}</a>{{ ' ' | dateDiff:date }}</div>
                 </div>
                 <div class="row">
                     <div class="span1 text-center">{{q.rank}}</div>
