@@ -31,7 +31,7 @@ BioASQ.run(function($rootScope, Me) {
 
     $rootScope.pages = BioASQ.pages;
 
-    Me.login(function(){
-        $rootScope.me = Me.data;
+    Me.login(function(data){
+        $rootScope.me = data;
     });
 });
