@@ -1,10 +1,27 @@
+<script type="text/ng-template" id="answer.html">
+    <div class="well">
+        <div data-ng-bind-html-unsafe="details[q.id].answer.body | parseContent"></div><br />
+        <div data-ng-bind-html-unsafe="details[q.id].answer.annotations | parseContent"></div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="subcomments.html">
+<div class="well">
+<div>{{c.title}}</div>
+<div>{{c.content}}</div>
+<button class="btn btn-link" style="text-align: left" data-ng-click="showComments(c.id, c.comments)">
+    {{c.comments.length}} comments
+</button>
+<button class="btn" data-ng-click="openDialog(c)">Comment</button>
+
+<div ng-repeat="c in c.comments" data-ng-include src="'subcomments.html'"></div>
+</div>
+</script>
+
 <div data-ng-include src="'partials/templates/navi.html'"></div>
 <div class="vspace"></div>
-
 <div class="container">
-
     <div data-ng-repeat="q in questions">
-
         <div class="row">
             <div class="span6"> <!--horizontal split 50%/50%  -->
                 <div class="row">
@@ -16,8 +33,6 @@
                     </button>
                 </div>
 
-                <div class="vspace"></div>
-
                 <div class="row">
                     <!-- vote up button -->
                     <div class="span1 text-center">
@@ -27,7 +42,9 @@
                         </button>
                     </div>
                     <!-- user link -->
-                    <div class="span5" data-ng-init="date=q.created">created by <a data-ng-href="#!/users/{{q.creator_id}}">{{q.creator_first_name}} {{q.creator_last_name}}</a>{{ ' ' | dateDiff:date }}</div>
+                    <div class="span5" data-ng-init="date=q.created">created by <a data-ng-href="#!/users/{{q.creator_id}}">{{q.creator_first_name}} {{q.creator_last_name}}</a>
+                        {{ ' ' | dateDiff:date }}
+                    </div>
                 </div>
                 <div class="row">
                     <div class="span1 text-center">{{q.rank}}</div>
@@ -42,17 +59,26 @@
                         </button>
                     </div>
                     <!-- comments link -->
-                    <div class="span3">{{q.comments.length}} comments</div>
-                    <!-- follow button -->
                     <div class="span2">
+	                    <button class="btn btn-link" style="text-align: left"
+	                            data-ng-click="showComments(q.id, q.comments)">
+	                            {{q.comments.length}} comments
+	                    </button>
+                    </div>
+                    <!-- follow button -->
+                    <div class="span2 btn-group">
+                        <button class="btn" data-ng-click="openDialog(q)">Comment</button>
                         <button class="btn" data-ng-click="follow(q.id); q.follows = !q.follows">
                             <div data-ui-if="!q.follows">Follow</div>
                             <div data-ui-if="q.follows">Unfollow</div>
                         </button>
                     </div>
                 </div>
-            </div>
+                <div class="vspace"></div>
+                <!-- show comments -->
+                <div ng-repeat="c in comments[q.id]" data-ng-include src="'subcomments.html'"></div>
 
+            </div>
             <div class="span6"> <!--horizontal split 50%/50%  -->
                 <div class="row">
                     <div data-collapse="isCollapsed">
@@ -62,16 +88,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="vspace"></div>
-
         <hr>
     </div>
 </div>
-
-<script type="text/ng-template" id="answer.html">
-    <div class="well">
-        {{details[q.id].answer.body}}<br />
-        {{details[q.id].answer.annotations}}
-    </div>
-</script>

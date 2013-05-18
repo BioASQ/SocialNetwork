@@ -17,7 +17,7 @@
 
     <div class="row">
 	    <div class="span12 btn-group" data-ng-hide="me.id == user.id">
-	        <button class="btn" data-ng-click="open = true">Message</button>
+	        <button class="btn" data-ng-click="openDialog()">Message</button>
 	        <button class="btn" data-ng-click="follow(); user.follows = !user.follows">
                 <div data-ui-if="!user.follows">Follow</div>
                 <div data-ui-if="user.follows">Unfollow</div>
@@ -60,12 +60,3 @@
     </div>
     <div data-ui-if="data.length == 0" class="row well">No {{radioModel}} yet.</div>
 </div>
-
-<!-- modal window -->
-<div data-modal="open" data-close="open = false" data-options="{backdropFade: true, dialogFade:true }">
-
-    <div data-ng-include src="'partials/templates/modal_comment.html'"></div>
-
-    <div class="modal-footer">
-        <button class="btn cancel"  data-ng-click="open = false"><i class="icon-remove"></i></button>
-    </div>
