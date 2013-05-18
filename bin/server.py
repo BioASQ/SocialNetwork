@@ -14,6 +14,7 @@ users['1'] = json.loads(
 '"type": "User",' +
 '"first_name" : "Bio. med.",' +
 '"last_name" : "expert 1",' +
+'"comments" : [],' +
 '"img" : "http://placehold.it/100x100&text==(",'+
 '"description" : "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."' +
 '}')
@@ -23,6 +24,7 @@ users['2'] = json.loads(
 '"type": "User",' +
 '"first_name" : "Bio. med.",' +
 '"last_name" : "expert 2",' +
+'"comments" : [],' +
 '"img" : "http://placehold.it/100x100&text==)",'+
 '"description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit."' +
 '}')
@@ -38,71 +40,92 @@ questions['3'] = json.loads(
 '"creator_first_name": "' + users['1']['first_name'] + '",' + 
 '"creator_last_name": "' + users['1']['last_name'] + '",' + 
 '"creator_id": "' + users['1']['id'] + '",' + 
-'"questionType": "textual",' +
+'"questionType": "decisive",' +
 '"rank": 42, ' + 
 '"created":  "2013-04-16T11:19",' + 
 '"modified": "2013-05-16T11:19",' + 
+'"comments" : [],' +
 '"answer":{'+
-    '"id": "5678", ' +
-    '"body": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis.", ' +
+    '"id": "31", ' +
+    '"body": "Yes, CNEs are most often found in gene-poor regions termed gene deserts. There, they often form dense clusters.\\n\\n\\n\\n\\n", ' +
     '"annotations":["<not sure if annotations are shown in SN>"]' + 
     '}' +
 '}')
 questions['4'] = json.loads(
 '{"id" : "4",' +
 '"type": "Question",' +
-'"body": "Are CNEs particularly enriched in gene deserts?",' +
+'"body": "What is currently the disease with the highest mortality rate in western countries?",' +
 '"creator_first_name": "' + users['2']['first_name'] + '",' + 
 '"creator_last_name": "' + users['2']['last_name'] + '",' + 
 '"creator_id": "' + users['2']['id'] + '",' + 
-'"questionType": "list",' +
+'"questionType": "factoid",' +
 '"rank": 1337, ' + 
 '"created":  "2012-04-16T11:19",' + 
 '"modified": "2012-05-16T12:49",' + 
+'"comments" : [],' +
 '"answer":{'+
-    '"id": "5678", ' +
-    '"body": "yes", '+
+    '"id": "41", ' +
+    '"body": "The disease with the highest mortality rate.", '+
+    '"annotations":["<not sure if annotations are shown in SN>"]'+
+    '}' +
+'}')
+questions['5'] = json.loads(
+'{"id" : "5",' +
+'"type": "Question",' +
+'"body": "What do you know about the H1N1 virus?",' +
+'"creator_first_name": "' + users['2']['first_name'] + '",' +
+'"creator_last_name": "' + users['2']['last_name'] + '",' +
+'"creator_id": "' + users['2']['id'] + '",' +
+'"questionType": "summary",' +
+'"rank": -13, ' +
+'"created":  "2012-04-16T11:19",' +
+'"modified": "2012-05-16T12:49",' +
+'"comments" : [],' +
+'"answer":{'+
+    '"id": "51", ' +
+    '"body": "Is a subtype of influenza A virus.", '+
     '"annotations":["<not sure if annotations are shown in SN>"]'+ 
     '}' +
 '}')
 res.append(questions['3'])
 res.append(questions['4'])
+res.append(questions['5'])
 #################################
 comments = {}
-comments['5'] = json.loads(
-'{"id" : "5", ' +
+comments['1'] = json.loads(
+'{"id" : "6", ' +
 '"type": "Comment",' +
 '"title": "Comment title",' +
 '"created": "2013-01-16T10:19",' + 
 '"modified": "2013-02-16T10:19",' + 
 '"creator": ' + json.dumps(users['1']) + ', ' +
-'"replies": ["<array of Posts>"],'
+'"comments" : [],' +
 '"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}'
 )
-comments['6'] = json.loads(
-'{"id" : "6", ' +
+comments['2'] = json.loads(
+'{"id" : "7", ' +
 '"type": "Comment",' +
 '"title": "Comment title",' +
 '"created": "2012-03-16T10:19",' + 
 '"modified": "2012-04-16T10:19",' + 
 '"creator": ' + json.dumps(users['2']) + ', ' +
-'"replies": ["<array of Posts>"],'
+'"comments" : [],' +
 '"content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
 )
-comments['7'] = json.loads(
-'{"id" : "7", ' +
+comments['3'] = json.loads(
+'{"id" : "8", ' +
 '"type": "Comment",' +
 '"title": "Comment title",' +
 '"created": "2012-03-16T10:19",' +
 '"modified": "2012-03-18T10:19",' +
 '"creator": ' + json.dumps(users['1']) + ', ' +
-'"replies": ["<array of Posts>"],'
+'"comments" : [],' +
 '"content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
 )
 
-res.append(comments['5'])
-res.append(comments['6'])
-res.append(comments['7'])
+res.append(comments['1'])
+res.append(comments['2'])
+res.append(comments['3'])
 
 #################################
 following = {}
@@ -114,25 +137,11 @@ followers = {}
 followers[users['1']['id']] = []
 followers[users['2']['id']] = []
 
-#################################
-userComments = {}
-userComments[users['1']['id']] = json.loads(
-'[' +
-json.dumps(res[4]) +','+
-json.dumps(res[6]) +
-']')
-
-userComments[users['2']['id']] = json.loads(
-'[' +
-#json.dumps(res[5]) +
-']')
-#################################
-last = 7;
 @post('/comment/:id')
 def commentRes(id):
-    global last
     global comments
     global res
+
     creator = str(request.query.get('creator'))
     if creator == 'None':
         creator = str(request.forms.get('creator'))
@@ -145,21 +154,21 @@ def commentRes(id):
     if title == 'None':
         title = str(request.forms.get('title'))
 
-    last=last+1
-    now = datetime.datetime.now()
-    comments[str(last)] = json.loads(
-    '{'+
-    '"id" :"' + str(last) + '" , ' +
-    '"type" : "Comment" , ' +
-    '"title" : ' + title + ' , ' +
-    '"created": "' + str(now) + '" , ' +
-    '"creator": ' + json.dumps(users[str(id)]) + ' , ' +
-    '"replies": ["<array of Posts>"] , ' +
-    '"content": ' + content +
-    '}')
+    comment = json.loads(
+        '{'+
+        '"id" :"' + str(len(res) + 1) + '" , ' +
+        '"type" : "Comment" , ' +
+        '"title" : ' + title + ' , ' +
+        '"created": "' + str(datetime.datetime.now()) + '" , ' +
+        '"creator": ' + json.dumps(users['1']) + ' , ' +
+        '"comments" : [ ],' +
+        '"content": ' + content +
+        '}')
 
-    res.append(comments[str(last)])
-    userComments[users[str(id)]['id']].append(comments[str(last)])
+    for r in res:
+        if id == r['id']:
+            r['comments'].append(comment)
+    res.append(comment)
 
 @post('/all')
 def timelineRes():
@@ -198,14 +207,20 @@ def userFollowersRes(id):
     return json.dumps(followers[id])
 
 @get('/comments/:id')
-def userCommentsRes(id):
-    global userComments
-    return json.dumps(userComments[id])
+def commentsRes(id):
+    global res
+    for r in res:
+        if id == r['id']:
+            return json.dumps(r['comments'])
+    return '[]'
 
 @get('/users/:id')
 def usersRes(id):
-    global users
-    return '[' + json.dumps(users[id]) + ']'
+    global res
+    for r in res:
+        if id == r['id'] and 'User' == r['type']:
+            return '[' + json.dumps(r) + ']'
+    return '[]'
 
 @get('/questions/:id')
 def questionsRes(id):
