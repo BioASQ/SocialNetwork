@@ -160,6 +160,7 @@ def commentRes(id):
         '"type" : "Comment" , ' +
         '"title" : ' + title + ' , ' +
         '"created": "' + str(datetime.datetime.now()) + '" , ' +
+        '"modified":"' + str(datetime.datetime.now()) + '" , ' +
         '"creator": ' + json.dumps(users['1']) + ' , ' +
         '"comments" : [ ],' +
         '"content": ' + content +
