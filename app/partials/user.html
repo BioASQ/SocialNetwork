@@ -17,7 +17,7 @@
 
     <div class="row">
 	    <div class="span12 btn-group" data-ng-hide="me.id == user.id">
-	        <button class="btn" data-ng-click="openDialog()">Message</button>
+	        <button class="btn" data-ng-click="openDialog(user)">Message</button>
 	        <button class="btn" data-ng-click="follow(); user.follows = !user.follows">
                 <div data-ui-if="!user.follows">Follow</div>
                 <div data-ui-if="user.follows">Unfollow</div>
@@ -43,7 +43,7 @@
     <div data-ng-init="radioModel = 'followings'"></div>
     <!-- table -->
     <div data-ng-repeat="d in data">
-        <div class="row well">
+        <div class="row">
             <div data-ng-switch data-on="radioModel">
                 <div data-ng-switch-when="followings">
 

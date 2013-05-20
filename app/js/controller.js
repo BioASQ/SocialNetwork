@@ -111,8 +111,8 @@ BioASQ.UserCtrl = function($scope, $location, Users, CommentRes, modalFactory) {
         title : '',
         message : ''
     });
-    $scope.openDialog = function() {
-        modalFactory.openDialog(modalFactory.options('partials/templates/modal_comment.html', 'DialogCtrl', $scope.user), function() {
+    $scope.openDialog = function(data) {
+        modalFactory.openDialog(modalFactory.options('partials/templates/modal_comment.html', 'DialogCtrl', data), function() {
             // update table if open
             if ($scope.radioModel == 'comments') {
                 $scope.showComments();

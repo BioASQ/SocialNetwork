@@ -5,19 +5,6 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="subcomments.html">
-<div class="well">
-<div>{{c.title}}</div>
-<div>{{c.content}}</div>
-<button class="btn btn-link" style="text-align: left" data-ng-click="showComments(c.id, c.comments)">
-    {{c.comments.length}} comments
-</button>
-<button class="btn" data-ng-click="openDialog(c)">Comment</button>
-
-<div ng-repeat="c in c.comments" data-ng-include src="'subcomments.html'"></div>
-</div>
-</script>
-
 <div data-ng-include src="'partials/templates/navi.html'"></div>
 <div class="vspace"></div>
 <div class="container">
@@ -76,7 +63,7 @@
                 </div>
                 <div class="vspace"></div>
                 <!-- show comments -->
-                <div ng-repeat="c in comments[q.id]" data-ng-include src="'subcomments.html'"></div>
+                <div ng-repeat="d in comments[q.id]" data-ng-include src="'partials/templates/comment.html'"></div>
 
             </div>
             <div class="span6"> <!--horizontal split 50%/50%  -->

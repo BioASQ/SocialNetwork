@@ -123,9 +123,9 @@ comments['3'] = json.loads(
 '"content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
 )
 
-res.append(comments['1'])
-res.append(comments['2'])
-res.append(comments['3'])
+#res.append(comments['1'])
+#res.append(comments['2'])
+#res.append(comments['3'])
 
 #################################
 following = {}
