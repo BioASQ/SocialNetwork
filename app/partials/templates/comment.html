@@ -11,9 +11,7 @@
 	</div>
 	<h5>{{d.title}}</h5>
 	<div data-ng-bind-html-unsafe="d.content | parseContent"></div>
-	<button class="btn btn-link" style="text-align: left" data-ng-click="showComments(d.id, d.comments)">
-	    {{d.comments.length}} comments
-	</button>
+	<a  data-ng-click="showComments(d.id, d.comments)">{{d.comments.length}} comments</a>
 	<button class="btn" data-ng-click="openDialog(d)">Comment</button>
 	<div ng-repeat="d in d.comments" data-ng-include src="'partials/templates/comment.html'"></div>
 </div>
