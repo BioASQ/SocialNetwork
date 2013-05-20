@@ -51,7 +51,7 @@ BioASQ.HomeCtrl = function($scope, $location, Questions, Users, CommentRes,modal
 
     // show comments
     $scope.comments = [];
-    $scope.showComments = function(id, commentIds) {
+    $scope.showComments = function(id) {
         // hide
         if (typeof $scope.comments[id] == 'object') {
             $scope.comments[id] = undefined;
@@ -86,11 +86,7 @@ BioASQ.UserCtrl = function($scope, $location, Users, CommentRes, modalFactory) {
     // default
     $scope.showFollowing(id);
 
-    $scope.showComments = function() {
-        Users.getComments(id, function(data) {
-           $scope.data = data;
-        });
-    };
+
 
     $scope.showFollowers = function() {
         Users.getFollowers(id, function(data) {
@@ -115,10 +111,27 @@ BioASQ.UserCtrl = function($scope, $location, Users, CommentRes, modalFactory) {
         modalFactory.openDialog(modalFactory.options('partials/templates/modal_comment.html', 'DialogCtrl', data), function() {
             // update table if open
             if ($scope.radioModel == 'comments') {
-                $scope.showComments();
+                $scope.showComments(id); // hide
+                $scope.showComments(id); // show
             }
         });
     };
+    // show comments
+    $scope.comments = [];
+    $scope.showComments = function(p_id) {
+        // hide
+        if (typeof $scope.comments[p_id] == 'object') {
+            $scope.comments[p_id] = undefined;
+        } else {
+            // show
+            Users.getComments(p_id, function(data) {
+                $scope.comments[p_id] = data;
+                if(p_id == id){
+                    $scope.data = $scope.comments[p_id];
+                }
+            });
+        }
+    }
 }
 
 /**
