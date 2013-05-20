@@ -11,9 +11,10 @@
 	</div>
 	<h5>{{d.title}}</h5>
 	<div data-ng-bind-html-unsafe="d.content | parseContent"></div>
-
-	<a data-ng-click="showComments(d.id)">{{d.comments.length}} comments</a>
-	<button class="btn" data-ng-click="openDialog(d)">Comment</button>
+    <div data-ui-if="currentCtrl != 'TimelineCtrl'">
+		<a data-ng-click="showComments(d.id)">{{d.comments.length}} comments</a>
+		<button class="btn" data-ng-click="openDialog(d)">Comment</button>
+	</div>
 	<div class="vspace"></div>
     <div data-ng-repeat="d in comments[d.id]" data-ng-include src="'partials/templates/comment.html'"></div>
 </div>

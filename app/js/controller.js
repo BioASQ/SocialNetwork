@@ -3,6 +3,7 @@
  * 
  */
 BioASQ.HomeCtrl = function($scope, $location, Questions, Users, CommentRes,modalFactory) {
+    $scope.currentCtrl = 'HomeCtrl';
     // all ids the current user follows
     Users.getFollowingIds($scope.me.id, function(data) {
         var followingIds = data;
@@ -68,6 +69,7 @@ BioASQ.HomeCtrl = function($scope, $location, Questions, Users, CommentRes,modal
  * 
  */
 BioASQ.UserCtrl = function($scope, $location, Users, CommentRes, modalFactory) {
+    $scope.currentCtrl = 'UserCtrl';
     // http://.../#/user/id
     var id = $location.path().substr($location.path().lastIndexOf('/') + 1);
     Users.getFollowingIds($scope.me.id, function(data) {
@@ -138,6 +140,7 @@ BioASQ.UserCtrl = function($scope, $location, Users, CommentRes, modalFactory) {
  * 
  */
 BioASQ.TimelineCtrl = function($scope, $location, TimelineRes) {
+    $scope.currentCtrl = 'TimelineCtrl';
     var order = '';
 
     TimelineRes.post({
@@ -153,6 +156,7 @@ BioASQ.TimelineCtrl = function($scope, $location, TimelineRes) {
  * 
  */
 BioASQ.MessageCtrl = function($scope, $location, modalFactory) {
+    $scope.currentCtrl = 'MessageCtrl';
 }
 
 /**

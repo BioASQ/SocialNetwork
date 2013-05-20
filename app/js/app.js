@@ -34,4 +34,6 @@ BioASQ.run(function($rootScope, Me) {
     Me.login(function(data){
         $rootScope.me = data;
     });
+
+    $rootScope.currentCtrl = '';
 });
