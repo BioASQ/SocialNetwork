@@ -2,7 +2,7 @@
 /**
  * 
  */
-BioASQ.HomeCtrl = function($scope, $location, Questions, Users, CommentRes,modalFactory) {
+BioASQ.HomeCtrl = function($scope, Questions, Users, modalFactory) {
     $scope.currentCtrl = 'HomeCtrl';
     // all ids the current user follows
     Users.getFollowingIds($scope.me.id, function(data) {
@@ -68,10 +68,11 @@ BioASQ.HomeCtrl = function($scope, $location, Questions, Users, CommentRes,modal
 /**
  * 
  */
-BioASQ.UserCtrl = function($scope, $location, Users, CommentRes, modalFactory) {
+BioASQ.UserCtrl = function($routeParams, $scope, Users, modalFactory) {
     $scope.currentCtrl = 'UserCtrl';
-    // http://.../#/user/id
-    var id = $location.path().substr($location.path().lastIndexOf('/') + 1);
+
+    // user id
+    var id = $routeParams.creator;
     Users.getFollowingIds($scope.me.id, function(data) {
         var followingIds = data;
         Users.getUser(id, function(data) {
@@ -87,8 +88,6 @@ BioASQ.UserCtrl = function($scope, $location, Users, CommentRes, modalFactory) {
     };
     // default
     $scope.showFollowing(id);
-
-
 
     $scope.showFollowers = function() {
         Users.getFollowers(id, function(data) {
@@ -139,7 +138,7 @@ BioASQ.UserCtrl = function($scope, $location, Users, CommentRes, modalFactory) {
 /**
  * 
  */
-BioASQ.TimelineCtrl = function($scope, $location, TimelineRes) {
+BioASQ.TimelineCtrl = function($scope, TimelineRes) {
     $scope.currentCtrl = 'TimelineCtrl';
     var order = '';
 
@@ -148,14 +147,15 @@ BioASQ.TimelineCtrl = function($scope, $location, TimelineRes) {
     }, function(data, headers) {
         $scope.data = data;
     }, function(response) {
-        callback(null);
+        $scope.data = [];
+        //callback(null);
     });
 }
 
 /**
  * 
  */
-BioASQ.MessageCtrl = function($scope, $location, modalFactory) {
+BioASQ.MessageCtrl = function($scope) {
     $scope.currentCtrl = 'MessageCtrl';
 }
 
@@ -163,7 +163,7 @@ BioASQ.MessageCtrl = function($scope, $location, modalFactory) {
  * 
  */
 BioASQ.DialogCtrl = function($scope, dialog, CommentRes, modalFactory) {
-
+    $scope.currentCtrl = 'DialogCtrl';
     $scope.data = modalFactory.getData();
     $scope.input = modalFactory.getCacheData();
 

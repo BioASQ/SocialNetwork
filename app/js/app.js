@@ -35,5 +35,4 @@ BioASQ.run(function($rootScope, Me) {
         $rootScope.me = data;
     });
 
-    $rootScope.currentCtrl = '';
 });
