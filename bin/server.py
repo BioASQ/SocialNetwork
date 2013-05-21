@@ -43,11 +43,11 @@ questions['3'] = json.loads(
 '"questionType": "decisive",' +
 '"rank": 42, ' + 
 '"created":  "2013-04-16T11:19",' + 
-'"modified": "2013-05-16T11:19",' + 
+'"modified": "2013-05-21T11:19",' + 
 '"comments" : [],' +
 '"answer":{'+
     '"id": "31", ' +
-    '"body": "Yes, CNEs are most often found in gene-poor regions termed gene deserts. There, they often form dense clusters.\\n\\n\\n\\n\\n", ' +
+    '"body": "Yes, CNEs are most often found in gene-poor regions termed gene deserts. There, they often form dense clusters.", ' +
     '"annotations":["<not sure if annotations are shown in SN>"]' + 
     '}' +
 '}')
@@ -61,7 +61,7 @@ questions['4'] = json.loads(
 '"questionType": "factoid",' +
 '"rank": 1337, ' + 
 '"created":  "2012-04-16T11:19",' + 
-'"modified": "2012-05-16T12:49",' + 
+'"modified": "2013-05-18T12:49",' + 
 '"comments" : [],' +
 '"answer":{'+
     '"id": "41", ' +
@@ -79,7 +79,7 @@ questions['5'] = json.loads(
 '"questionType": "summary",' +
 '"rank": -13, ' +
 '"created":  "2012-04-16T11:19",' +
-'"modified": "2012-05-16T12:49",' +
+'"modified": "2013-02-06T12:49",' +
 '"comments" : [],' +
 '"answer":{'+
     '"id": "51", ' +
@@ -122,10 +122,6 @@ comments['3'] = json.loads(
 '"comments" : [],' +
 '"content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis."}'
 )
-
-#res.append(comments['1'])
-#res.append(comments['2'])
-#res.append(comments['3'])
 
 #################################
 following = {}
