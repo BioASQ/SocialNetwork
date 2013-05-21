@@ -1,6 +1,10 @@
 body {
     padding-top: 40px;
 }
+a{
+    cursor: pointer;
+    cursor: hand;
+}
 textarea {
     resize:none;
     height:220px;
