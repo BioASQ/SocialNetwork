@@ -7,19 +7,29 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/app.css">
 </head>
-
 <body>
     <div data-ng-view></div>
 
-    <script src="lib/angular_1.0.7/angular.min.js"></script>
-    <script src="lib/angular_1.0.7/angular-resource.min.js"></script>
+    <!-- dependencies  -->
+    <script src="http://code.angularjs.org/1.0.7/angular.min.js"></script>
+    <script src="http://code.angularjs.org/1.0.7/angular-resource.min.js"></script>
     <script src="lib/angular-ui/angular-ui-0.4.0.min.js"></script>
     <script src="lib/angular-ui/ui-bootstrap-tpls-0.4.0.min.js"></script>
     <script src="lib/moment.min.js"></script>
 
+    <!-- application -->
     <script src="js/app.js"></script>
-    <script src="js/controller.js"></script>
-    <script src="js/service.js"></script>
+    
+    <script src="js/controller_home.js"></script>
+    <script src="js/controller_timeline.js"></script>
+    <script src="js/controller_user.js"></script>
+    <script src="js/controller_messages.js"></script>
+    <script src="js/controller_util.js"></script>
+
+    <script src="js/service_me.js"></script>
+    <script src="js/service_users.js"></script>
+    <script src="js/service_questions.js"></script>
+
     <script src="js/resource.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/factory.js"></script>

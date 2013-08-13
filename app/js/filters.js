@@ -32,13 +32,10 @@ BioASQ.filter('escapeLineBreaks', function () {
 // uses escapeHTML and escapeLineBreaks filter
 BioASQ.filter('parseContent', function ($filter) {
     return function (/*String*/plain) {
-        var res = plain;
-        var escapeHTML = $filter('escapeHTML');
-        var escapeLineBreaks = $filter('escapeLineBreaks');
-
-        res = escapeHTML(res);
-        res = escapeLineBreaks(res);
-
-        return res;
+        return $filter('escapeLineBreaks')(
+                    $filter('escapeHTML')(
+                            plain
+                    )
+                );
     };
 });
