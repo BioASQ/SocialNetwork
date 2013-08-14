@@ -3,6 +3,14 @@ BioASQ Social Network
 
 Social network for the BioASQ project.
 
+Installation
+------------
+* `git clone` the repostitory
+* `npm install` -- install server dependencies
+* ensure MongoDB is running
+* `node ./server/scripts/import.js` -- import demo data (optional)
+* `./bin/start` -- start the backend
+
 Terms
 -----
 * resource can be:
