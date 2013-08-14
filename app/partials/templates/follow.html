@@ -1,0 +1,6 @@
+<div class="well">
+  {{d.creator}} is now following {{d.about}}
+  <div data-ng-init="date=d.created">
+      {{ ' ' | dateDiff:date }}
+  </div>
+</div>
