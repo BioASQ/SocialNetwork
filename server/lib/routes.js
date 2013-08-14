@@ -9,7 +9,7 @@ var routes = exports.createRoutes = function (server) {
         response.send(request.user);
     });
 
-    server.get('/all', middleware, function (request, response) {
+    server.get('/activities', middleware, function (request, response) {
         models.activity.find({}, { sort: { created: -1 } }, request.user, function (err, res) {
             if (err) { throw err; }
             response.send(res);
