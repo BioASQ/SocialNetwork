@@ -1,46 +1,41 @@
 <div class = "modal-header">
-
-    <h4></h4>
-
+    <button class="btn-danger btn-mini cancel pull-right" data-ng-click="close()"><i class="icon-remove"></i></button><br>
 </div>
 <div class = "modal-body">
-<form name = "bioasqForm" class = "form-horizontal">
-     <fieldset>
-        <legend>{{data.first_name}} {{data.last_name}} {{data.body}} {{data.title}}</legend>
-        <input  type            = "text"
-                class           = "input-xlarge pull-left"
-                name            = "inputTitle"
-                id              = "inputTitle"
-                data-ng-change  = "save(input.title, input.message)"
-                data-ng-model   = "input.title"
-                placeholder     = "A title is required."
-                autofocus       = "autofocus"
-                required
-                data-ui-reset
-        />
-        <div class="pull-right">
-            <button type = "submit"
-                    class = "btn"
-                    data-ng-disabled = "!bioasqForm.$valid"
-                    data-ng-click = "send(input.title,input.message, data.id)">
-                       <i class = "icon-envelope"></i> Send
-            </button>
-        </div>
-
-        <div class = "vspace"></div>
-
-        <textarea class="input-xxlarge"
-                name            = "inputMessage"
-                id              = "inputMessage"
-                data-ng-change  = "save(input.title, input.message)"
-                data-ng-model   = "input.message"
-                placeholder     = "A message is required."
-                required
-                data-ui-reset>
-        </textarea>
-    </fieldset>
-</form>
+    <form name = "bioasqForm" class = "form-horizontal">
+         <fieldset>
+            <legend>{{data.first_name}} {{data.last_name}} {{data.body}} {{data.title}}</legend>
+            <input  type            = "text"
+                    class           = "input-xlarge pull-left"
+                    name            = "inputTitle"
+                    id              = "inputTitle"
+                    data-ng-change  = "save(input.title, input.message)"
+                    data-ng-model   = "input.title"
+                    placeholder     = "A title is required."
+                    autofocus       = "autofocus"
+                    required
+                    data-ui-reset
+            />
+            <div class = "vspace"></div>
+            <textarea class="input-xxlarge"
+                    name            = "inputMessage"
+                    id              = "inputMessage"
+                    data-ng-change  = "save(input.title, input.message)"
+                    data-ng-model   = "input.message"
+                    placeholder     = "A message is required."
+                    required
+                    data-ui-reset>
+            </textarea>
+        </fieldset>
+    </form>
 </div>
 <div class="modal-footer">
-    <button class="btn cancel"  data-ng-click="close()"><i class="icon-remove"></i></button>
+    <div class="pull-right">
+        <button type = "submit"
+                class = "btn btn-success"
+                data-ng-disabled = "!bioasqForm.$valid"
+                data-ng-click = "send(input.title,input.message, data.id)">
+                   <i class = "icon-envelope"></i> Send
+        </button>
+    </div>
 </div>
