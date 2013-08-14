@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * 
+ *
  */
 BioASQ.DialogCtrl = function($scope, dialog, CommentRes, modalFactory) {
     $scope.currentCtrl = 'DialogCtrl';
@@ -11,29 +11,29 @@ BioASQ.DialogCtrl = function($scope, dialog, CommentRes, modalFactory) {
     // cache last user input
     $scope.save = function(title, message) {
         modalFactory.setCacheData({
-            title : title,
-            message : message
+            title: title,
+            message: message
         });
-    }
+    };
 
     // send message
     $scope.send = function(title, message, id) {
         CommentRes.post({
-            id : id,
-            creator : $scope.me,
-            content : JSON.stringify(message),
-            title : JSON.stringify(title)
+            id: id,
+            creator: $scope.me,
+            content: JSON.stringify(message),
+            title: JSON.stringify(title)
         }, function(data, headers) {
             $scope.close();
         }, function(response) {
             // ...
         });
-    }
+    };
 
     // close modal
     $scope.close = function() {
         dialog.close();
-    }
-}
+    };
+};
 
 BioASQ.controller('DialogCtrl', BioASQ.DialogCtrl);

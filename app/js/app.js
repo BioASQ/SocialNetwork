@@ -1,30 +1,32 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ', [ 'ngResource', 'ui.bootstrap', 'ui' ]);
+var BioASQ = angular.module('BioASQ', ['ngResource', 'ui.bootstrap', 'ui']);
 
-BioASQ.pages = [ 'home', 'timeline', 'messages' ];
-BioASQ.pagesCtrl = [ 'HomeCtrl', 'TimelineCtrl', 'MessageCtrl' ];
+BioASQ.pages = ['home', 'timeline', 'messages'];
+BioASQ.pagesCtrl = ['HomeCtrl', 'TimelineCtrl', 'MessageCtrl'];
 
-BioASQ.config([ '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+BioASQ.config(['$routeProvider', '$locationProvider',
+    function($routeProvider, $locationProvider) {
 
-    angular.forEach(BioASQ.pages, function(value, key) {
-        $routeProvider.when('/' + value, {
-            templateUrl : 'partials/' + value + '.html',
-            controller : BioASQ.pagesCtrl[key]
+        angular.forEach(BioASQ.pages, function(value, key) {
+            $routeProvider.when('/' + value, {
+                templateUrl: 'partials/' + value + '.html',
+                controller: BioASQ.pagesCtrl[key]
+            });
         });
-    });
 
-    $routeProvider.when('/users/:creator', {
-        templateUrl : 'partials/user.html',
-        controller : 'UserCtrl'
-    });
+        $routeProvider.when('/users/:creator', {
+            templateUrl: 'partials/user.html',
+            controller: 'UserCtrl'
+        });
 
-    $routeProvider.otherwise({
-        redirectTo : '/' + BioASQ.pages[0]
-    });
+        $routeProvider.otherwise({
+            redirectTo: '/' + BioASQ.pages[0]
+        });
 
-    $locationProvider.html5Mode(false).hashPrefix('!');
-} ]);
+        $locationProvider.html5Mode(false).hashPrefix('!');
+    }
+]);
 
 BioASQ.run(function($rootScope, Me) {
 

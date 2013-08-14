@@ -3,30 +3,30 @@
 /**
  * Cache my user data
  */
-BioASQ.Me = function (MeRes) {
+BioASQ.Me = function(MeRes) {
     this.MeRes = MeRes;
     this.data = null;
 };
 
-BioASQ.Me.prototype.login = function (callback) {
+BioASQ.Me.prototype.login = function(callback) {
     var self = this;
 
     if (this.data === null) {
-        this._login(function(data){
+        this._login(function(data) {
             self.data = data;
             callback(data);
         });
     } else {
-       callback(this.data);
+        callback(this.data);
     }
 };
 
-BioASQ.Me.prototype._login = function (callback) {
+BioASQ.Me.prototype._login = function(callback) {
     this.MeRes.login(
-        function (data, headers) {
+        function(data, headers) {
             callback(data);
         },
-        function (response) {
+        function(response) {
             callback(null);
         });
 };

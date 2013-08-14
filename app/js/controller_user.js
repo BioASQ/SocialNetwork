@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * 
+ *
  */
 BioASQ.UserCtrl = function($routeParams, $scope, Users, modalFactory) {
     $scope.currentCtrl = 'UserCtrl';
@@ -11,7 +11,7 @@ BioASQ.UserCtrl = function($routeParams, $scope, Users, modalFactory) {
     Users.getFollowingIds($scope.me.id, function(data) {
         var followingIds = data;
         Users.getUser(id, function(data) {
-            $scope.user = data != null ? data : "error";
+            $scope.user = data !== null ? data : "error";
             $scope.user.follows = followingIds.indexOf(id) == -1 ? false : true;
         });
     });
@@ -36,12 +36,12 @@ BioASQ.UserCtrl = function($routeParams, $scope, Users, modalFactory) {
             if ($scope.radioModel == 'followers')
                 $scope.showFollowers();
         });
-    }
+    };
 
     // modal dialog
     modalFactory.setCacheData({
-        title : '',
-        message : ''
+        title: '',
+        message: ''
     });
     $scope.openDialog = function(data) {
         modalFactory.openDialog(modalFactory.options('partials/templates/modal_comment.html', 'DialogCtrl', data), function() {
@@ -62,11 +62,12 @@ BioASQ.UserCtrl = function($routeParams, $scope, Users, modalFactory) {
             // show
             Users.getComments(p_id, function(data) {
                 $scope.comments[p_id] = data;
-                if(p_id == id){
+                if (p_id == id) {
                     $scope.data = $scope.comments[p_id];
                 }
             });
         }
-    }
-}
+    };
+};
+
 BioASQ.controller('UserCtrl', BioASQ.UserCtrl);

@@ -1,55 +1,55 @@
 BioASQ.factory('modalFactory', function($dialog) {
-    var 
-        data = '', 
+    var
+    data = '',
         cacheData = '';
 
     return {
         /**
-         * 
+         *
          */
-        options : function(templateUrl, ctrl, p_data) {
+        options: function(templateUrl, ctrl, p_data) {
             data = p_data;
             return {
-                backdrop : true,
-                keyboard : false,
-                backdropClick : false,
-                dialogFade : true,
-                backdropFade : true,
-                templateUrl : templateUrl,
-                controller : ctrl
+                backdrop: true,
+                keyboard: false,
+                backdropClick: false,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: templateUrl,
+                controller: ctrl
             };
         },
         /**
-         * 
+         *
          */
-        setData : function(p_data) {
+        setData: function(p_data) {
             data = p_data;
         },
         /**
-         * 
+         *
          */
-        getData : function() {
+        getData: function() {
             return data;
         },
         /**
-         * 
+         *
          */
-        setCacheData : function(p_cacheData) {
+        setCacheData: function(p_cacheData) {
             cacheData = p_cacheData;
         },
         /**
-         * 
+         *
          */
-        getCacheData : function() {
+        getCacheData: function() {
             return cacheData;
         },
         /**
-         * 
+         *
          */
-        openDialog : function(opts, callback) {
+        openDialog: function(opts, callback) {
             $dialog.dialog(opts).open().then(function() {
                 callback();
             });
         }
-    }
+    };
 });
