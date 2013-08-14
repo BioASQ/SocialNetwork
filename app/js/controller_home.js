@@ -6,9 +6,11 @@
 BioASQ.HomeCtrl = function($scope, Questions, Users, modalFactory) {
     $scope.currentCtrl = 'HomeCtrl';
 
+    // uses Users service to get followings
     Users.getFollowingIds($scope.me.id, function(data) {
         var followingIds = data;
 
+        // uses Questions service to get questions
         Questions.getQuestions(function(data) {
             $scope.questions = data !== null ? data : "error";
 
@@ -19,7 +21,7 @@ BioASQ.HomeCtrl = function($scope, Questions, Users, modalFactory) {
         });
     });
 
-    // show question answers and cache them
+    // show question answers(details) and cache them
     $scope.details = [];
     $scope.questionDetail = function(id) {
         Questions.getDetail(id, function(data) {
@@ -55,8 +57,8 @@ BioASQ.HomeCtrl = function($scope, Questions, Users, modalFactory) {
     // show comments
     $scope.comments = [];
     $scope.showComments = function(id) {
-        // hide
         if (typeof $scope.comments[id] == 'object') {
+            // hide
             $scope.comments[id] = undefined;
         } else {
             // show

@@ -71,6 +71,7 @@ BioASQ.Users.prototype.follow = function(me, id, callback) {
         callback(null);
     });
 };
+
 BioASQ.Users.prototype.getFollowingIds = function(id, callback) {
     this.getFollowing(id, function(data) {
         var ids = [];

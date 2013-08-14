@@ -1,6 +1,6 @@
 BioASQ.factory('modalFactory', function($dialog) {
-    var
-    data = '',
+
+    var data = '',
         cacheData = '';
 
     return {
