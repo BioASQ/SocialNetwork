@@ -1,0 +1,57 @@
+{
+    "user": [
+      { "id": "foo@bar.com",
+        "type": "User",
+        "first_name": "Bio. med.",
+        "last_name": "Expert 1",
+        "img": "http://placehold.it/100x100&text==(",
+        "desciption": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis." },
+      { "id": "fou@bar.com",
+        "type": "User",
+        "first_name": "Bio. med.",
+        "last_name": "Expert 2",
+        "img": "http://placehold.it/100x100&text==)",
+        "desciption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
+    ],
+    "question": [
+      { "id": "q3",
+        "type": "Question",
+        "body": "Are CNEs particularly enriched in gene deserts?",
+        "creator": "foo@bar.com",
+        "question_type": "decisive",
+        "created": "2013-04-16T11:19",
+        "modified": "2013-05-21T11:19",
+        "answer": {
+            "body": "Yes, CNEs are most often found in gene-poor regions termed gene deserts. There, they often form dense clusters."
+        } },
+      { "id": "q4",
+        "type": "Question",
+        "body": "What is currently the disease with the highest mortality rate in western countries?",
+        "creator": "foo@bar.com",
+        "question_type": "factoid",
+        "created": "2012-04-16T11:19",
+        "modified": "2013-05-18T12:49",
+        "answer": {
+            "body": "The disease with the highest mortality rate."
+        } }
+    ],
+    "activity": [
+        { "id": "v9", "type": "Vote", "about": "q3", "creator": "foo@bar.com", "created": "2013-07-10T12:13", "dir": "up" },
+        { "id": "f13", "type": "Follow", "about": "q3", "creator": "fou@bar.com", "created": "2013-08-12T18:23" },
+        { "id": "f12", "type": "Follow", "about": "q3", "creator": "foo@bar.com", "created": "2013-08-10T18:23" },
+        { "id": "v10", "type": "Vote", "about": "q3", "creator": "fou@bar.com", "created": "2013-07-11T10:13", "dir": "up" },
+        { "id": "v11", "type": "Vote", "about": "q4", "creator": "foo@bar.com", "created": "2013-07-13T12:13", "dir": "down" },
+        { "id": "f14", "type": "Follow", "about": "foo@bar.com", "creator": "fou@bar.com", "created": "2013-08-12T18:24" },
+        { "id": "c6", "type": "Comment", "about": "q3", "creator": "foo@bar.com", "created": "2013-01-16T10:19",
+          "title": "Comment title",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+        { "id": "c7", "type": "Comment", "about": "q4", "creator": "foo@bar.com", "created": "2012-03-16T10:19",
+          "title": "Comment title",
+          "content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis." },
+        { "id": "c8", "type": "Comment", "about": "c6", "creator": "fou@bar.com", "created": "2012-03-18T10:19",
+          "title": "Comment title",
+          "content": "Suspendisse a dictum erat. Cras eleifend nunc sit amet dolor pellentesque, ut auctor magna rutrum." },
+        { "id": "q3a", "type": "Question", "about": "q3", "creator": "foo@bar.com", "created": "2013-04-16T11:19" },
+        { "id": "q4a", "type": "Question", "about": "q4", "creator": "foo@bar.com", "created": "2012-04-16T11:19" }
+    ]
+}
