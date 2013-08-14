@@ -4,8 +4,8 @@
 BioASQ.factory('TimelineRes', function ($resource, $window) {
     return $resource(
         'http://' + $window.location.host + ':' + $window.location.port + '/all',
-        { id: '@id', callback: 'JSON_CALLBACK' },
-        { post: { method: 'POST', params:{ order : '@order'}, isArray: true } }
+        {},
+        { post: { method: 'GET', isArray: true } }
     );
 });
 
@@ -13,7 +13,7 @@ BioASQ.factory('TimelineRes', function ($resource, $window) {
 BioASQ.factory('QuestionsRes', function ($resource, $window) {
     return $resource(
         'http://' + $window.location.host + ':' + $window.location.port + '/questions',
-        { callback: 'JSON_CALLBACK' },
+        {},
         { get: { method: 'GET', isArray: true } }
     );
 });
@@ -22,8 +22,8 @@ BioASQ.factory('QuestionsRes', function ($resource, $window) {
 BioASQ.factory('QuestionDetailRes', function ($resource, $window) {
     return $resource(
         'http://' + $window.location.host + ':' + $window.location.port + '/questions/:id',
-        { id: '@id', callback: 'JSON_CALLBACK' },
-        { get: { method: 'GET', isArray: true } }
+        { id: '@id' },
+        { get: { method: 'GET' } }
     );
 });
 
@@ -31,8 +31,8 @@ BioASQ.factory('QuestionDetailRes', function ($resource, $window) {
 BioASQ.factory('UserRes', function ($resource, $window) {
     return $resource(
         'http://' + $window.location.host + ':' + $window.location.port + '/users/:id',
-        { id: '@id', callback: 'JSON_CALLBACK' },
-        { get: { method: 'GET', isArray: true } }
+        { id: '@id' },
+        { get: { method: 'GET' } }
     );
 });
 
@@ -40,24 +40,28 @@ BioASQ.factory('UserRes', function ($resource, $window) {
 BioASQ.factory('CommentsRes', function ($resource, $window) {
     return $resource(
         'http://' + $window.location.host + ':' + $window.location.port + '/comments/:id',
-        { id: '@id', callback: 'JSON_CALLBACK' },
-        { get: { method: 'GET', isArray: true } }
+        { id: '@id' },
+        { get: { method: 'GET' } }
     );
 });
 
 ///comment/:id
 BioASQ.factory('CommentRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/comment/:id',
-        { id: '@id', callback: 'JSON_CALLBACK' },
-        { post: { method: 'POST', params:{ creator : '@creator', content : '@content', title : '@title'}, isArray: true } }
+        'http://' + $window.location.host + ':' + $window.location.port + '/comments',
+        {},
+        { post: { method: 'POST', params: {
+            creator: '@creator',
+            about:   '@id',
+            content: '@content',
+            title:   '@title'} } }
     );
 });
 // /followers/:id
 BioASQ.factory('FollowersRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/followers/:id',
-        { id: '@id', callback: 'JSON_CALLBACK' },
+        'http://' + $window.location.host + ':' + $window.location.port + '/users/:id/followers',
+        { id: '@id' },
         { get: { method: 'GET', isArray: true } }
     );
 });
@@ -65,8 +69,8 @@ BioASQ.factory('FollowersRes', function ($resource, $window) {
 // /following/:id
 BioASQ.factory('FollowingRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/following/:id',
-        { id: '@id', callback: 'JSON_CALLBACK' },
+        'http://' + $window.location.host + ':' + $window.location.port + '/users/:id/following',
+        { id: '@id' },
         { get: { method: 'GET', isArray: true } }
     );
 });
@@ -74,18 +78,18 @@ BioASQ.factory('FollowingRes', function ($resource, $window) {
 // /follow/:id
 BioASQ.factory('FollowRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/follow/:id',
-        { id: '@id', callback: 'JSON_CALLBACK' },
-        { follow: { method: 'POST', params:{ who : '@who'}, isArray: true } }
+        'http://' + $window.location.host + ':' + $window.location.port + '/users/:id/following',
+        { id: '@id' },
+        { follow: { method: 'POST', params: { about : '@about'} } }
     );
 });
 
 // /vote/:id
 BioASQ.factory('VoteRes', function ($resource, $window) {
     return $resource(
-        'http://' + $window.location.host + ':' + $window.location.port + '/vote/:id',
-        { id: '@id', callback: 'JSON_CALLBACK' },
-        { post: { method: 'POST', params:{ dir : '@dir'}, isArray: true } }
+        'http://' + $window.location.host + ':' + $window.location.port + '/questions/:id/votes',
+        { id: '@id' },
+        { post: { method: 'POST', params:{ dir : '@dir'} } }
     );
 });
 
@@ -93,7 +97,7 @@ BioASQ.factory('VoteRes', function ($resource, $window) {
 BioASQ.factory('MeRes', function ($resource, $window) {
     return $resource(
         'http://' + $window.location.host + ':' + $window.location.port + '/login',
-        { callback: 'JSON_CALLBACK' },
-        { login: { method: 'GET', isArray: true } }
+        {},
+        { login: { method: 'GET' } }
     );
 });

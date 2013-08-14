@@ -19,7 +19,7 @@ BioASQ.Users.prototype.getUser = function(id, callback)
 
     }, function(data, headers)
     {
-        callback(data[0]);
+        callback(data);
 
     }, function(response)
     {

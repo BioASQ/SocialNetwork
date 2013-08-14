@@ -53,7 +53,7 @@ BioASQ.Questions.prototype.getDetail = function (id, callback) {
 BioASQ.Questions.prototype._getDetail = function (id, callback) {
     this.QuestionDetailRes.get({ id : id },
         function (data, headers) {
-            callback(data[0]);
+            callback(data);
         },
         function (response) {
             callback(null);
@@ -68,7 +68,7 @@ BioASQ.Questions.prototype.vote = function (id, dir, callback) {
 
             angular.forEach(self.questions , function(question, index){
                 if(question.id == id){
-                    self.questions[index].rank = data[0].rank;
+                    self.questions[index].rank = data.rank;
                     callback(self.questions[index].rank);
                 }
             });

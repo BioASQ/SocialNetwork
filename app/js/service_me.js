@@ -11,12 +11,12 @@ BioASQ.Me = function (MeRes) {
 BioASQ.Me.prototype.login = function (callback) {
     var self = this;
 
-    if(this.data == null){
+    if (this.data === null) {
         this._login(function(data){
             self.data = data;
             callback(data);
         });
-    }else{
+    } else {
        callback(this.data);
     }
 };
@@ -24,7 +24,7 @@ BioASQ.Me.prototype.login = function (callback) {
 BioASQ.Me.prototype._login = function (callback) {
     this.MeRes.login(
         function (data, headers) {
-            callback(data[0]);
+            callback(data);
         },
         function (response) {
             callback(null);
