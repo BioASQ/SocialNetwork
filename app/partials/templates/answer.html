@@ -2,21 +2,21 @@
     <div data-ng-bind-html-unsafe="details[q.id].answer.ideal | parseContent"></div><br>
     <div data-ng-bind-html-unsafe="details[q.id].answer.exact"></div><br>
 
-    <div data-ng-init="noAnnos=false; isCollapsed = true"></div>
+    <div data-ng-init="noAnnos=false"></div>
     <button class="btn btn-link"
-            data-ng-click="type = 'concept'; isCollapsed = !isCollapsed; noAnnos=true">
+            data-ng-click="noAnnos=true; type = 'concept'">
             concepts
     </button>
     <button class="btn btn-link"
-            data-ng-click="isCollapsed = !isCollapsed; noAnnos=true; type = 'document'">
+            data-ng-click="noAnnos=true; type = 'document'">
             documents
     </button>
     <button class="btn btn-link"
-            data-ng-click="isCollapsed = !isCollapsed; noAnnos=true; type = 'snippet'">
+            data-ng-click="noAnnos=true; type = 'snippet'">
             snippets
     </button>
     <button class="btn btn-link"
-            data-ng-click="isCollapsed = !isCollapsed; noAnnos=true; type = 'statement'">
+            data-ng-click="noAnnos=true; type = 'statement'">
             statements
     </button>
 
