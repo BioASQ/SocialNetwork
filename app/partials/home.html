@@ -1,10 +1,3 @@
-<script type="text/ng-template" id="answer.html">
-    <div class="well">
-        <div data-ng-bind-html-unsafe="details[q.id].answer.body | parseContent"></div><br />
-        <div data-ng-bind-html-unsafe="details[q.id].answer.annotations | parseContent"></div>
-    </div>
-</script>
-
 <div data-ng-include src="'partials/templates/navi.html'"></div>
 <div class="vspace"></div>
 <div class="container">
@@ -60,13 +53,13 @@
                 </div>
                 <div class="vspace"></div>
                 <!-- show comments -->
-                <div ng-repeat="d in comments[q.id]" data-ng-include src="'partials/templates/comment.html'"></div>
+                <div data-ng-repeat="d in comments[q.id]" data-ng-include src="'partials/templates/comment.html'"></div>
 
             </div>
             <div class="span6"> <!--horizontal split 50%/50%  -->
                 <div class="row">
                     <div data-collapse="isCollapsed">
-                        <div data-ng-include src="'answer.html'"></div>
+                        <div data-ng-include src="'partials/templates/answer.html'"></div>
                         <!--<button class="btn btn-small pull-right" data-ng-click="isCollapsed = !isCollapsed">Close</button>-->
                     </div>
                 </div>
