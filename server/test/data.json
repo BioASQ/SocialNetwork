@@ -14,6 +14,40 @@
         "desciption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
     ],
     "question": [
+      { "id": "q2",
+        "type": "Question",
+        "body": "Where is X-ray free electron laser used?",
+        "creator": "foo@bar.com",
+        "question_type": "list",
+        "created": "2013-04-16T11:19",
+        "modified": "2013-05-21T11:19",
+        "answer": {
+            "ideal": "TX-ray free electron laser (XFEL) technologies provide coherent and extremely intense photon pulses of short duration. XFELs are particularly useful in structural biology and imaging, in structural studies of single biological macromolecules (e.g. high resolution protein structure determination) and assemblies (e.g. viruses) or nanocrystals, which are not amenable to investigation with traditional crystallographic methods. Moreover, XFELs have the potential to be used for studying enzyme kinetics.",
+            "exact": [
+                [
+                    "high resolution protein structure determination"
+                ],
+                [
+                    "molecular imaging",
+                    "single-particle imaging"
+                ],
+                [
+                    "study of enzyme kinetics",
+                    "time resolved protein crystallography"
+                ]
+            ],
+            "annotations": [
+            {   "type": "concept",
+                "title": "X-Rays",
+                "uri": "http://www.nlm.nih.gov/cgi/mesh/2012/MB_cgi?field=uid&exact=Find+Exact+Term&term=D014965"},
+            {   "type": "document",
+                "title": "X-ray lasers for structural and dynamic biology.",
+                "uri": "http://www.ncbi.nlm.nih.gov/pubmed/22975810"},
+            {   "type": "snippet",
+                "document": "http://www.ncbi.nlm.nih.gov/pubmed/22278059",
+                "text": "We discuss the pertinent physics of the intense X-ray-matter interactions, and illustrate the importance of electron-ion collisions. Detailed simulations of the interaction process conducted with a radiative-collisional code show good qualitative agreement with the experimental results. We obtain insights into the evolution of the charge state distribution of the system, the electron density and temperature, and the timescales of collisional processes. Our results should inform future high-intensity X-ray experiments involving dense samples, such as X-ray diffractive imaging of biological systems, material science investigations, and the study of matter in extreme conditions."}
+            ]
+        } },
       { "id": "q3",
         "type": "Question",
         "body": "Are CNEs particularly enriched in gene deserts?",
@@ -22,7 +56,7 @@
         "created": "2013-04-16T11:19",
         "modified": "2013-05-21T11:19",
         "answer": {
-            "body": "Yes, CNEs are most often found in gene-poor regions termed gene deserts. There, they often form dense clusters."
+            "ideal": "Yes, CNEs are most often found in gene-poor regions termed gene deserts. There, they often form dense clusters."
         } },
       { "id": "q4",
         "type": "Question",
@@ -32,7 +66,7 @@
         "created": "2012-04-16T11:19",
         "modified": "2013-05-18T12:49",
         "answer": {
-            "body": "The disease with the highest mortality rate."
+            "ideal": "The disease with the highest mortality rate."
         } }
     ],
     "activity": [
@@ -51,6 +85,7 @@
         { "id": "c8", "type": "Comment", "about": "c6", "creator": "fou@bar.com", "created": "2012-03-18T10:19",
           "title": "Comment title",
           "content": "Suspendisse a dictum erat. Cras eleifend nunc sit amet dolor pellentesque, ut auctor magna rutrum." },
+        { "id": "q2a", "type": "Question", "about": "q2", "creator": "foo@bar.com", "created": "2013-05-16T11:19" },
         { "id": "q3a", "type": "Question", "about": "q3", "creator": "foo@bar.com", "created": "2013-04-16T11:19" },
         { "id": "q4a", "type": "Question", "about": "q4", "creator": "foo@bar.com", "created": "2012-04-16T11:19" }
     ]
