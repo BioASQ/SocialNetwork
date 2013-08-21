@@ -2,4 +2,14 @@
 <div class="vspace"></div>
 
 <div class="container">
+  <div class="btn-group-wrap">
+    <div class="btn-group" data-toggle="buttons-checkbox">
+      <button type="button" class="btn btn-inner" data-ng-model="section" data-btn-radio="'inbox'">Inbox</button>
+      <button type="button" class="btn btn-inner" data-ng-model="section" data-btn-radio="'outbox'">Outbox</button>
+    </div>
+  </div> 
+  <div class="vspace"></div>
+  <div data-ng-repeat="message in messages">
+    <div data-ng-include src="'partials/templates/message.html'"></div>
+  </div>
 </div>

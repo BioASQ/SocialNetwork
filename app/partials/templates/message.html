@@ -1,0 +1,12 @@
+<div class="well">
+  <span class="label pull-right">
+    <span data-ui-if="section=='inbox'">from:</span>
+    <span data-ui-if="section=='outbox'">to:</span>
+    {{message.creator}}, {{'' | dateDiff:message.created}}
+  </span>
+  <h4 contenteditable="true" style="clear:both">{{message.title}}</h4>
+  <div contenteditable="true" data-ng-bind-html-unsafe="message.content | parseContent"></div>
+  <div class="row" data-ui-if="section=='inbox'">
+    <button class="btn pull-right">Reply</button>
+  </div>
+</div>

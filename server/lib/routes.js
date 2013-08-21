@@ -132,7 +132,27 @@ var routes = exports.createRoutes = function (server) {
      * Get all messages for a user
      */
     server.get('/messages', middleware, function (request, response) {
-        models.message.find(request.user.id, function (err, res) {
+        models.message.all(request.user.id, function (err, res) {
+            if (err) { return response.send(400); }
+            response.send(res);
+        });
+    });
+
+    /*
+     * Get all received messages for a user
+     */
+    server.get('/messages/in', middleware, function (request, response) {
+        models.message.find({ to: request.user.id }, { sort: { created: -1 } }, function (err, res) {
+            if (err) { return response.send(400); }
+            response.send(res);
+        });
+    });
+
+    /*
+     * Get all messages sent by a user
+     */
+    server.get('/messages/out', middleware, function (request, response) {
+        models.message.find({ creator: request.user.id }, { sort: { created: -1 } }, function (err, res) {
             if (err) { return response.send(400); }
             response.send(res);
         });

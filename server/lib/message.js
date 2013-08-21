@@ -7,7 +7,7 @@ var Message = exports.Message = function (database) {
 
 Message.prototype = Object.create(Base.prototype);
 
-Message.prototype.find = function (userID, withID, cb) {
+Message.prototype.all = function (userID, withID, cb) {
     var query;
     if (typeof cb === 'undefined') {
         cb     = withID;
@@ -19,5 +19,5 @@ Message.prototype.find = function (userID, withID, cb) {
             to:      { $in: [ userID, withID ] }
         };
     }
-    Base.prototype.find.call(this, query, {}, cb);
+    Base.prototype.find.call(this, query, { sort: { created: -1 } }, cb);
 };
