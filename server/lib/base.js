@@ -7,9 +7,7 @@ Base.prototype._collection = function (name, cb) {
     this._db.collection(name, cb);
 };
 
-Base.prototype.create = function (doc, user, cb) {
-    if (typeof user == 'undefined') { return cb(Error('No valid user.')); }
-
+Base.prototype.create = function (doc, cb) {
     this._collection(this._collectionName, function (err, collection) {
         collection.insert(doc, { save: true }, function (err, inserted) {
             if (err) { return cb(err); }
@@ -18,9 +16,7 @@ Base.prototype.create = function (doc, user, cb) {
     });
 };
 
-Base.prototype.load = function (id, user, cb) {
-    if (typeof user == 'undefined') { return cb(Error('No valid user.')); }
-
+Base.prototype.load = function (id, cb) {
     this._collection(this._collectionName, function (err, collection) {
         collection.findOne({ _id: id }, function (err, doc) {
             if (err) { return cb(err); }
@@ -33,9 +29,7 @@ Base.prototype.load = function (id, user, cb) {
     });
 };
 
-Base.prototype.find = function (query, options, user, cb) {
-    if (typeof user == 'undefined') { return cb(Error('No valid user.')); }
-
+Base.prototype.find = function (query, options, cb) {
     if (query.hasOwnProperty('id')) {
         query._id = query.id;
         delete query.id;
@@ -57,21 +51,17 @@ Base.prototype.find = function (query, options, user, cb) {
     });
 };
 
-Base.prototype.update = function (id, doc, user, cb) {
-    if (typeof user == 'undefined') { return cb(Error('No valid user.')); }
-
+Base.prototype.update = function (id, doc, cb) {
     delete doc._id;
     this._collection(this._collectionName, function (err, collection) {
-        collection.update({ _id: id, creator: user }, { $set: doc, save: true }, function (err) {
+        collection.update({ _id: id }, { $set: doc, save: true }, function (err) {
             if (err) { return cb(err); }
             cb(null);
         });
     });
 };
 
-Base.prototype.remove = function (id, user, cb) {
-    if (typeof user == 'undefined') { return cb(Error('No valid user.')); }
-
+Base.prototype.remove = function (id, cb) {
     this._collection(this._collectionName, function (err, collection) {
         collection.remove({ _id: id }, { save: true }, function (err) {
             if (err) { return cb(err); }
