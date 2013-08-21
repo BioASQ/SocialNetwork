@@ -17,30 +17,38 @@ connection.open(function (err, conn) {
         function () {
             var callbackFactory = this;
 
-            ['question', 'user', 'activity'].forEach(function (collectionName) {
+            ['question', 'user', 'message', 'activity'].forEach(function (collectionName) {
                 conn.collection(collectionName, function (err, coll) {
                     if (err) {
-                        process.stdout.write('Could not open `questions` collection.');
+                        process.stdout.write('Could not open `question` collection.');
                         process.exit(-1);
                     }
 
-                    demoData[collectionName].forEach(function (doc) {
-                        if (doc.id) {
-                            // doc._id = new mongodb.ObjectID(doc.id);
-                            doc._id = doc.id;
-                            delete doc.id;
+                    coll.remove({}, function (err) {
+                        if (err) {
+                            process.stdout.write('Could not remove docs from `question` collection.');
+                            process.exit(-1);
                         }
 
-                        if (doc.created) {
-                            doc.created = new Date(doc.created);
-                        }
+                        demoData[collectionName].forEach(function (doc) {
+                            if (doc.id) {
+                                // doc._id = new mongodb.ObjectID(doc.id);
+                                doc._id = doc.id;
+                                delete doc.id;
+                            }
 
-                        if (doc.modified) {
-                            doc.modified = new Date(doc.modified);
-                        }
+                            if (doc.created) {
+                                doc.created = new Date(doc.created);
+                            }
 
-                        coll.insert(doc, { safe: true }, callbackFactory.parallel());
+                            if (doc.modified) {
+                                doc.modified = new Date(doc.modified);
+                            }
+
+                            coll.insert(doc, { safe: true }, callbackFactory.parallel());
+                        });
                     });
+
                 });
             });
         },

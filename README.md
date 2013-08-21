@@ -6,9 +6,9 @@ Social network for the BioASQ project.
 Installation
 ------------
 * `git clone` the repostitory
-* `npm install` -- install server dependencies
+* install server dependencies: `npm install`
 * ensure MongoDB is running
-* `node ./server/scripts/import.js` -- import demo data (optional)
+* import demo data (this will remove existing data!): `node ./server/scripts/import.js`
 * `./bin/start` -- start the backend
 
 Terms
@@ -59,11 +59,16 @@ REST backend services
 * unfollow a user
     * `DELETE /users/:id/followers/:followerID`
 
+* get array of all messages for current user
+    * `GET /messages`
 * get array of messages with a user (to and from)
     * `GET /messages/user/:id`
 * write a message to a user
     * `POST /messages`
     * JSON data: see above
+* post a message update (i.e. read state)
+    * `POST /messages/:id`
+    * JSON data: { read: true }, and/or other changed values
 
 * vote on a Question
     * `POST /votes`
@@ -108,7 +113,8 @@ JSON structure
             created: "2013-04-16T10:19",
             title: "Comment title",
             content: "Message text",
-            reply_of: "<ID of parent message>"
+            reply_of: "<ID of parent message>",
+            read: "true|false"
         }
 
 * Questions have the following format:
