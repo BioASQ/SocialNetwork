@@ -36,10 +36,12 @@ Base.prototype.find = function (query, options, cb) {
     }
 
     this._collection(this._collectionName, function (err, collection) {
-        var cursor = collection.find(query);
-        if (options.sort) {
-            cursor = cursor.sort(options.sort);
-        }
+        var cursor = collection.find(query, options);
+        /*
+         * if (options.sort) {
+         *     cursor = cursor.sort(options.sort);
+         * }
+         */
         cursor.toArray(function (err, res) {
             if (err) { return cb(err); }
             cb(null, res.map(function (doc) {
