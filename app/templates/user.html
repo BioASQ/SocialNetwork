@@ -1,4 +1,4 @@
-<div data-ng-include src="'partials/templates/navi.html'"></div>
+<div data-ng-include src="'templates/partials/navi.html'"></div>
 
 <div class="vspace"></div>
 
@@ -48,13 +48,13 @@
                 <div data-ng-switch-when="followings">
 
                     <div data-ng-switch data-on="d.type">
-                        <div data-ng-switch-when="Question"><div data-ng-include src="'partials/templates/question.html'"></div></div>
-                        <div data-ng-switch-when="User">    <div data-ng-include src="'partials/templates/user.html'"></div></div>
+                        <div data-ng-switch-when="Question"><div data-ng-include src="'templates/partials/question.html'"></div></div>
+                        <div data-ng-switch-when="User">    <div data-ng-include src="'templates/partials/user.html'"></div></div>
                     </div>
 
                 </div>
-                <div data-ng-switch-when="followers">       <div data-ng-include src="'partials/templates/user.html'"></div></div>
-                <div data-ng-switch-when="comments">        <div data-ng-include src="'partials/templates/comment.html'"></div></div>
+                <div data-ng-switch-when="followers">       <div data-ng-include src="'templates/partials/user.html'"></div></div>
+                <div data-ng-switch-when="comments">        <div data-ng-include src="'templates/partials/comment.html'"></div></div>
             </div>
         </div>
     </div>

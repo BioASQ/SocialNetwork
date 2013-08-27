@@ -1,0 +1,12 @@
+<div data-ng-include data-src="'templates/partials/navi.html'"></div>
+
+<div class="container">
+    <div data-ng-repeat="d in data">
+        <div data-ng-switch data-on="d.type">
+             <div data-ng-switch-when="Question"><div data-ng-include data-src="'templates/partials/question.html'"></div></div>
+             <div data-ng-switch-when="Comment"><div data-ng-include data-src="'templates/partials/comment.html'"></div></div>
+             <div data-ng-switch-when="Follow"><div data-ng-include data-src="'templates/partials/follow.html'"></div></div>
+             <div data-ng-switch-when="Vote"><div data-ng-include data-src="'templates/partials/vote.html'"></div></div>
+         </div>
+    </div>
+</div>

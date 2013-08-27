@@ -49,7 +49,7 @@ BioASQ.HomeCtrl = function($scope, Questions, Users, modalFactory) {
         message: ''
     });
     $scope.openDialog = function(data) {
-        modalFactory.openDialog(modalFactory.options('partials/templates/modal_comment.html', 'DialogCtrl', data), function() {
+        modalFactory.openDialog(modalFactory.options('templates/partials/modal_comment.html', 'DialogCtrl', data), function() {
             // ...
         });
     };

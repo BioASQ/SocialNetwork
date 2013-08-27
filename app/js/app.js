@@ -10,13 +10,13 @@ BioASQ.config(['$routeProvider', '$locationProvider',
 
         angular.forEach(BioASQ.pages, function(value, key) {
             $routeProvider.when('/' + value, {
-                templateUrl: 'partials/' + value + '.html',
+                templateUrl: 'templates/' + value + '.html',
                 controller: BioASQ.pagesCtrl[key]
             });
         });
 
         $routeProvider.when('/users/:creator', {
-            templateUrl: 'partials/user.html',
+            templateUrl: 'templates/user.html',
             controller: 'UserCtrl'
         });
 
