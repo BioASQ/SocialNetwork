@@ -1,9 +1,17 @@
-<div class="row" data-ui-if="!newMessage.to">
-  <input type="text" placeholder="Receipient" data-ng-model="newMessage.to">
-</div>
 <div class="row">
-  <input type="text" class="span7" placeholder="Subject" data-ng-model="newMessage.title">
-</div>
-<div class="row">
-  <textarea type="text" class="span7" rows="5" placeholder="Your message" data-ng-model="newMessage.content">
+  <div class="offset1 span8" data-ui-if="newMessage.creating">
+    <input type="text" class="span8" placeholder="Receipient" data-ng-model="newMessage.to">
+  </div>
+  <div class="offset1 span8">
+    <input type="text" class="span8" placeholder="Subject" data-ng-model="newMessage.title">
+  </div>
+  <div class="offset1 span8">
+    <textarea type="text" class="span8" rows="5" placeholder="Your message" data-ng-model="newMessage.content"></textarea>
+  </div>
+  <div class="offset1 span8">
+    <div class="pull-right">
+      <button class="btn" data-ng-click="cancel()">Cancel</button>
+      <button class="btn btn-success" data-ng-click="send(newMessage)">Send</button>
+    </div>
+  </div>
 </div>

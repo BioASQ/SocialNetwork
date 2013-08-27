@@ -15,11 +15,19 @@ BioASQ.MessageCtrl = function($scope, Message) {
     });
     $scope.section = 'inbox';
 
+    $scope.create = function () {
+        $scope.newMessage = {
+            creator:  $scope.me.id,
+            creating: true
+        };
+    };
+
     $scope.reply = function (message) {
         $scope.newMessage = {
             creator:  $scope.me.id,
             to:       message.creator,
-            reply_to: message.id
+            reply_to: message.id,
+            creating: false
         };
     };
 
@@ -28,6 +36,9 @@ BioASQ.MessageCtrl = function($scope, Message) {
     };
 
     $scope.send = function (message) {
+        if (message.creating) {
+            delete message.creating;
+        }
         var m = new Message(message);
         m.$send(function () {
             alert('Message successfully sent.');
