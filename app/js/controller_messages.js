@@ -14,6 +14,26 @@ BioASQ.MessageCtrl = function($scope, Message) {
         }
     });
     $scope.section = 'inbox';
+
+    $scope.reply = function (message) {
+        $scope.newMessage = {
+            creator:  $scope.me.id,
+            to:       message.creator,
+            reply_to: message.id
+        };
+    };
+
+    $scope.cancel = function () {
+        delete $scope.newMessage;
+    };
+
+    $scope.send = function (message) {
+        var m = new Message(message);
+        m.$send(function () {
+            alert('Message successfully sent.');
+            delete $scope.newMessage;
+        });
+    };
 };
 
 BioASQ.controller('MessageCtrl', BioASQ.MessageCtrl);

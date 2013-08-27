@@ -171,14 +171,15 @@ var routes = exports.createRoutes = function (server) {
     /*
      * Send a message to a user
      */
-    /*
-     * server.post('/messages', middleware, function (request, response) {
-     *     var message = {
-     *         
-     *     };
-     *     models.message.create();
-     * });
-     */
+    server.post('/messages', middleware, function (request, response) {
+        if (request.user.id != request.body.creator) {
+            return response.send(400);
+        }
+        models.message.create(request.body, function (err) {
+            if (err) { return response.send(500); }
+            response.send(204);
+        });
+    });
 
     /*
      * Get questions

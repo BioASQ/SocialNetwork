@@ -3,9 +3,15 @@
     <span data-ui-if="section=='inbox'">from: {{message.creator}}, {{'' | dateDiff:message.created}}</span>
     <span data-ui-if="section=='outbox'">to: {{message.to}}, {{'' | dateDiff:message.created}}</span>
   </span>
-  <h4 contenteditable="true" style="clear:both">{{message.title}}</h4>
-  <div contenteditable="true" data-ng-bind-html-unsafe="message.content | parseContent"></div>
-  <div class="row" data-ui-if="section=='inbox'">
-    <button class="btn pull-right">Reply</button>
+  <h4 style="clear:both">{{message.title}}</h4>
+  <div data-ng-bind-html-unsafe="message.content | parseContent"></div>
+  <hr data-ui-if="newMessage.reply_to==message.id">
+  <div class="row" data-ui-if="section=='inbox'" data-ng-init="newMessage.reply_to==message.id">
+    <div class="offset1" data-ng-include data-ui-if="newMessage.reply_to==message.id" src="'partials/templates/create_message.html'"></div>
+    <div class="pull-right">
+      <button class="btn" data-ui-if="newMessage.reply_to!=message.id" data-ng-click="reply(message)">Reply</button>
+      <button class="btn" data-ui-if="newMessage.reply_to==message.id" data-ng-click="cancel()">Cancel</button>
+      <button class="btn btn-success" data-ui-if="newMessage.reply_to==message.id" data-ng-click="send(newMessage)">Send</button>
+    </div>
   </div>
 </div>
