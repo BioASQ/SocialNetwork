@@ -7,8 +7,8 @@
                 <div class="row">
                     <!-- question link -->
                     <button class="btn btn-link" style="text-align: left" 
-                            data-ng-init="isCollapsed = true" 
-                            data-ng-click="questionDetail(q.id); isCollapsed = !isCollapsed">
+                            data-ng-init ="answerIsCollapsed = true"
+                            data-ng-click="answerIsCollapsed = !answerIsCollapsed">
                             {{q.body}}
                     </button>
                 </div>
@@ -22,7 +22,7 @@
                         </button>
                     </div>
                     <!-- user link -->
-                    <div class="span5" data-ng-init="date=q.modified">created by <a data-ng-href="#!/users/{{q.creator_id}}">{{q.creator_first_name}} {{q.creator_last_name}}</a>
+                    <div class="span5" data-ng-init="date=q.modified">created <!--by <a data-ng-href="#!/users/{{q.creator_id}}">{{q.creator_first_name}} {{q.creator_last_name}}</a>-->
                         {{ ' ' | dateDiff:date }}
                     </div>
                 </div>
@@ -40,12 +40,12 @@
                     </div>
                     <!-- comments link -->
                     <div class="span2">
-                        <a data-ng-click="showComments(q.id )">{{q.comments.length}} comments</a>
+                        <a  data-ng-init="commentsIsCollapsed = true" data-ng-click="openComments(q.id); commentsIsCollapsed = !commentsIsCollapsed">{{q.comment_count}} comments</a>
                     </div>
                     <!-- follow button -->
                     <div class="span2 btn-group">
                         <button class="btn" data-ng-click="openDialog(q)">Comment</button>
-                        <button class="btn" data-ng-click="follow(q.id); q.follows = !q.follows">
+                        <button class="btn" data-ng-click="follow(q.id)">
                             <div data-ui-if="!q.follows">Follow</div>
                             <div data-ui-if="q.follows">Unfollow</div>
                         </button>
@@ -53,14 +53,14 @@
                 </div>
                 <div class="vspace"></div>
                 <!-- show comments -->
-                <div data-ng-repeat="d in comments[q.id]" data-ng-include src="'templates/partials/comment.html'"></div>
-
+                <div data-collapse="commentsIsCollapsed">
+                    <div data-ng-repeat="d in q.comments" data-ng-include src="'templates/partials/comment.html'"></div>
+                </div>
             </div>
             <div class="span6"> <!--horizontal split 50%/50%  -->
                 <div class="row">
-                    <div data-collapse="isCollapsed">
+                    <div data-collapse="answerIsCollapsed">
                         <div data-ng-include src="'templates/partials/answer.html'"></div>
-                        <!--<button class="btn btn-small pull-right" data-ng-click="isCollapsed = !isCollapsed">Close</button>-->
                     </div>
                 </div>
             </div>

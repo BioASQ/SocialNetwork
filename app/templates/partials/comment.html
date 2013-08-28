@@ -5,14 +5,14 @@
 	    </div>
 	</div>
 	<div data-ui-if="user.id == d.creator.id">
-	    <div data-ng-init="date=d.modified">
+	    <div data-ng-init="date=d.created">
 	        {{ ' ' | dateDiff:date }} by {{d.creator.first_name}} {{d.creator.last_name}}
 	    </div>
 	</div>
 	<h5>{{d.title}}</h5>
 	<div data-ng-bind-html-unsafe="d.content | parseContent"></div>
     <div data-ui-if="currentCtrl != 'TimelineCtrl'">
-		<a data-ng-click="showComments(d.id)">{{d.comments.length}} comments</a>
+		<a data-ng-click="openReplies(d.id)">{{d.comment_count}} comments</a>
 		<button class="btn" data-ng-click="openDialog(d)">Comment</button>
 	</div>
 	<div class="vspace"></div>
