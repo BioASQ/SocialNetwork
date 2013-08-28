@@ -5,7 +5,7 @@
  * @see http://docs.angularjs.org/api/ngResource.$resource
  */
 
-BioASQ.factory('User', function ($resource, $window) {
+BioASQ.factory('User', function ($resource) {
     return $resource(
         '/users/:id/:action',
         { id: '@id' },
@@ -19,22 +19,23 @@ BioASQ.factory('User', function ($resource, $window) {
     );
 });
 
-BioASQ.factory('Question', function ($resource, $window) {
+BioASQ.factory('Question', function ($resource) {
     return $resource(
-        '/questions/:id/:action',
-        { id: '@id' },
+        '/questions/:id/:action/:follower',
+        { id: '@id', follower: '@followerID' },
         {
             query:     { method: 'GET', isArray: true, url: '/questions' },
             followers: { method: 'GET', isArray: true, params: { action: 'followers'} },
             comments:  { method: 'GET', isArray: true, params: { action: 'comments'} },
             follow:    { method: 'POST',               params: { action: 'followers'} },
+            unfollow:  { method: 'DELETE',             params: { action: 'followers'} },
             vote:      { method: 'POST',               params: { action: 'votes'} },
             comment:   { method: 'POST',               params: { action: 'comments'} }
         }
     );
 });
 
-BioASQ.factory('Comment', function ($resource, $window) {
+BioASQ.factory('Comment', function ($resource) {
     return $resource(
         '/comments/:id/:action',
         { id: '@id' },
@@ -45,7 +46,7 @@ BioASQ.factory('Comment', function ($resource, $window) {
     );
 });
 
-BioASQ.factory('Message', function ($resource, $window) {
+BioASQ.factory('Message', function ($resource) {
     return $resource(
         '/messages/:action',
         {},
