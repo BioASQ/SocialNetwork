@@ -3,45 +3,101 @@
 /**
  *
  */
-BioASQ.HomeCtrl = function($scope, Questions, Users, modalFactory) {
+BioASQ.HomeCtrl = function($scope, User, Question, Comment, modalFactory) {
     $scope.currentCtrl = 'HomeCtrl';
 
-    // uses Users service to get followings
-    Users.getFollowingIds($scope.me.id, function(data) {
-        var followingIds = data;
-
-        // uses Questions service to get questions
-        Questions.getQuestions(function(data) {
-            $scope.questions = data !== null ? data : "error";
-
-            // mark followed questions
-            angular.forEach($scope.questions, function(question, index) {
-                question.follows = followingIds.indexOf(question.id) === -1 ? false : true;
-            });
-        });
-    });
-
-    // show question answers(details) and cache them
-    $scope.details = [];
-    $scope.questionDetail = function(id) {
-        Questions.getDetail(id, function(data) {
-            $scope.details[id] = data !== null ? data : "error";
-        });
+    // set user
+    var user = {
+        id: $scope.me.id
     };
 
+    // questions id to index
+    var idToIndex = {};
+
+    // get questions
+    Question.query(
+        function(questions, headers) { // success
+
+            $scope.questions = questions;
+
+            // fill questions id to index
+            angular.forEach(questions, function(question, index) {
+                idToIndex[question.id] = index;
+            });
+
+            // mark followed
+            User.following(user,
+                function(followings, headers) { // success
+                    angular.forEach(followings, function(following, index) {
+                        questions[idToIndex[following.about]].follows = following.creator == user.id ? true : false;
+                    });
+                }
+            );
+        }
+    );
+
     // vote a question
-    $scope.vote = function(id, dir) {
-        Questions.vote(id, dir, function(rank) {
-            // ...
+    $scope.vote = function(questionID, dir) {
+        Question.vote({
+            id: questionID
+        }, {
+            creator: user.id,
+            about: questionID,
+            dir: dir
+        }, function(response) {
+            $scope.questions[idToIndex[questionID]].rank = response.rank;
         });
     };
 
     // follow a question
-    $scope.follow = function(id) {
-        Questions.follow($scope.me.id, id, function(data) {
-            // ...
-        });
+    $scope.follow = function(questionID) {
+        var index = idToIndex[questionID];
+
+        if (!$scope.questions[index].follows) {
+            Question.follow({
+                id: questionID
+            }, {
+                creator: user.id
+            }, function(questions, headers) { // success
+
+                $scope.questions[index].follows = true;
+
+            });
+        } else {
+            Question.unfollow({
+                id: questionID
+            }, {
+                creator: user.id,
+                followerID: user.id
+            }, function(questions, headers) { // success
+
+                $scope.questions[index].follows = false;
+
+            }, function(response) { // error
+                alert('Error: Question.unfollow: status ' + response.status);
+            });
+        }
     };
+
+    // comments
+    $scope.openComments = function(questionID) {
+        Question.comments({
+            id: questionID
+        }, function(comments, headers) { // success
+            $scope.questions[idToIndex[questionID]].comments = comments;
+        });
+    }
+
+    // comments replies
+    $scope.openReplies = function(commentID) {
+        Comment.replies({
+            id: commentID
+        }, function(replies, headers) { // success
+            $scope.questions[idToIndex[questionID]].comments.replies = replies;
+        }, function(response) { // error
+            alert('Error: Comment.replies: status ' + response.status);
+        });
+    }
 
     // modal dialog
     modalFactory.setCacheData({
@@ -52,20 +108,6 @@ BioASQ.HomeCtrl = function($scope, Questions, Users, modalFactory) {
         modalFactory.openDialog(modalFactory.options('templates/partials/modal_comment.html', 'DialogCtrl', data), function() {
             // ...
         });
-    };
-
-    // show comments
-    $scope.comments = [];
-    $scope.showComments = function(id) {
-        if (typeof $scope.comments[id] == 'object') {
-            // hide
-            $scope.comments[id] = undefined;
-        } else {
-            // show
-            Users.getComments(id, function(data) {
-                $scope.comments[id] = data;
-            });
-        }
     };
 };
 
