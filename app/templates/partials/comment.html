@@ -1,20 +1,25 @@
 <div class="well">
-	<div data-ui-if="user.id != d.creator.id">
-	    <div data-ng-init="date=d.modified">
-	        {{ ' ' | dateDiff:date }} by <a data-ng-href="#!/users/{{d.creator.id}}">{{d.creator.first_name}} {{d.creator.last_name}}</a>
-	    </div>
-	</div>
-	<div data-ui-if="user.id == d.creator.id">
-	    <div data-ng-init="date=d.created">
-	        {{ ' ' | dateDiff:date }} by {{d.creator.first_name}} {{d.creator.last_name}}
-	    </div>
-	</div>
-	<h5>{{d.title}}</h5>
-	<div data-ng-bind-html-unsafe="d.content | parseContent"></div>
-    <div data-ui-if="currentCtrl != 'TimelineCtrl'">
-		<a data-ng-click="openReplies(d.id)">{{d.comment_count}} comments</a>
-		<button class="btn" data-ng-click="openDialog(d)">Comment</button>
-	</div>
-	<div class="vspace"></div>
-    <div data-ng-repeat="d in comments[d.id]" data-ng-include src="'templates/partials/comment.html'"></div>
+  <div>
+    <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a> commented on {{comment.about}}:</div>
+  <!--
+     - <div data-ui-if="user.id != comment.creator.id">
+     -     <div data-ng-init="date=comment.modified">
+     -         {{ ' ' | dateDiff:date }} by <a data-ng-href="#!/users/{{comment.creator.id}}">{{comment.creator.first_name}} {{comment.creator.last_name}}</a>
+     -     </div>
+     - </div>
+     - <div data-ui-if="user.id == comment.creator.id">
+     -     <div data-ng-init="date=comment.modified">
+     -         {{ ' ' | dateDiff:date }} by {{comment.creator.first_name}} {{comment.creator.last_name}}
+     -     </div>
+     - </div>
+     -->
+  <div data-ng-bind-html-unsafe="comment.content | parseContent"></div>
+  <div>{{ '' | dateDiff:comment.created }}</div>
+    <!--
+       - <div data-ui-if="currentCtrl != 'TimelineCtrl'">
+       -   <a data-ng-click="openReplies(comment.id)">{{comment.comment_count}} comments</a>
+       -   <button class="btn" data-ng-click="openDialog(d)">Comment</button>
+       - </div>
+       -->
+    <!-- <div data-ng-repeat="d in comments[comment.id]" data-ng-include src="'templates/partials/comment.html'"></div> -->
 </div>

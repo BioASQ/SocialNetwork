@@ -1,5 +1,5 @@
 body {
-    padding-top: 40px;
+    padding-top: 19px;
 }
 a{
     cursor: pointer;
@@ -21,8 +21,10 @@ a{
 .vspace{
     height: 20px
 }
+
 .btn-group-wrap {
     text-align: center;
+    padding-bottom: 19px;
 }
 
 /* ui-reset */
@@ -31,6 +33,12 @@ a{
     display: inline-block;
 
 }
+
+select:focus, button:focus {
+  outline: none !important;
+  outline-color: transparent !important;
+}
+
 .ui-reset {
     position: absolute;
     top: 0;

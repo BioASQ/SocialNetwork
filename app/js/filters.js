@@ -7,6 +7,12 @@ BioASQ.filter('dateDiff', function() {
     };
 });
 
+BioASQ.filter('capitalize', function () {
+    return function (str) {
+        return str[0].toUpperCase() + str.slice(1);
+    };
+});
+
 //replacing &, <, >, ", ', and /
 BioASQ.filter('escapeHTML', function() {
     return function( /*String*/ plain) {

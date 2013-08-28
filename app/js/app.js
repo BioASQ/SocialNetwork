@@ -29,10 +29,11 @@ BioASQ.config(['$routeProvider', '$locationProvider',
 ]);
 
 BioASQ.run(function($rootScope, Me) {
-
-    $rootScope.pages = BioASQ.pages;
-
+    $rootScope.me = {
+        id: 'anonymous'
+    };
     Me.login(function(data) {
-        $rootScope.me = data;
+        // $rootScope.me = data;
     });
+    $rootScope.pages = BioASQ.pages;
 });

@@ -1,6 +1,6 @@
 <div class="well">
-  {{d.creator}} voted on {{d.about}}
-  <div data-ng-init="date=d.created">
-      {{ ' ' | dateDiff:date }}
+  <div>
+    <a href="#/users/{{vote.creator}}">{{vote.creator}}</a> voted '{{vote.dir}}' on {{vote.about}}
   </div>
+  <div>{{ '' | dateDiff:vote.created }}</div>
 </div>

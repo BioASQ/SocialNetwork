@@ -71,6 +71,17 @@ var routes = exports.createRoutes = function (server) {
     });
 
     /*
+     * Get a user's activity
+     */
+    server.get('/users/:id/activities', middleware, function (request, response) {
+        var query = { creator: request.params.id };
+        models.activity.find(query, { sort: { created: -1 } }, function (err, res) {
+            if (err) { throw err; }
+            response.send(res);
+        });
+    });
+
+    /*
      * Get comments a user made
      */
     server.get('/users/:id/comments', middleware, function (request, response) {

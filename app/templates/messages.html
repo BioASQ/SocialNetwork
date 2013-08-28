@@ -1,11 +1,9 @@
 <div data-ng-include src="'templates/partials/navi.html'"></div>
-<div class="vspace"></div>
 
 <div class="container">
   <div class="row">
   <button class="btn offset4 span4" type="button" data-ui-if="!newMessage.creating" data-ng-click="create()">New Message</button>
   </div>
-  <div class="vspace"></div>
   <div data-ui-if="newMessage.creating" class="row">
     <div class="offset1 span10">
       <div class="well">
@@ -15,17 +13,14 @@
   </div>
   <hr>
   <div class="btn-group-wrap">
-    <div class="btn-group" data-toggle="buttons-checkbox">
+    <div class="btn-group" data-ng-init="section='inbox'" data-toggle="buttons-checkbox">
       <button type="button" class="btn btn-inner" data-ng-model="section" data-btn-radio="'inbox'">Inbox</button>
       <button type="button" class="btn btn-inner" data-ng-model="section" data-btn-radio="'outbox'">Outbox</button>
     </div>
   </div>
-  <div class="vspace"></div>
-  <div data-ng-repeat="message in messages">
-    <div class="row">
-      <div class="offset1 span10">
-        <div class="well" data-ng-include src="'templates/partials/message.html'"></div>
-      </div>
+  <div class="row" data-ng-repeat="message in messages">
+    <div class="offset1 span10">
+      <div class="well" data-ng-include src="'templates/partials/message.html'"></div>
     </div>
   </div>
 </div>

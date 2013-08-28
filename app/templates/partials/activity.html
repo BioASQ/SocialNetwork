@@ -1,0 +1,20 @@
+<div data-ng-switch data-on="activity.type">
+  <div data-ng-switch-when="Comment"
+       data-ng-init="comment=activity"
+       data-ng-include
+       data-src="'templates/partials/comment.html'"></div>
+  <div data-ng-switch-when="Question" data-ng-init="question=activity">
+    <div class="well">
+      <div>{{activity.creator}} created question {{question.about}}</div>
+      <div>{{'' | dateDiff:question.created}}</div>
+    </div>
+  </div>
+  <div data-ng-switch-when="Follow"
+       data-ng-init="follow=activity"
+       data-ng-include
+       data-src="'templates/partials/follow.html'"></div>
+  <div data-ng-switch-when="Vote"
+       data-ng-init="vote=activity"
+       data-ng-include
+       data-src="'templates/partials/vote.html'"></div>
+</div>

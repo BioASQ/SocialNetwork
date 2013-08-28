@@ -1,6 +1,7 @@
 <div class="well">
-  {{d.creator}} is now following {{d.about}}
-  <div data-ng-init="date=d.created">
-      {{ ' ' | dateDiff:date }}
+  <div>
+    <a href="#!/users/{{follow.creator}}">{{follow.creator}}</a> is now following
+    <a href="#!/users/{{follow.about}}">{{follow.about}}</a>
   </div>
+  <div>{{ '' | dateDiff:follow.created }}</div>
 </div>

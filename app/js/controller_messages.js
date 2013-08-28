@@ -13,7 +13,6 @@ BioASQ.MessageCtrl = function($scope, Message) {
             $scope.messages = Message.outbox();
         }
     });
-    $scope.section = 'inbox';
 
     $scope.create = function () {
         $scope.newMessage = {

@@ -5,6 +5,26 @@
  * @see http://docs.angularjs.org/api/ngResource.$resource
  */
 
+BioASQ.factory('Activity', function ($resource) {
+    return $resource(
+        '/users/:id/:action',
+        { id: '@id' },
+        {
+            global:    { method: 'GET', isArray: true, url: '/activities' },
+            query:     { method: 'GET', isArray: true, params: { action: 'activities'} },
+            following: { method: 'GET', isArray: true, params: { action: 'following'} },
+            followers: { method: 'GET', isArray: true, params: { action: 'followers'} }
+        }
+    );
+});
+
+BioASQ.factory('Home', function ($resource) {
+    return $resource(
+        '/home/user/:id',
+        { id: '@id' }
+    );
+});
+
 BioASQ.factory('User', function ($resource) {
     return $resource(
         '/users/:id/:action',

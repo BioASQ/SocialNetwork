@@ -3,8 +3,22 @@
 /**
  *
  */
-BioASQ.UserCtrl = function($routeParams, $scope, Users, modalFactory) {
+BioASQ.UserCtrl = function($routeParams, $scope, Activity, User, Users, modalFactory) {
     $scope.currentCtrl = 'UserCtrl';
+
+    $scope.$watch('section', function () {
+        switch ($scope.section) {
+        case 'activities':
+            $scope.activities = Activity.query({}, { id: $routeParams.creator });
+            break;
+        case 'followings':
+            $scope.activities = Activity.following({}, { id: $routeParams.creator });
+            break;
+        case 'followers':
+            $scope.activities = Activity.followers({}, { id: $routeParams.creator });
+            break;
+        }
+    });
 
     // user id
     var id = $routeParams.creator;
@@ -16,25 +30,9 @@ BioASQ.UserCtrl = function($routeParams, $scope, Users, modalFactory) {
         });
     });
 
-    $scope.showFollowing = function() {
-        Users.getFollowing(id, function(data) {
-            $scope.data = data;
-        });
-    };
-    // default
-    $scope.showFollowing(id);
-
-    $scope.showFollowers = function() {
-        Users.getFollowers(id, function(data) {
-            $scope.data = data;
-        });
-    };
-
     $scope.follow = function() {
-        Users.follow($scope.me.id, $scope.user.id, function() {
-            // update table if open
-            if ($scope.radioModel == 'followers')
-                $scope.showFollowers();
+        User.follow({ id: $routeParams.creator }, { about: $scope.me.id }, function () {
+            $scope.user.follows = !$scope.user.follows;
         });
     };
 
@@ -51,22 +49,6 @@ BioASQ.UserCtrl = function($routeParams, $scope, Users, modalFactory) {
                 $scope.showComments(id); // show
             }
         });
-    };
-    // show comments
-    $scope.comments = [];
-    $scope.showComments = function(p_id) {
-        // hide
-        if (typeof $scope.comments[p_id] == 'object') {
-            $scope.comments[p_id] = undefined;
-        } else {
-            // show
-            Users.getComments(p_id, function(data) {
-                $scope.comments[p_id] = data;
-                if (p_id == id) {
-                    $scope.data = $scope.comments[p_id];
-                }
-            });
-        }
     };
 };
 

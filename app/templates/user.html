@@ -3,60 +3,49 @@
 <div class="vspace"></div>
 
 <div class="container">
-    <div class="row">
-        <div class="span2">
-            <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
-        </div>
-        <div class="span10">
-            <h2>{{user.first_name}} {{user.last_name}}</h2>
-            <p>{{user.description}}</p>
-        </div>
+  <div class="row">
+    <div class="span2">
+      <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
     </div>
-
-    <div class="vspace"></div>
-
-    <div class="row">
-	    <div class="span12 btn-group" data-ng-hide="me.id == user.id">
-	        <button class="btn" data-ng-click="openDialog(user)">Message</button>
-	        <button class="btn" data-ng-click="follow(); user.follows = !user.follows">
-                <div data-ui-if="!user.follows">Follow</div>
-                <div data-ui-if="user.follows">Unfollow</div>
-	        </button>
-	    </div>
+    <div class="span10">
+      <h2>{{user.first_name}} {{user.last_name}}</h2>
+      <p>{{user.description}}</p>
     </div>
+  </div>
+
+  <div class="vspace"></div>
+
+  <div class="row">
+    <div class="span12 btn-group" data-ng-hide="me.id == user.id">
+      <button class="btn" data-ng-click="openDialog(user)">Message</button>
+      <button class="btn" data-ng-click="follow()">
+        <span data-ui-if="user.follows">Unfollow</span>
+        <span data-ui-if="!user.follows">Follow</span>
+      </button>
+    </div>
+  </div>
 </div>
-<br />
 
-<div class="vspace"></div>
+<!-- <div class="vspace"></div> -->
 
 <div class="container">
-    <!-- btns -->
-    <div class="btn-group-wrap">
-	    <div class="btn-group " data-toggle="buttons-checkbox">
-	        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'followings'" data-ng-click="showFollowing()">Following</button>
-	        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'followers'" data-ng-click="showFollowers()">Followers</button>
-	        <button type="button" class="btn btn-inner" data-ng-model="radioModel" data-btn-radio="'comments'"  data-ng-click="showComments(user.id)">Comments</button>
-	    </div>
+  <hr>
+  <!-- btns -->
+  <div class="btn-group-wrap">
+    <div class="btn-group" data-ng-init="section='activities'" data-toggle="buttons-checkbox">
+      <button class="btn btn-inner" data-ng-model="section" data-btn-radio="'activities'">Activity</button>
+      <button class="btn btn-inner" data-ng-model="section" data-btn-radio="'followings'">Following</button>
+      <button class="btn btn-inner" data-ng-model="section" data-btn-radio="'followers'">Followers</button>
     </div>
-    <div class="vspace"></div>
-    <!-- btn active -->
-    <div data-ng-init="radioModel = 'followings'"></div>
-    <!-- table -->
-    <div data-ng-repeat="d in data">
-        <div class="row">
-            <div data-ng-switch data-on="radioModel">
-                <div data-ng-switch-when="followings">
-
-                    <div data-ng-switch data-on="d.type">
-                        <div data-ng-switch-when="Question"><div data-ng-include src="'templates/partials/question.html'"></div></div>
-                        <div data-ng-switch-when="User">    <div data-ng-include src="'templates/partials/user.html'"></div></div>
-                    </div>
-
-                </div>
-                <div data-ng-switch-when="followers">       <div data-ng-include src="'templates/partials/user.html'"></div></div>
-                <div data-ng-switch-when="comments">        <div data-ng-include src="'templates/partials/comment.html'"></div></div>
-            </div>
-        </div>
+  </div>
+  <div data-ng-repeat="activity in activities">
+    <div class="row">
+      <div class="offset1 span10" data-ng-include src="'templates/partials/activity.html'"></div>
     </div>
-    <div data-ui-if="data.length == 0" class="row well">No {{radioModel}} yet.</div>
+  </div>
+  <div data-ui-if="activities.length==0" class="row">
+    <div class="offset1 span10">
+      <div class="well">No {{section | capitalize}} yet.</div>
+    </div>
+  </div>
 </div>
