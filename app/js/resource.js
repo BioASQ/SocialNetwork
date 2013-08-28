@@ -12,31 +12,6 @@ BioASQ.factory('TimelineRes', function($resource, $window) {
     );
 });
 
-// /questions
-BioASQ.factory('QuestionsRes', function($resource, $window) {
-    return $resource(
-        '/questions', {}, {
-            get: {
-                method: 'GET',
-                isArray: true
-            }
-        }
-    );
-});
-
-// /questions/:id
-BioASQ.factory('QuestionDetailRes', function($resource, $window) {
-    return $resource(
-        '/questions/:id', {
-            id: '@id'
-        }, {
-            get: {
-                method: 'GET'
-            }
-        }
-    );
-});
-
 // /users/:id
 BioASQ.factory('UserRes', function($resource, $window) {
     return $resource(
