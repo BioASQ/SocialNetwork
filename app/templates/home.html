@@ -1,69 +1,9 @@
 <div class="container">
-  <div data-ng-include src="'templates/partials/navi.html'"></div>
-    <div data-ng-repeat="q in questions">
-        <div class="row">
-            <div class="span6"> <!--horizontal split 50%/50%  -->
-                <div class="row">
-                    <!-- question link -->
-                    <button class="btn btn-link" style="text-align: left" 
-                            data-ng-init ="answerIsCollapsed = true"
-                            data-ng-click="answerIsCollapsed = !answerIsCollapsed">
-                            {{q.body}}
-                    </button>
-                </div>
-
-                <div class="row">
-                    <!-- vote up button -->
-                    <div class="span1 text-center">
-                        <button class="btn btn-mini"
-                                data-ng-click="vote(q, 'up')">
-                                    <i class="icon-arrow-up"></i>
-                        </button>
-                    </div>
-                    <!-- user link -->
-                    <div class="span5" data-ng-init="date=q.modified">created <!--by <a data-ng-href="#!/users/{{q.creator_id}}">{{q.creator_first_name}} {{q.creator_last_name}}</a>-->
-                        {{ ' ' | dateDiff:date }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span1 text-center">{{q.rank}}</div>
-                    <div class="span5"> </div>
-                </div>
-                <div class="row">
-                    <!-- vote down button -->
-                    <div class="span1 text-center">
-                        <button class="btn btn-mini" 
-                                data-ng-click="vote(q, 'down')">
-                                    <i class="icon-arrow-down"></i>
-                        </button>
-                    </div>
-                    <!-- comments link -->
-                    <div class="span2">
-                        <a data-ng-init="commentsIsCollapsed = true" data-ng-click="fetchCommentsIfNeeded(q); commentsIsCollapsed = !commentsIsCollapsed">{{q.comment_count}} comments</a>
-                    </div>
-                    <!-- follow button -->
-                    <div class="span2 btn-group">
-                        <button class="btn" data-ng-click="openDialog(q)">Comment</button>
-                        <button class="btn" data-ng-click="follow(q.id)">
-                            <div data-ui-if="!q.follows">Follow</div>
-                            <div data-ui-if="q.follows">Unfollow</div>
-                        </button>
-                    </div>
-                </div>
-                <div class="vspace"></div>
-                <!-- show comments -->
-                <div data-collapse="commentsIsCollapsed">
-                    <div data-ng-repeat="comment in q.comments" data-ng-include src="'templates/partials/comment.html'"></div>
-                </div>
-            </div>
-            <div class="span6"> <!--horizontal split 50%/50%  -->
-                <div class="row">
-                    <div data-collapse="answerIsCollapsed">
-                        <div data-ng-include src="'templates/partials/answer.html'"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
+  <div data-ng-include data-src="'templates/partials/navi.html'"></div>
+  <div data-ng-repeat="question in questions">
+    <div class="row">
+      <div class="offset1 span10" data-ng-include data-src="'templates/partials/question.html'"></div>
     </div>
+    <div class="row"><hr class="offset3 span6"></div>
+  </div>
 </div>
