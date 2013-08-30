@@ -15,11 +15,8 @@
      -->
   <div data-ng-bind-html-unsafe="comment.content | parseContent"></div>
   <div>{{ '' | dateDiff:comment.created }}</div>
-    <!--
-       - <div data-ui-if="currentCtrl != 'TimelineCtrl'">
-       -   <a data-ng-click="openReplies(comment.id)">{{comment.comment_count}} comments</a>
-       -   <button class="btn" data-ng-click="openDialog(d)">Comment</button>
-       - </div>
-       -->
-    <!-- <div data-ng-repeat="d in comments[comment.id]" data-ng-include src="'templates/partials/comment.html'"></div> -->
+  <div class="replies">
+    <a data-ui-if="comment.reply_count" data-ng-click="openReplies(comment)">{{comment.reply_count}} replies</a>
+    <div data-ng-repeat="comment in comment.replies" data-ng-include src="'templates/partials/comment.html'"></div>
+  </div>
 </div>

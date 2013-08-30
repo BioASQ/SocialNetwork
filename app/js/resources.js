@@ -30,9 +30,6 @@ BioASQ.factory('User', function ($resource) {
         '/users/:id/:action',
         { id: '@id' },
         {
-            followers: { method: 'GET', isArray: true, params: { action: 'followers'} },
-            following: { method: 'GET', isArray: true, params: { action: 'following'} },
-            comments:  { method: 'GET', isArray: true, params: { action: 'comments'} },
             follow:    { method: 'POST',               params: { action: 'followers'} },
             message:   { method: 'POST',               params: { action: 'messages'} }
         }
@@ -44,7 +41,7 @@ BioASQ.factory('Question', function ($resource) {
         '/questions/:id/:action/:follower',
         { id: '@id', follower: '@followerID' },
         {
-            query:     { method: 'GET', isArray: true, url: '/questions' },
+            query:     { method: 'GET', isArray: true },
             followers: { method: 'GET', isArray: true, params: { action: 'followers'} },
             comments:  { method: 'GET', isArray: true, params: { action: 'comments'} },
             follow:    { method: 'POST',               params: { action: 'followers'} },

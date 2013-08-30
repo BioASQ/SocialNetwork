@@ -1,13 +1,11 @@
-<div data-ng-include src="'templates/partials/navi.html'"></div>
-
-<div class="vspace"></div>
-
 <div class="container">
+  <div data-ng-include src="'templates/partials/navi.html'"></div>
+
   <div class="row">
-    <div class="span2">
+    <div class="offset1 span2">
       <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
     </div>
-    <div class="span10">
+    <div class="span9">
       <h2>{{user.first_name}} {{user.last_name}}</h2>
       <p>{{user.description}}</p>
     </div>
@@ -16,21 +14,16 @@
   <div class="vspace"></div>
 
   <div class="row">
-    <div class="span12 btn-group" data-ng-hide="me.id == user.id">
+    <div class="offset1 span12 btn-group" data-ng-hide="me.id==user.id">
       <button class="btn" data-ng-click="openDialog(user)">Message</button>
       <button class="btn" data-ng-click="follow()">
-        <span data-ui-if="user.follows">Unfollow</span>
-        <span data-ui-if="!user.follows">Follow</span>
+        <span data-ui-if="follows">Unfollow</span>
+        <span data-ui-if="!follows">Follow</span>
       </button>
     </div>
   </div>
-</div>
 
-<!-- <div class="vspace"></div> -->
-
-<div class="container">
-  <hr>
-  <!-- btns -->
+  <div class="row"><hr class="offset3 span6"></div>
   <div class="btn-group-wrap">
     <div class="btn-group" data-ng-init="section='activities'" data-toggle="buttons-checkbox">
       <button class="btn btn-inner" data-ng-model="section" data-btn-radio="'activities'">Activity</button>

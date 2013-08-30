@@ -28,12 +28,20 @@ BioASQ.config(['$routeProvider', '$locationProvider',
     }
 ]);
 
-BioASQ.run(function($rootScope, Me) {
+BioASQ.run(function ($rootScope, $timeout, Me, Activity) {
+    $rootScope.pages = BioASQ.pages;
+    $rootScope.followings = [];
     $rootScope.me = {
         id: 'anonymous'
     };
-    Me.login(function(data) {
-        // $rootScope.me = data;
+
+    Me.login(function (user) {
+        $rootScope.me = user;
+        Activity.following({ id: user.id }, function (result) {
+            $rootScope.followings = result.map(function (f) {
+                return f.about;
+            });
+        });
     });
     $rootScope.pages = BioASQ.pages;
 });

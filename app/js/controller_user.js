@@ -1,9 +1,6 @@
 'use strict';
 
-/**
- *
- */
-BioASQ.UserCtrl = function($routeParams, $scope, Activity, User, Users, modalFactory) {
+BioASQ.UserCtrl = function($routeParams, $scope, Activity, User, modalFactory) {
     $scope.currentCtrl = 'UserCtrl';
 
     $scope.$watch('section', function () {
@@ -20,19 +17,15 @@ BioASQ.UserCtrl = function($routeParams, $scope, Activity, User, Users, modalFac
         }
     });
 
-    // user id
-    var id = $routeParams.creator;
-    Users.getFollowingIds($scope.me.id, function(data) {
-        var followingIds = data;
-        Users.getUser(id, function(data) {
-            $scope.user = data !== null ? data : "error";
-            $scope.user.follows = followingIds.indexOf(id) == -1 ? false : true;
-        });
+    var userID = $routeParams.creator;
+    $scope.user = User.get({ id: userID });
+    $scope.$watch('followings', function () {
+        $scope.follows = ($scope.followings.indexOf(userID) > -1);
     });
 
-    $scope.follow = function() {
+    $scope.follow = function () {
         User.follow({ id: $routeParams.creator }, { about: $scope.me.id }, function () {
-            $scope.user.follows = !$scope.user.follows;
+            $scope.follows = !$scope.follows;
         });
     };
 
@@ -45,8 +38,8 @@ BioASQ.UserCtrl = function($routeParams, $scope, Activity, User, Users, modalFac
         modalFactory.openDialog(modalFactory.options('templates/partials/modal_comment.html', 'DialogCtrl', data), function() {
             // update table if open
             if ($scope.radioModel == 'comments') {
-                $scope.showComments(id); // hide
-                $scope.showComments(id); // show
+                $scope.showComments(userID); // hide
+                $scope.showComments(userID); // show
             }
         });
     };

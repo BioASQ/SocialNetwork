@@ -1,4 +1,5 @@
-var Base = require('./base').Base;
+var step = require('step'),
+    Base = require('./base').Base;
 
 var Activity = exports.Activity = function (database) {
     Base.call(this, database);
@@ -19,9 +20,45 @@ Activity.prototype.rank = function (questionID, cb) {
     });
 };
 
+Activity.prototype.find = function (query, options, cb) {
+    var self = this;
+    Base.prototype.find.call(this, query, options, function (err, res) {
+        if (err) { return cb(err); }
+        step(
+            function () {
+                var docGroup  = this.group();
+                res.forEach(function (doc) {
+                    var docCallback = docGroup();
+                    if (doc.type === 'Comment') {
+                        self.replyCount(doc.id, function (err, count) {
+                            if (err) { return docCallback(err); }
+                            doc.reply_count = count;
+                            docCallback(null, doc);
+                        });
+                    } else {
+                        docCallback(null, doc);
+                    }
+                });
+            },
+            function (err, docs) {
+                if (err) { return cb(err); }
+                cb(null, docs);
+            }
+        );
+    });
+};
+
 Activity.prototype.commentCount = function (questionID, cb) {
     // top-level comments about questionID
     var query = { type: 'Comment', about: questionID, reply_to: null };
+    this._collection(this._collectionName, function (err, coll) {
+        if (err) { return cb(err); }
+        coll.find(query).count(cb);
+    });
+};
+
+Activity.prototype.replyCount = function (commentID, cb) {
+    var query = { type: 'Comment', reply_to: commentID };
     this._collection(this._collectionName, function (err, coll) {
         if (err) { return cb(err); }
         coll.find(query).count(cb);

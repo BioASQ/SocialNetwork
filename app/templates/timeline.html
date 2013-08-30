@@ -1,5 +1,8 @@
-<div data-ng-include data-src="'templates/partials/navi.html'"></div>
-
 <div class="container">
-    <div data-ng-repeat="activity in data" data-ng-include data-src="'templates/partials/activity.html'"></div>
+  <div data-ng-include data-src="'templates/partials/navi.html'"></div>
+  <div data-ng-repeat="activity in data">
+    <div class="row">
+      <div class="offset1 span10" data-ng-include src="'templates/partials/activity.html'"></div>
+    </div>
+  </div>
 </div>

@@ -36,7 +36,7 @@ var routes = exports.createRoutes = function (server) {
      */
     server.get('/comments/:id/replies', function (request, response) {
         var query = { type: 'Comment', reply_to: request.params.id };
-        models.activity.find(query, function (err, doc) {
+        models.activity.find(query, {}, function (err, doc) {
             if (err) { throw err; }
             else if (!doc) { response.send(404); }
             else { response.send(doc); }

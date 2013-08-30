@@ -4,100 +4,40 @@
  *
  */
 BioASQ.HomeCtrl = function($scope, User, Question, Comment, modalFactory) {
-    $scope.currentCtrl = 'HomeCtrl';
+    $scope.currentCtrl  = 'HomeCtrl';
+    $scope.questions    = Question.query();
+    $scope.commentState = {};
+    $scope.replyState   = {};
 
-    // set user
-    var user = {
-        id: $scope.me.id
-    };
-
-    // questions id to index
-    var idToIndex = {};
-
-    // get questions
-    Question.query(
-        function(questions, headers) { // success
-
-            $scope.questions = questions;
-
-            // fill questions id to index
-            angular.forEach(questions, function(question, index) {
-                idToIndex[question.id] = index;
-            });
-
-            // mark followed
-            User.following(user,
-                function(followings, headers) { // success
-                    angular.forEach(followings, function(following, index) {
-                        questions[idToIndex[following.about]].follows = following.creator == user.id ? true : false;
-                    });
-                }
-            );
-        }
-    );
-
-    // vote a question
-    $scope.vote = function(questionID, dir) {
-        Question.vote({
-            id: questionID
-        }, {
-            creator: user.id,
-            about: questionID,
-            dir: dir
-        }, function(response) {
-            $scope.questions[idToIndex[questionID]].rank = response.rank;
+    $scope.$watch('followings.length + questions.length', function () {
+        angular.forEach($scope.questions, function (question) {
+            question.follows = ($scope.followings.indexOf(question.id) > -1);
         });
-    };
+    });
 
-    // follow a question
-    $scope.follow = function(questionID) {
-        var index = idToIndex[questionID];
-
-        if (!$scope.questions[index].follows) {
-            Question.follow({
-                id: questionID
-            }, {
-                creator: user.id
-            }, function(questions, headers) { // success
-
-                $scope.questions[index].follows = true;
-
-            });
-        } else {
-            Question.unfollow({
-                id: questionID
-            }, {
-                creator: user.id,
-                followerID: user.id
-            }, function(questions, headers) { // success
-
-                $scope.questions[index].follows = false;
-
-            }, function(response) { // error
-                alert('Error: Question.unfollow: status ' + response.status);
-            });
-        }
+    // vote on a question
+    $scope.vote = function(question, dir) {
+        Question.vote({ id: question.id },
+                      { creator: $scope.me.id, about: question.id, dir: dir },
+                      function (response) { question.rank = response.rank; }
+        );
     };
 
     // comments
-    $scope.openComments = function(questionID) {
-        Question.comments({
-            id: questionID
-        }, function(comments, headers) { // success
-            $scope.questions[idToIndex[questionID]].comments = comments;
-        });
-    }
+    $scope.fetchCommentsIfNeeded = function (question) {
+        if (!question.comments || question.comments.length < question.comment_count) {
+            Question.comments({ id: question.id },
+                            function (comments) { question.comments = comments; }
+            );
+        }
+    };
 
     // comments replies
-    $scope.openReplies = function(commentID) {
-        Comment.replies({
-            id: commentID
-        }, function(replies, headers) { // success
-            $scope.questions[idToIndex[questionID]].comments.replies = replies;
-        }, function(response) { // error
-            alert('Error: Comment.replies: status ' + response.status);
-        });
-    }
+    $scope.openReplies = function (comment) {
+        Comment.replies({ id: comment.id },
+                        function (replies) { comment.replies = replies; }, // success
+                        function (response) { });                                   // error
+    };
 
     // modal dialog
     modalFactory.setCacheData({

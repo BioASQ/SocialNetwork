@@ -1,6 +1,5 @@
-<div data-ng-include src="'templates/partials/navi.html'"></div>
-
 <div class="container">
+  <div data-ng-include src="'templates/partials/navi.html'"></div>
   <div class="row">
   <button class="btn offset4 span4" type="button" data-ui-if="!newMessage.creating" data-ng-click="create()">New Message</button>
   </div>
@@ -11,7 +10,7 @@
       </div>
     </div>
   </div>
-  <hr>
+  <div class="row"><hr class="offset3 span6"></div>
   <div class="btn-group-wrap">
     <div class="btn-group" data-ng-init="section='inbox'" data-toggle="buttons-checkbox">
       <button type="button" class="btn btn-inner" data-ng-model="section" data-btn-radio="'inbox'">Inbox</button>
