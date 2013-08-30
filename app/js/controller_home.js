@@ -4,10 +4,8 @@
  *
  */
 BioASQ.HomeCtrl = function($scope, User, Question, Comment, modalFactory) {
-    $scope.currentCtrl  = 'HomeCtrl';
-    $scope.questions    = Question.query();
-    $scope.commentState = {};
-    $scope.replyState   = {};
+    $scope.currentCtrl = 'HomeCtrl';
+    $scope.questions   = Question.query();
 
     $scope.$watch('followings.length + questions.length', function () {
         angular.forEach($scope.questions, function (question) {
@@ -36,7 +34,7 @@ BioASQ.HomeCtrl = function($scope, User, Question, Comment, modalFactory) {
     $scope.openReplies = function (comment) {
         Comment.replies({ id: comment.id },
                         function (replies) { comment.replies = replies; }, // success
-                        function (response) { });                                   // error
+                        function (response) {});                           // error
     };
 
     // modal dialog
