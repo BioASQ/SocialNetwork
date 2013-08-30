@@ -52,6 +52,7 @@
       <!-- show comments -->
       <div class="offset1 span5">
         <div data-ng-repeat="comment in question.comments"
+             data-ng-controller="CommentController"
              data-ng-include src="'templates/partials/comment.html'">
         </div>
       </div>

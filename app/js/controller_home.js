@@ -30,13 +30,6 @@ BioASQ.HomeCtrl = function($scope, User, Question, Comment, modalFactory) {
         }
     };
 
-    // comments replies
-    $scope.openReplies = function (comment) {
-        Comment.replies({ id: comment.id },
-                        function (replies) { comment.replies = replies; }, // success
-                        function (response) {});                           // error
-    };
-
     // modal dialog
     modalFactory.setCacheData({
         title: '',

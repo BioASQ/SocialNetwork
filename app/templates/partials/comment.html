@@ -19,7 +19,7 @@
   <div data-ng-bind-html-unsafe="comment.content | parseContent"></div>
   <div class="label">{{ '' | dateDiff:comment.created }}</div>
   <div class="replies">
-    <a data-ui-if="comment.reply_count" data-ng-click="openReplies(comment)">{{comment.reply_count}} replies</a>
+    <a data-ui-if="comment.reply_count" data-ng-click="fetchRepliesIfNeeded(comment)">{{comment.reply_count}} replies</a>
     <div data-ng-repeat="comment in comment.replies" data-ng-include src="'templates/partials/comment.html'"></div>
   </div>
 </div>
