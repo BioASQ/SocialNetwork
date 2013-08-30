@@ -1,9 +1,7 @@
 <div class="container">
   <div data-ng-include data-src="'templates/partials/navi.html'"></div>
-  <div data-ng-repeat="question in questions">
-    <div class="row">
-      <div class="offset1 span10" data-ng-include data-src="'templates/partials/question.html'"></div>
-    </div>
-    <div class="row"><hr class="offset3 span6"></div>
+  <div class="row" data-ng-repeat="question in questions">
+    <div class="span12" data-ng-include data-src="'templates/partials/question.html'"></div>
+    <div><hr class="offset3 span6"></div>
   </div>
 </div>

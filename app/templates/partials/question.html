@@ -1,7 +1,10 @@
-<div class="span6"> <!--horizontal split 50%/50%  -->
-    <div class="row">
+<div class="row">
+<div class="span6">
+    <div class="text-left">
         <!-- question link -->
-        <button class="btn btn-link" style="text-align: left" 
+        <!-- force left-align, since btn does center -->
+        <button class="btn btn-link"
+                style="text-align:left"
                 data-ng-init ="answerIsCollapsed = true"
                 data-ng-click="answerIsCollapsed = !answerIsCollapsed">
                 {{question.body}}
@@ -52,11 +55,11 @@
         <div data-ng-repeat="comment in question.comments" data-ng-include src="'templates/partials/comment.html'"></div>
     </div>
 </div>
-<div class="span6"> <!--horizontal split 50%/50%  -->
-    <div class="row">
+<div class="span6">
+    <div>
         <div data-collapse="answerIsCollapsed">
-            <div data-ng-include src="'templates/partials/answer.html'"></div>
+            <div data-ng-init="answer=question.answer" data-ng-include src="'templates/partials/answer.html'"></div>
         </div>
     </div>
 </div>
-
+</div>
