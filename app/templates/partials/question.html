@@ -24,7 +24,7 @@
       <!-- creation info -->
       <div class="span5">created by
         <a data-ng-href="#!/users/{{question.creator}}">{{question.creator}}</a>,
-        {{ '' | dateDiff:question.modified }}
+        <span class="label">{{ '' | dateDiff:question.modified }}</span>
 
         <div class="row" style="padding-top:22px">
           <!-- comments link -->

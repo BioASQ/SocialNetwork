@@ -1,6 +1,7 @@
 <div class="well">
   <div>
-    <a href="#/users/{{vote.creator}}">{{vote.creator}}</a> voted '{{vote.dir}}' on {{vote.about}}
+    <a href="#/users/{{vote.creator}}">{{vote.creator}}</a>
+    voted '{{vote.dir}}' on <a href="/#!/questions/{{vote.about}}">a question</a>.
   </div>
-  <div>{{ '' | dateDiff:vote.created }}</div>
+  <div class="label">{{ '' | dateDiff:vote.created }}</div>
 </div>

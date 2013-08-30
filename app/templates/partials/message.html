@@ -1,11 +1,11 @@
 <span class="pull-right">
   <span data-ui-if="section=='inbox'">
     from: <a href="#!/users/{{message.creator}}">{{message.creator}}</a>,
-    {{'' | dateDiff:message.created}}
+    <span class="label">{{'' | dateDiff:message.created}}</span>
   </span>
   <span data-ui-if="section=='outbox'">
     to: <a href="#!/users/{{message.to}}">{{message.to}}</a>,
-    {{'' | dateDiff:message.created}}
+    <span class="label">{{'' | dateDiff:message.created}}</span>
   </span>
 </span>
 <h4 class="clearfix">{{message.title}}</h4>

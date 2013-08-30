@@ -1,7 +1,11 @@
 <div class="well">
   <div>
-    <a href="#!/users/{{follow.creator}}">{{follow.creator}}</a> is now following
-    <a href="#!/users/{{follow.about}}">{{follow.about}}</a>
+    <a href="#!/users/{{follow.creator}}">{{follow.creator}}</a>
+    is now following
+    <span data-ng-switch data-on="follow.about_type">
+      <a data-ng-switch-when="User" href="#!/users/{{follow.about}}">{{follow.about}}</a>
+      <a data-ng-switch-when="Question" href="#!/questions/{{follow.about}}">a question</a>
+    </span>.
   </div>
-  <div>{{ '' | dateDiff:follow.created }}</div>
+  <div class="label">{{ '' | dateDiff:follow.created }}</div>
 </div>

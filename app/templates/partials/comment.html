@@ -1,6 +1,9 @@
 <div class="well">
   <div>
-    <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a> commented on {{comment.about}}:</div>
+    <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a>
+    commented on
+    <a href="/#!/questions/{{comment.about}}">a question</a>:
+  </div>
   <!--
      - <div data-ui-if="user.id != comment.creator.id">
      -     <div data-ng-init="date=comment.modified">
@@ -14,7 +17,7 @@
      - </div>
      -->
   <div data-ng-bind-html-unsafe="comment.content | parseContent"></div>
-  <div>{{ '' | dateDiff:comment.created }}</div>
+  <div class="label">{{ '' | dateDiff:comment.created }}</div>
   <div class="replies">
     <a data-ui-if="comment.reply_count" data-ng-click="openReplies(comment)">{{comment.reply_count}} replies</a>
     <div data-ng-repeat="comment in comment.replies" data-ng-include src="'templates/partials/comment.html'"></div>
