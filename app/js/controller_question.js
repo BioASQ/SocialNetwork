@@ -1,12 +1,19 @@
 'use strict';
 
-BioASQ.QuestionController = function($scope, Question) {
+BioASQ.QuestionController = function($scope, $routeParams, Question) {
     // vote on a question
     $scope.vote = function(question, dir) {
         Question.vote({ id: question.id },
                       { creator: $scope.me.id, about: question.id, dir: dir },
                       function (response) { question.rank = response.rank; }
         );
+    };
+
+    // fetch question
+    $scope.fetchQuestionIfNeeded = function (questionID) {
+        if (!this.question) {
+            $scope.question = Question.get({ id: questionID });
+        }
     };
 
     // comments
@@ -25,7 +32,7 @@ BioASQ.QuestionController = function($scope, Question) {
                 question.follows = false;
             });
         } else {
-            Question.follow({ id: question.id }, { about: $scope.me.id }, function () {
+            Question.follow({ id: question.id }, { creator: $scope.me.id }, function () {
                 question.follows = true;
             });
         }

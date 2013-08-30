@@ -2,7 +2,12 @@
   <div>
     <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a>
     commented on
-    <a href="/#!/questions/{{comment.about}}">a question</a>:
+    <span data-ng-controller="QuestionController">
+      <a data-ng-click="fetchQuestionIfNeeded(comment.about);questionShown=!questionShown">a question</a>.
+      <div data-ui-if="questionShown"
+          data-ng-include="'templates/partials/question.html'">
+      </div>
+    </span>
   </div>
   <!--
      - <div data-ui-if="user.id != comment.creator.id">

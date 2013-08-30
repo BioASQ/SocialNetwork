@@ -4,9 +4,17 @@
        data-ng-include
        data-ng-controller="CommentController"
        data-src="'templates/partials/comment.html'"></div>
-  <div data-ng-switch-when="Question" data-ng-init="question=activity">
+  <div data-ng-switch-when="Question">
     <div class="well">
-      <div><a href="{{activity.creator}}">{{activity.creator}}</a> created <a href="/#!/questions/{{question.about}}">a question</a>.</div>
+      <div>
+        <a href="{{activity.creator}}">{{activity.creator}}</a> created
+        <span data-ng-controller="QuestionController">
+          <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">a question</a>.
+          <div data-ui-if="questionShown"
+              data-ng-include="'templates/partials/question.html'">
+          </div>
+        </span>
+      </div>
       <div class="label">{{'' | dateDiff:question.created}}</div>
     </div>
   </div>

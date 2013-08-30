@@ -3,7 +3,7 @@
 var BioASQ = angular.module('BioASQ', ['ngResource', 'ui.bootstrap', 'ui']);
 
 BioASQ.pages = ['home', 'timeline', 'messages'];
-BioASQ.pagesCtrl = ['HomeCtrl', 'TimelineCtrl', 'MessageCtrl'];
+BioASQ.pagesCtrl = ['HomeCtrl', 'TimelineCtrl', 'MessageCtrl' ];
 
 BioASQ.config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider) {
@@ -18,6 +18,11 @@ BioASQ.config(['$routeProvider', '$locationProvider',
         $routeProvider.when('/users/:creator', {
             templateUrl: 'templates/user.html',
             controller: 'UserCtrl'
+        });
+
+        $routeProvider.when('/questions/:qid', {
+            templateUrl: 'templates/partials/question.html',
+            controller: 'QuestionController'
         });
 
         $routeProvider.otherwise({

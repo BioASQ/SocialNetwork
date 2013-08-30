@@ -3,7 +3,7 @@
 /**
  *
  */
-BioASQ.TimelineCtrl = function($scope, TimelineRes) {
+BioASQ.TimelineCtrl = function($scope, TimelineRes, Question) {
     $scope.currentCtrl = 'TimelineCtrl';
     var order = '';
 
