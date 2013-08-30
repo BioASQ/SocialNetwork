@@ -38,7 +38,7 @@
           <!-- follow button -->
           <div class="span3 btn-group">
             <button class="btn" data-ng-click="openDialog(question)">Comment</button>
-            <button class="btn" data-ng-click="follow(question.id)">
+            <button class="btn" data-ng-click="toggleFollow(question)">
               <div data-ui-if="!question.follows">Follow</div>
               <div data-ui-if="question.follows">Unfollow</div>
             </button>
@@ -48,7 +48,7 @@
       </div>
     </div><!-- row -->
 
-    <div class="row" style="margin-top:22px" data-collapse="commentsIsCollapsed">
+    <div class="row" style="margin-top:11px" data-collapse="commentsIsCollapsed">
       <!-- show comments -->
       <div class="offset1 span5">
         <div data-ng-repeat="comment in question.comments"

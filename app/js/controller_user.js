@@ -19,14 +19,23 @@ BioASQ.UserCtrl = function($routeParams, $scope, Activity, User, modalFactory) {
 
     var userID = $routeParams.creator;
     $scope.user = User.get({ id: userID });
-    $scope.$watch('followings', function () {
-        $scope.follows = ($scope.followings.indexOf(userID) > -1);
-    });
+    $scope.$watch('cache', function () {
+        $scope.follows = ($scope.cache.followings.indexOf(userID) > -1);
+    }, true);
 
-    $scope.follow = function () {
-        User.follow({ id: $routeParams.creator }, { about: $scope.me.id }, function () {
-            $scope.follows = !$scope.follows;
-        });
+    $scope.toggleFollow = function () {
+        if ($scope.follows) {
+            User.unfollow({ id: userID, me: $scope.me.id }, function () {
+                delete $scope.cache.followings[$scope.cache.followings.indexOf(userID)];
+            });
+        } else {
+            User.follow({ id: userID }, { about: $scope.me.id }, function () {
+                $scope.cache.followings.push(userID);
+            });
+        }
+        if ($scope.section === 'followers') {
+            $scope.activities = Activity.followers({}, { id: $routeParams.creator });
+        }
     };
 
     // modal dialog

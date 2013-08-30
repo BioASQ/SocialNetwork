@@ -120,7 +120,7 @@ var routes = exports.createRoutes = function (server) {
      * Follow a user
      */
     server.post('/users/:id/followers', middleware, function (request, response) {
-        models.activity.follow(request.params.id, request.user.id, function (err) {
+        models.activity.follow(request.params.id, 'User', request.user.id, function (err) {
             if (err) { return response.send(400); }
             response.send(201);
         });
@@ -133,7 +133,7 @@ var routes = exports.createRoutes = function (server) {
         if (request.params.fid !== request.user.id) {
             return response.send(403);
         }
-        models.question.unfollow(request.params.uid, request.params.fid, function (err) {
+        models.activity.unfollow(request.params.uid, request.params.fid, function (err) {
             if (err) { return response.send(404); }
             response.send(204);
         });
@@ -241,7 +241,7 @@ var routes = exports.createRoutes = function (server) {
      * Follow a question
      */
     server.post('/questions/:id/followers', middleware, function (request, response) {
-        models.activity.follow(request.params.id, request.user.id, function (err) {
+        models.activity.follow(request.params.id, 'Question', request.user.id, function (err) {
             if (err) { return response.send(400); }
             response.send(201);
         });
@@ -254,7 +254,7 @@ var routes = exports.createRoutes = function (server) {
         if (request.params.fid !== request.user.id) {
             return response.send(403);
         }
-        models.question.unfollow(request.params.qid, request.params.fid, function (err) {
+        models.activity.unfollow(request.params.qid, request.params.fid, function (err) {
             if (err) { return response.send(404); }
             response.send(204);
         });

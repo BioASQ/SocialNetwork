@@ -27,11 +27,12 @@ BioASQ.factory('Home', function ($resource) {
 
 BioASQ.factory('User', function ($resource) {
     return $resource(
-        '/users/:id/:action',
-        { id: '@id' },
+        '/users/:id/:action/:me',
+        { id: '@id', me: '@me' },
         {
-            follow:    { method: 'POST',               params: { action: 'followers'} },
-            message:   { method: 'POST',               params: { action: 'messages'} }
+            follow:    { method: 'POST',   params: { action: 'followers' } },
+            unfollow:  { method: 'DELETE', params: { action: 'followers' } },
+            message:   { method: 'POST',   params: { action: 'messages' } }
         }
     );
 });

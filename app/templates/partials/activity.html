@@ -6,7 +6,7 @@
        data-src="'templates/partials/comment.html'"></div>
   <div data-ng-switch-when="Question" data-ng-init="question=activity">
     <div class="well">
-      <div><a href="{{activity.creator}}">{{activity.creator}}</a> created <a href="{{question.about}}">a question</a>.</div>
+      <div><a href="{{activity.creator}}">{{activity.creator}}</a> created <a href="/#!/questions/{{question.about}}">a question</a>.</div>
       <div class="label">{{'' | dateDiff:question.created}}</div>
     </div>
   </div>

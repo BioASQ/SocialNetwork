@@ -30,7 +30,9 @@ BioASQ.config(['$routeProvider', '$locationProvider',
 
 BioASQ.run(function ($rootScope, $timeout, Me, Activity) {
     $rootScope.pages = BioASQ.pages;
-    $rootScope.followings = [];
+    $rootScope.cache = {
+        followings: []
+    };
     $rootScope.me = {
         id: 'anonymous'
     };
@@ -38,7 +40,7 @@ BioASQ.run(function ($rootScope, $timeout, Me, Activity) {
     Me.login(function (user) {
         $rootScope.me = user;
         Activity.following({ id: user.id }, function (result) {
-            $rootScope.followings = result.map(function (f) {
+            $rootScope.cache.followings = result.map(function (f) {
                 return f.about;
             });
         });

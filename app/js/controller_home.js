@@ -7,9 +7,9 @@ BioASQ.HomeCtrl = function($scope, User, Question, Comment, modalFactory) {
     $scope.currentCtrl = 'HomeCtrl';
     $scope.questions   = Question.query();
 
-    $scope.$watch('followings.length + questions.length', function () {
+    $scope.$watch('cache.followings.length + questions.length', function () {
         angular.forEach($scope.questions, function (question) {
-            question.follows = ($scope.followings.indexOf(question.id) > -1);
+            question.follows = ($scope.cache.followings.indexOf(question.id) > -1);
         });
     });
 
@@ -27,6 +27,19 @@ BioASQ.HomeCtrl = function($scope, User, Question, Comment, modalFactory) {
             Question.comments({ id: question.id },
                             function (comments) { question.comments = comments; }
             );
+        }
+    };
+
+    // follow
+    $scope.toggleFollow = function (question) {
+        if (question.follows) {
+            Question.unfollow({ id: question.id, follower: $scope.me.id }, function () {
+                question.follows = false;
+            });
+        } else {
+            Question.follow({ id: question.id }, { about: $scope.me.id }, function () {
+                question.follows = true;
+            });
         }
     };
 

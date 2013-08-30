@@ -100,11 +100,23 @@ Activity.prototype.comment = function (aboutID, creatorID, content, replyTo, cb)
     });
 };
 
-Activity.prototype.follow = function (followeeID, followerID, cb) {
+Activity.prototype.follow = function (followeeID, followeeType, followerID, cb) {
+    var update = {
+        type: 'Follow',
+        about: followeeID,
+        about_type: followeeType,
+        creator: followerID,
+        created: new Date() };
     this._collection(this._collectionName, function (err, coll) {
         coll.update({ type: 'Follow', about: followeeID, creator: followerID },
-                    { $set: { type: 'Follow', about: followeeID, creator: followerID, created: new Date() } },
+                    { $set: update },
                     { upsert: true },
                     cb);
+    });
+};
+
+Activity.prototype.unfollow = function (followeeID, followerID, cb) {
+    this._collection(this._collectionName, function (err, coll) {
+        coll.remove({ type: 'Follow', about: followeeID, creator: followerID }, cb);
     });
 };
