@@ -97,7 +97,7 @@ var routes = exports.createRoutes = function (server) {
      */
     server.get('/users/:id/following', middleware, function (request, response) {
         var query = { type: 'Follow', creator: request.params.id };
-        models.activity.find(query, {}, function (err, res) {
+        models.activity.find(query, { sort: { created: -1 } }, function (err, res) {
             if (err) {
                 return response.send(404);
             }
@@ -110,7 +110,7 @@ var routes = exports.createRoutes = function (server) {
      */
     server.get('/users/:id/followers', middleware, function (request, response) {
         var query = { type: 'Follow', about: request.params.id };
-        models.activity.find(query, {}, function (err, res) {
+        models.activity.find(query, { sort: { created: -1 } }, function (err, res) {
             if (err) { return response.send(404); }
             response.send(res);
         });
