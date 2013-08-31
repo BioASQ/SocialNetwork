@@ -13,13 +13,19 @@
 
   <div class="vspace"></div>
 
-  <div class="row">
+  <div class="row" data-ng-controller="MessageCtrl">
     <div class="offset1 span12 btn-group" data-ng-hide="me.id==user.id">
-      <button class="btn" data-ng-click="openDialog(user)">Message</button>
       <button class="btn" data-ng-click="toggleFollow()">
         <span data-ui-if="follows">Unfollow</span>
         <span data-ui-if="!follows">Follow</span>
       </button>
+      <button class="btn" data-ng-click="create(user.id)">Message</button>
+    </div>
+    <div class="offset1 span10" data-ui-if="newMessage && !newMessage.isReply">
+      <div class="vspace"></div>
+      <div class="well">
+        <div class="row" data-ng-include="'templates/partials/create_message.html'"></div>
+      </div>
     </div>
   </div>
 

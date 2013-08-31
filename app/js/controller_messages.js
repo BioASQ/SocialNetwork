@@ -14,19 +14,27 @@ BioASQ.MessageCtrl = function($scope, Message) {
         }
     });
 
-    $scope.create = function () {
+    $scope.create = function (receipient) {
         $scope.newMessage = {
-            creator:  $scope.me.id,
-            creating: true
+            creator: $scope.me.id,
+            isReply: false
         };
+
+        if (typeof receipient !== 'undefined') {
+            $scope.newMessage.to = receipient;
+            $scope.newMessage.needsReceipient = false;
+        } else {
+            $scope.newMessage.needsReceipient = true;
+        }
     };
 
     $scope.reply = function (message) {
         $scope.newMessage = {
-            creator:  $scope.me.id,
-            to:       message.creator,
-            reply_to: message.id,
-            creating: false
+            creator:         $scope.me.id,
+            to:              message.creator,
+            reply_to:        message.id,
+            needsReceipient: false,
+            isReply:         true
         };
     };
 
@@ -36,7 +44,8 @@ BioASQ.MessageCtrl = function($scope, Message) {
 
     $scope.send = function (message) {
         if (message.creating) {
-            delete message.creating;
+            delete message.needsReceipient;
+            delete message.isReply;
         }
         var m = new Message(message);
         m.$send(function () {

@@ -10,7 +10,7 @@
             <li data-ng-repeat="synonyms in question.answer.exact">{{synonyms.join(', ')}}</li>
           </ul>
         </span>
-        <span data-ng-switch-when="factoid" data-ng-list="question.answer.exact">{{question.answer.exact.join(', ')}}</span>
+        <span data-ng-switch-when="factoid">{{question.answer.exact.join(', ')}}</span>
         <span data-ng-switch-when="decisive">{{question.answer.exact}}</span>
       </dd>
     </span>

@@ -1,25 +1,31 @@
 <div class="container">
-  <div data-ng-include src="'templates/partials/navi.html'"></div>
+  <div data-ng-include="'templates/partials/navi.html'"></div>
   <div class="row">
-  <button class="btn offset4 span4" type="button" data-ui-if="!newMessage.creating" data-ng-click="create()">New Message</button>
+  <button class="btn offset4 span4" data-ui-if="!newMessage.needsReceipient" data-ng-click="create()">
+    New Message
+  </button>
   </div>
-  <div data-ui-if="newMessage.creating" class="row">
+  <div data-ui-if="newMessage && !newMessage.isReply" class="row">
     <div class="offset1 span10">
       <div class="well">
-        <div class="row" data-ng-include src="'templates/partials/create_message.html'"></div>
+        <div class="row" data-ng-include="'templates/partials/create_message.html'"></div>
       </div>
     </div>
   </div>
   <div class="row"><hr class="offset3 span6"></div>
   <div class="btn-group-wrap">
     <div class="btn-group" data-ng-init="section='inbox'" data-toggle="buttons-checkbox">
-      <button type="button" class="btn btn-inner" data-ng-model="section" data-btn-radio="'inbox'">Inbox</button>
-      <button type="button" class="btn btn-inner" data-ng-model="section" data-btn-radio="'outbox'">Outbox</button>
+      <button type="button" class="btn btn-inner" data-ng-model="section" data-btn-radio="'inbox'">
+        Inbox
+      </button>
+      <button type="button" class="btn btn-inner" data-ng-model="section" data-btn-radio="'outbox'">
+        Outbox
+      </button>
     </div>
   </div>
   <div class="row" data-ng-repeat="message in messages">
     <div class="offset1 span10">
-      <div class="well" data-ng-include src="'templates/partials/message.html'"></div>
+      <div class="well" data-ng-include="'templates/partials/message.html'"></div>
     </div>
   </div>
 </div>
