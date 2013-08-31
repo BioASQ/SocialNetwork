@@ -36,7 +36,7 @@
                <span data-ng-show="!commentsShown">show</span>
                <span data-ng-pluralize
                      data-count="question.comment_count"
-                     data-when="{1:'comment',2:'{{question.comment_count}} comments'}"></span>
+                     data-when="{ 1: 'comment', other: '{{question.comment_count}} comments' }"></span>
             </a>
           </div>
 
