@@ -29,8 +29,10 @@
         <div class="row" style="padding-top:22px">
           <!-- comments link -->
           <div class="span2">
-            <a data-ng-init="commentsIsCollapsed=true"
-               data-ng-click="fetchCommentsIfNeeded(question); commentsIsCollapsed = !commentsIsCollapsed">
+            <a data-ng-init="commentsShown=false"
+               data-ng-click="fetchCommentsIfNeeded(question); commentsShown = !commentsShown">
+               <span data-ng-show="commentsShown">hide</span>
+               <span data-ng-show="!commentsShown">show</span>
                {{question.comment_count}} comments
             </a>
           </div>
@@ -48,7 +50,7 @@
       </div>
     </div><!-- row -->
 
-    <div class="row" style="margin-top:11px" data-collapse="commentsIsCollapsed">
+    <div class="row" style="margin-top:11px" data-collapse="!commentsShown">
       <!-- show comments -->
       <div class="offset1 span5">
         <div data-ng-repeat="comment in question.comments"
