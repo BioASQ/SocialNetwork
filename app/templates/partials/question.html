@@ -67,7 +67,8 @@
 
   <div class="span6">
     <div data-collapse="answerIsCollapsed">
-      <div data-ng-init="answer=question.answer" data-ng-include src="'templates/partials/answer.html'">
+      <div data-ng-init="answer=question.answer;questionType=question.question_type"
+           data-ng-include src="'templates/partials/answer.html'">
       </div>
     </div>
   </div><!-- right pane -->

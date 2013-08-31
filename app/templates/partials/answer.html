@@ -1,6 +1,20 @@
 <div class="well" style="font-size:90%">
-  <div data-ng-bind-html-unsafe="answer.ideal | parseContent"></div>
-  <div data-ng-bind-html-unsafe="answer.exact"></div>
+  <dl>
+    <dt>Ideal answer</dt>
+    <dd data-ng-bind-html-unsafe="answer.ideal | parseContent"></dd>
+    <span data-ui-if="answer.exact">
+      <dt>Exact answer</dt>
+      <dd data-ng-switch="questionType">
+        <span data-ng-switch-when="list">
+          <ul>
+            <li data-ng-repeat="synonyms in answer.exact">{{synonyms.join(', ')}}</li>
+          </ul>
+        </span>
+        <span data-ng-switch-when="factoid" data-ng-list="answer.exact">{{answer.exact.join(', ')}}</span>
+        <span data-ng-switch-when="decisive">{{answer.exact}}</span>
+      </dd>
+    </span>
+  </dl>
 
   <button class="btn btn-link"
           data-ng-click="filterAnnotations(answer, 'concept')">
