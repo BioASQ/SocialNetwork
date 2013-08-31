@@ -1,7 +1,16 @@
 <div class="well">
-  <div>
+  <div data-ng-init="questionID=vote.about">
     <a href="#/users/{{vote.creator}}">{{vote.creator}}</a>
-    voted '{{vote.dir}}' on <a href="/#!/questions/{{vote.about}}">a question</a>.
+    voted '{{vote.dir}}' on
+    <span data-ng-controller="QuestionController">
+      <a data-ng-click="fetchQuestionIfNeeded(questionID);questionShown=!questionShown">a question</a>.
+      <!--
+         - TODO: Why is vote.about `undefined` here?
+         -->
+      <div data-ui-if="questionShown"
+           data-ng-include="'templates/partials/question.html'">
+      </div>
+    </span>
   </div>
   <div class="label">{{ '' | dateDiff:vote.created }}</div>
 </div>

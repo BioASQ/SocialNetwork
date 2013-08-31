@@ -3,9 +3,14 @@
     <a href="#!/users/{{follow.creator}}">{{follow.creator}}</a>
     is now following
     <span data-ng-switch data-on="follow.about_type">
-      <a data-ng-switch-when="User" href="#!/users/{{follow.about}}">{{follow.about}}</a>
-      <a data-ng-switch-when="Question" href="#!/questions/{{follow.about}}">a question</a>
-    </span>.
+      <span data-ng-switch-when="User">
+        <a href="#!/users/{{follow.about}}">{{follow.about}}</a>.
+      </span>
+      <span data-ng-switch-when="Question" data-ng-controller="QuestionController">
+        <a data-ng-click="fetchQuestionIfNeeded(follow.about);questionShown=!questionShown">a question</a>.
+        <span data-ui-if="questionShown" data-ng-include="'templates/partials/question.html'"></span>
+      </span>
+    </span>
   </div>
   <div class="label">{{ '' | dateDiff:follow.created }}</div>
 </div>
