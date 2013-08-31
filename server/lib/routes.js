@@ -36,7 +36,7 @@ var routes = exports.createRoutes = function (server) {
      */
     server.get('/comments/:id/replies', function (request, response) {
         var query = { type: 'Comment', reply_to: request.params.id };
-        models.activity.find(query, {}, function (err, doc) {
+        models.activity.find(query, { sort: { created: -1 } }, function (err, doc) {
             if (err) { throw err; }
             else if (!doc) { response.send(404); }
             else { response.send(doc); }
@@ -196,7 +196,7 @@ var routes = exports.createRoutes = function (server) {
      * Get questions
      */
     server.get('/questions', middleware, function (request, response) {
-        models.question.find({}, {}, function (err, res) {
+        models.question.find({}, { sort: { created: -1 } }, function (err, res) {
             if (err) { console.error(err); throw err; }
             response.send(res);
         });
@@ -218,7 +218,7 @@ var routes = exports.createRoutes = function (server) {
      */
     server.get('/questions/:id/comments', function (request, response) {
         var query = { type: 'Comment', about: request.params.id, reply_to: null };
-        models.activity.find(query, {}, function (err, res) {
+        models.activity.find(query, { sort: { created: -1 } }, function (err, res) {
             if (err) { throw err; }
             response.send(res);
         });
