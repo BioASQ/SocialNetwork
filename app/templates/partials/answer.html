@@ -1,35 +1,35 @@
 <div class="well" style="font-size:90%">
   <dl>
-    <dt>Ideal answer</dt>
-    <dd data-ng-bind-html-unsafe="answer.ideal | parseContent"></dd>
-    <span data-ui-if="answer.exact">
-      <dt>Exact answer</dt>
-      <dd data-ng-switch="questionType">
+    <dt>Ideal question.answer</dt>
+    <dd data-ng-bind-html-unsafe="question.answer.ideal | parseContent"></dd>
+    <span data-ui-if="question.answer.exact">
+      <dt>Exact question.answer</dt>
+      <dd data-ng-switch="question.question_type">
         <span data-ng-switch-when="list">
           <ul>
-            <li data-ng-repeat="synonyms in answer.exact">{{synonyms.join(', ')}}</li>
+            <li data-ng-repeat="synonyms in question.answer.exact">{{synonyms.join(', ')}}</li>
           </ul>
         </span>
-        <span data-ng-switch-when="factoid" data-ng-list="answer.exact">{{answer.exact.join(', ')}}</span>
-        <span data-ng-switch-when="decisive">{{answer.exact}}</span>
+        <span data-ng-switch-when="factoid" data-ng-list="question.answer.exact">{{question.answer.exact.join(', ')}}</span>
+        <span data-ng-switch-when="decisive">{{question.answer.exact}}</span>
       </dd>
     </span>
   </dl>
 
   <button class="btn btn-link"
-          data-ng-click="filterAnnotations(answer, 'concept')">
+          data-ng-click="filterAnnotations(question.answer, 'concept')">
           concepts
   </button>
   <button class="btn btn-link"
-          data-ng-click="filterAnnotations(answer, 'document')">
+          data-ng-click="filterAnnotations(question.answer, 'document')">
           documents
     </button>
     <button class="btn btn-link"
-            data-ng-click="filterAnnotations(answer, 'snippet')">
+            data-ng-click="filterAnnotations(question.answer, 'snippet')">
             snippets
   </button>
   <button class="btn btn-link"
-          data-ng-click="filterAnnotations(answer, 'statement')">
+          data-ng-click="filterAnnotations(question.answer, 'statement')">
           statements
   </button>
 

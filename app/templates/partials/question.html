@@ -59,7 +59,7 @@
         <div data-ng-repeat="comment in question.comments"
              data-ng-init="commentOnly=true"
              data-ng-controller="CommentController"
-             data-ng-include src="'templates/partials/comment.html'">
+             data-ng-include="'templates/partials/comment.html'">
         </div>
       </div>
     </div>
@@ -67,8 +67,8 @@
 
   <div class="span6">
     <div data-collapse="answerIsCollapsed">
-      <div data-ng-init="answer=question.answer;questionType=question.question_type"
-           data-ng-include src="'templates/partials/answer.html'">
+      <div data-ng-controller="QuestionController"
+           data-ng-include="'templates/partials/answer.html'">
       </div>
     </div>
   </div><!-- right pane -->
