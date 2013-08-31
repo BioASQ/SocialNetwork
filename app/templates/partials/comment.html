@@ -1,5 +1,5 @@
-<div class="well well-small">
-  <div>
+<div data-ng-init="displayActivity=!commentOnly" ng-class="{well: true, 'well-small': !displayActivity }">
+  <div data-ui-if="displayActivity">
     <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a>
     commented on
     <span data-ng-controller="QuestionController">
@@ -22,6 +22,9 @@
      - </div>
      -->
   <div data-ng-bind-html-unsafe="comment.content | parseContent"></div>
+  <span data-ui-if="!displayActivity">
+    by <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a>,
+  </span>
   <div class="label">{{ '' | dateDiff:comment.created }}</div>
   <div class="replies">
     <a data-ui-if="comment.reply_count" data-ng-click="fetchRepliesIfNeeded(comment)">{{comment.reply_count}} replies</a>

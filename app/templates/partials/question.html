@@ -29,9 +29,9 @@
         <div class="row" style="padding-top:22px">
           <!-- comments link -->
           <div class="span2">
-            <a data-ng-init="commentsIsCollapsed = true"
+            <a data-ng-init="commentsIsCollapsed=true"
                data-ng-click="fetchCommentsIfNeeded(question); commentsIsCollapsed = !commentsIsCollapsed">
-              {{question.comment_count}} comments
+               {{question.comment_count}} comments
             </a>
           </div>
 
@@ -52,6 +52,7 @@
       <!-- show comments -->
       <div class="offset1 span5">
         <div data-ng-repeat="comment in question.comments"
+             data-ng-init="commentOnly=true"
              data-ng-controller="CommentController"
              data-ng-include src="'templates/partials/comment.html'">
         </div>

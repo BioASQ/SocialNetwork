@@ -11,7 +11,7 @@ BioASQ.QuestionController = function($scope, $routeParams, Question) {
 
     // fetch question
     $scope.fetchQuestionIfNeeded = function (questionID) {
-        if (!this.question) {
+        if (!$scope.question) {
             $scope.question = Question.get({ id: questionID });
         }
     };
