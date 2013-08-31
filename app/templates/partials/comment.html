@@ -3,7 +3,8 @@
     <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a>
     commented on
     <span data-ng-controller="QuestionController">
-      <a data-ng-click="fetchQuestionIfNeeded(comment.about);questionShown=!questionShown">a question</a>.
+      <a data-ng-click="fetchQuestionIfNeeded(comment.about);questionShown=!questionShown">a question</a>,
+      <span class="label">{{ '' | dateDiff:comment.created }}</span>.
       <div data-ui-if="questionShown"
           data-ng-include="'templates/partials/question.html'">
       </div>
@@ -25,8 +26,7 @@
   <span data-ui-if="!displayActivity">
     by <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a>,
   </span>
-  <div class="label">{{ '' | dateDiff:comment.created }}</div>
-  <div class="replies" >
+  <div class="replies">
     <a data-ng-show="comment.reply_count"
        data-ng-init="repliesShown=false"
        data-ng-click="fetchRepliesIfNeeded(comment);repliesShown=!repliesShown">

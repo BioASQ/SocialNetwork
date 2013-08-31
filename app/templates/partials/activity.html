@@ -9,13 +9,13 @@
       <div>
         <a href="{{activity.creator}}">{{activity.creator}}</a> created
         <span data-ng-controller="QuestionController">
-          <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">a question</a>.
+          <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">a question</a>,
+          <span class="label">{{'' | dateDiff:activity.created}}</span>.
           <div data-ui-if="questionShown"
               data-ng-include="'templates/partials/question.html'">
           </div>
         </span>
       </div>
-      <div class="label">{{'' | dateDiff:question.created}}</div>
     </div>
   </div>
   <div data-ng-switch-when="Follow"

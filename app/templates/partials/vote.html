@@ -3,7 +3,8 @@
     <a href="#/users/{{vote.creator}}">{{vote.creator}}</a>
     voted '{{vote.dir}}' on
     <span data-ng-controller="QuestionController">
-      <a data-ng-click="fetchQuestionIfNeeded(questionID);questionShown=!questionShown">a question</a>.
+      <a data-ng-click="fetchQuestionIfNeeded(questionID);questionShown=!questionShown">a question</a>,
+      <span class="label">{{ '' | dateDiff:vote.created }}</span>.
       <!--
          - TODO: Why is vote.about `undefined` here?
          -->
@@ -12,5 +13,4 @@
       </div>
     </span>
   </div>
-  <div class="label">{{ '' | dateDiff:vote.created }}</div>
 </div>
