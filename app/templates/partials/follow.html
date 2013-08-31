@@ -5,11 +5,11 @@
     <span data-ng-switch data-on="follow.about_type">
       <span data-ng-switch-when="User">
         <a href="#!/users/{{follow.about}}">{{follow.about}}</a>,
-        <span class="label">{{ '' | dateDiff:follow.created }}</span>
+        <span class="label">{{ '' | dateDiff:follow.created }}</span>.
       </span>
       <span data-ng-switch-when="Question" data-ng-controller="QuestionController">
         <a data-ng-click="fetchQuestionIfNeeded(follow.about);questionShown=!questionShown">a question</a>,
-        <span class="label">{{ '' | dateDiff:follow.created }}</span>
+        <span class="label">{{ '' | dateDiff:follow.created }}</span>.
         <span data-ui-if="questionShown" data-ng-include="'templates/partials/question.html'"></span>
       </span>
     </span>

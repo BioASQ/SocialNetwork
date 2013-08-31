@@ -1,9 +1,8 @@
 <div data-ng-switch data-on="activity.type">
   <div data-ng-switch-when="Comment"
        data-ng-init="comment=activity"
-       data-ng-include
-       data-ng-controller="CommentController"
-       data-src="'templates/partials/comment.html'"></div>
+       data-ng-include="'templates/partials/comment.html'"
+       data-ng-controller="CommentController"></div>
   <div data-ng-switch-when="Question">
     <div class="well">
       <div>
@@ -12,7 +11,7 @@
           <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">a question</a>,
           <span class="label">{{'' | dateDiff:activity.created}}</span>.
           <div data-ui-if="questionShown"
-              data-ng-include="'templates/partials/question.html'">
+               data-ng-include="'templates/partials/question.html'">
           </div>
         </span>
       </div>
@@ -20,10 +19,8 @@
   </div>
   <div data-ng-switch-when="Follow"
        data-ng-init="follow=activity"
-       data-ng-include
-       data-src="'templates/partials/follow.html'"></div>
+       data-ng-include="'templates/partials/follow.html'"></div>
   <div data-ng-switch-when="Vote"
        data-ng-init="vote=activity"
-       data-ng-include
-       data-src="'templates/partials/vote.html'"></div>
+       data-ng-include="'templates/partials/vote.html'"></div>
 </div>
