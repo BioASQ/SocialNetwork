@@ -101,6 +101,8 @@
           "content": "Lorem ipsum dolor sit amet." },
         { "id": "c6", "type": "Comment", "about": "q2", "about_type": "Question", "creator": "u1", "created": "2013-01-16T10:19",
           "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+        { "id": "c9", "type": "Comment", "about": "q2", "about_type": "Question", "creator": "u1", "created": "2013-08-16T10:19",
+          "content": "This question is really good." },
         { "id": "c7", "type": "Comment", "about": "q4", "about_type": "Question", "creator": "u1", "created": "2012-03-16T10:19",
           "content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis." },
         { "id": "c8", "type": "Comment", "about": "q2", "about_type": "Question", "creator": "u1", "created": "2012-03-18T10:19",
@@ -113,7 +115,7 @@
     "message": [
         { "id": "m15", "type": "Message", "creator": "u1", "to": "u2", "title": "Hello", "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas nibh. Nulla ac dapibus orci, id placerat purus. Donec id fringilla elit. Phasellus auctor condimentum varius. Donec accumsan lobortis odio, sit amet fringilla ante porta quis. In euismod venenatis dignissim. Proin sed tincidunt tellus. Mauris auctor et diam nec luctus. Cras consectetur elit ut luctus aliquam. Quisque elementum varius dui iaculis aliquet. Donec semper, risus quis euismod pellentesque, eros velit sagittis justo, eget dapibus nisi ipsum et arcu. Donec nulla augue, faucibus vitae venenatis at, tincidunt a orci.", "created":"2013-08-20T15:04" },
         { "id": "m16", "type": "Message", "creator": "u2", "to": "u1", "title": "Hello", "content": "Ok. :)", "created":"2013-08-20T15:31", "reply_to": "m15" },
-        { "id": "m17", "type": "Message", "creator": "u2", "to": "u1", "title": "What's up?", "content": "How is it going mate? I just wanted to let you know I updated my question.\nBest,\nExpert 2.", "created":"2013-08-21T08:31", "reply_to": "m15" },
-        { "id": "m18", "type": "Message", "creator": "u1", "to": "u2", "title": "New question", "content": "I created a new question about gene deserts. Can you have a look at it?\n Thanks, E1", "created":"2013-08-21T10:31", "reply_to": "m15" }
+        { "id": "m17", "type": "Message", "creator": "u2", "to": "u1", "title": "What's up?", "content": "How is it going mate? I just wanted to let you know I updated my question. \nBest, \nExpert 2.", "created":"2013-08-21T08:31", "reply_to": "m15" },
+        { "id": "m18", "type": "Message", "creator": "u1", "to": "u2", "title": "New question", "content": "I created a new question about gene deserts. Can you have a look at it? \n Thanks,\nExpert 1", "created":"2013-08-21T10:31", "reply_to": "m15" }
     ]
 }
