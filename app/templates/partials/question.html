@@ -29,11 +29,14 @@
         <div class="row" style="padding-top:22px">
           <!-- comments link -->
           <div class="span2">
-            <a data-ng-init="commentsShown=false"
+            <a data-ng-show="question.comment_count"
+               data-ng-init="commentsShown=false"
                data-ng-click="fetchCommentsIfNeeded(question); commentsShown = !commentsShown">
                <span data-ng-show="commentsShown">hide</span>
                <span data-ng-show="!commentsShown">show</span>
-               {{question.comment_count}} comments
+               <span data-ng-pluralize
+                     data-count="question.comment_count"
+                     data-when="{1:'comment',2:'{{question.comment_count}} comments'}"></span>
             </a>
           </div>
 

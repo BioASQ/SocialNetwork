@@ -32,7 +32,9 @@
        data-ng-click="fetchRepliesIfNeeded(comment);repliesShown=!repliesShown">
       <span data-ng-show="repliesShown">hide</span>
       <span data-ng-show="!repliesShown">show</span>
-       {{comment.reply_count}} replies
+      <span data-ng-pluralize
+            data-count="comment.reply_count"
+            data-when="{1:'reply',2:'{{comment.reply_count}} replies'}"></span>
     </a>
   </div>
   <div data-collapse="!repliesShown">
