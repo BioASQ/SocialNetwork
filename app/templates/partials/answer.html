@@ -1,32 +1,33 @@
-<div class="well">
-    <div data-ng-bind-html-unsafe="answer.ideal | parseContent"></div><br>
-    <div data-ng-bind-html-unsafe="answer.exact"></div><br>
+<div class="well" style="font-size:90%">
+  <div data-ng-bind-html-unsafe="answer.ideal | parseContent"></div>
+  <div data-ng-bind-html-unsafe="answer.exact"></div>
 
-    <div data-ng-init="noAnnos=false"></div>
-    <button class="btn btn-link"
-            data-ng-click="noAnnos=true; type = 'concept'">
-            concepts
+  <button class="btn btn-link"
+          data-ng-click="filterAnnotations(answer, 'concept')">
+          concepts
+  </button>
+  <button class="btn btn-link"
+          data-ng-click="filterAnnotations(answer, 'document')">
+          documents
     </button>
     <button class="btn btn-link"
-            data-ng-click="noAnnos=true; type = 'document'">
-            documents
-    </button>
-    <button class="btn btn-link"
-            data-ng-click="noAnnos=true; type = 'snippet'">
+            data-ng-click="filterAnnotations(answer, 'snippet')">
             snippets
-    </button>
-    <button class="btn btn-link"
-            data-ng-click="noAnnos=true; type = 'statement'">
-            statements
-    </button>
+  </button>
+  <button class="btn btn-link"
+          data-ng-click="filterAnnotations(answer, 'statement')">
+          statements
+  </button>
 
-    <div data-ng-repeat="anno in answer.annotations">
-        <div data-ui-if="anno.type == type">
-            <div data-ng-init="noAnnos=false"></div>
-            {{anno}}
-        </div>
-    </div>
-    <div data-ui-if="noAnnos">
-        nothing found here
-    </div>
+  <ul data-ui-if="filteredAnnotations.length">
+    <span data-ng-repeat="annotation in filteredAnnotations">
+      <li data-ng-switch="annotation.type">
+        <a data-ng-switch-when="concept" href="{{annotation.uri}}">{{annotation.title}}</a>
+        <a data-ng-switch-when="document" href="{{annotation.uri}}">{{annotation.title}}</a>
+        <span data-ng-switch-when="snippet" data-ng-bind-html-unsafe="annotation.text | parseContent"></span>
+        <span data-ng-switch-when="statement">{{annotation.title}}</span>
+      </span>
+    </li>
+  </ul>
+  <div data-ng-show="filteredAnnotations && !filteredAnnotations.length">No {{type}}s found.</div>
 </div>

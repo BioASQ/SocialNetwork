@@ -38,6 +38,15 @@ BioASQ.QuestionController = function($scope, $routeParams, Question) {
         }
     };
 
+    $scope.filterAnnotations = function (answer, type) {
+        $scope.filteredAnnotations = [];
+        $scope.type = type;
+        angular.forEach(answer.annotations, function (annotation) {
+            if (annotation.type === type) {
+                $scope.filteredAnnotations.push(annotation);
+            }
+        });
+    };
 };
 
 BioASQ.controller('QuestionController', BioASQ.QuestionController);
