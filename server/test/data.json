@@ -58,7 +58,8 @@
         "created": "2013-04-16T11:19",
         "modified": "2013-05-21T11:19",
         "answer": {
-            "ideal": "Yes, CNEs are most often found in gene-poor regions termed gene deserts. There, they often form dense clusters."
+            "ideal": "Yes, CNEs are most often found in gene-poor regions termed gene deserts. There, they often form dense clusters.",
+            "exact": "Yes"
         } },
       { "id": "q4",
         "type": "Question",
@@ -68,7 +69,25 @@
         "created": "2012-04-16T11:19",
         "modified": "2013-05-18T12:49",
         "answer": {
-            "ideal": "The disease with the highest mortality rate."
+            "ideal": "The disease with the highest mortality rate has been shown to be …",
+            "exact": ["synonym 1", "synonym 2"]
+        } },
+      { "id": "q5",
+        "type": "Question",
+        "body": "How are summary questions characterized?",
+        "creator": "u1",
+        "question_type": "summary",
+        "created": "2013-08-31T14:22+02:00",
+        "modified": "2013-08-31T14:22+02:00",
+        "answer": {
+            "ideal": "A summary question does not have an exact answer.",
+            "annotations": [
+              { "type": "statement",
+                "s": "http://example.com/SummaryQuestion",
+                "p": "http://example.com/notContains",
+                "o": "http://example.com/ExactAnswer",
+                "title": "Summary question does not contain exact answer." }
+            ]
         } }
     ],
     "activity": [
