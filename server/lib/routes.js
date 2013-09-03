@@ -117,6 +117,33 @@ var routes = exports.createRoutes = function (server) {
     });
 
     /*
+     * Activities of things a user follows
+     */
+    server.get('/users/:id/home', middleware, function (request, response) {
+        var query   = { type: 'Follow', creator: request.params.id },
+            options = { fields: [ 'about', 'about_type' ], sort: { created: -1 } };
+
+        models.activity.find(query, options, function (err, res) {
+            if (err) { throw err; }
+            var uniqueUserIDs = {},
+                uniqueQuestionIDs = {};
+            res.forEach(function (follow) {
+                if (follow.about_type === 'User') {
+                    uniqueUserIDs[follow.about] = true;
+                } else if (follow.about_type === 'Question') {
+                    uniqueQuestionIDs[follow.about] = true;
+                }
+            });
+            var query2 = { $or: [ { about: { $in: Object.keys(uniqueQuestionIDs) } },
+                                  { creator: { $in: Object.keys(uniqueUserIDs) } } ] };
+            models.activity.find(query2, { sort: { created: -1 } }, function (err, res) {
+                if (err) { throw err; }
+                response.send(res);
+            });
+        });
+    });
+
+    /*
      * Follow a user
      */
     server.post('/users/:id/followers', middleware, function (request, response) {
