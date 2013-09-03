@@ -37,21 +37,6 @@ BioASQ.UserCtrl = function($routeParams, $scope, Activity, User, modalFactory) {
             $scope.activities = Activity.followers({}, { id: $routeParams.creator });
         }
     };
-
-    // modal dialog
-    modalFactory.setCacheData({
-        title: '',
-        message: ''
-    });
-    $scope.openDialog = function(data) {
-        modalFactory.openDialog(modalFactory.options('templates/partials/modal_comment.html', 'DialogCtrl', data), function() {
-            // update table if open
-            if ($scope.radioModel == 'comments') {
-                $scope.showComments(userID); // hide
-                $scope.showComments(userID); // show
-            }
-        });
-    };
 };
 
 BioASQ.controller('UserCtrl', BioASQ.UserCtrl);

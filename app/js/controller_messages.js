@@ -1,8 +1,5 @@
 'use strict';
 
-/**
- *
- */
 BioASQ.MessageCtrl = function($scope, Message) {
     $scope.currentCtrl = 'MessageCtrl';
 
