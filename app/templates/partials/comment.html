@@ -25,6 +25,7 @@
   <div data-ng-bind-html-unsafe="comment.content | parseContent"></div>
   <span data-ui-if="!displayActivity">
     by <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a>,
+    <span class="label">{{comment.created | dateDiff}}</span>.
   </span>
   <div class="replies">
     <a data-ng-show="comment.reply_count"
