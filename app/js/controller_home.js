@@ -3,15 +3,9 @@
 /**
  *
  */
-BioASQ.HomeCtrl = function($scope, User, Question, Comment, modalFactory) {
+BioASQ.HomeCtrl = function($scope, Activity, modalFactory) {
     $scope.currentCtrl = 'HomeCtrl';
-    $scope.questions   = Question.query();
-
-    $scope.$watch('cache.followings.length + questions.length', function () {
-        angular.forEach($scope.questions, function (question) {
-            question.follows = ($scope.cache.followings.indexOf(question.id) > -1);
-        });
-    });
+    $scope.activities  = Activity.home({ id: $scope.me.id });
 
     // modal dialog
     modalFactory.setCacheData({

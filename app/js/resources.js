@@ -11,6 +11,7 @@ BioASQ.factory('Activity', function ($resource) {
         { id: '@id' },
         {
             global:    { method: 'GET', isArray: true, url: '/activities' },
+            home:      { method: 'GET', isArray: true, params: { action: 'home'} },
             query:     { method: 'GET', isArray: true, params: { action: 'activities'} },
             following: { method: 'GET', isArray: true, params: { action: 'following'} },
             followers: { method: 'GET', isArray: true, params: { action: 'followers'} }

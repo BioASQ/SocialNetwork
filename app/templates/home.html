@@ -1,7 +1,12 @@
 <div class="container">
   <div data-ng-include="'templates/partials/navi.html'"></div>
-  <div class="row" data-ng-repeat="question in questions">
-    <div class="span12" data-ng-controller="QuestionController" data-ng-include="'templates/partials/question.html'"></div>
-    <div><hr class="offset3 span6"></div>
+  <div data-ng-repeat="activity in activities">
+    <div class="row">
+      <div class="offset1 span10" data-ng-include="'templates/partials/activity.html'"></div>
+    </div>
+  </div>
+  <div data-ui-if="!activities.length" class="row">
+    <div class="offset1 span10">
+      <div class="well">No activities yet. You should follow more people/questions.</div>
   </div>
 </div>
