@@ -1,6 +1,6 @@
 'use strict';
 
-BioASQ.QuestionController = function($scope, $routeParams, Question) {
+BioASQ.QuestionController = function($scope, $routeParams, Question, Comment) {
     // fetch question list
     $scope.fetchQuestionsIfNeeded = function () {
         if (!$scope.questions) {
@@ -46,11 +46,32 @@ BioASQ.QuestionController = function($scope, $routeParams, Question) {
     };
 
     // vote on a question
-    $scope.vote = function(question, dir) {
+    $scope.vote = function (question, dir) {
         Question.vote({ id: question.id },
                       { creator: $scope.me.id, about: question.id, dir: dir },
                       function (response) { question.rank = response.rank; }
         );
+    };
+
+    $scope.createComment = function (question) {
+        $scope.newComment = {
+            about:   question.id,
+            creator: $scope.me.id
+        };
+    };
+
+    $scope.cancelComment = function () {
+        delete $scope.newComment;
+    };
+
+    $scope.saveComment = function (question, comment) {
+        Question.comment({ id: comment.about }, comment, function (result) {
+            if (typeof question.comments === 'undefined') {
+                question.comments = [];
+            }
+            question.comment_count = question.comments.unshift(result);
+            delete $scope.newComment;
+        });
     };
 
     $scope.filterAnnotations = function (answer, type) {

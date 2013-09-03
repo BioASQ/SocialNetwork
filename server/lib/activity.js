@@ -88,15 +88,18 @@ Activity.prototype.comment = function (aboutID, creatorID, content, replyTo, cb)
     }
 
     var comment = {
+        type:     'Comment',
         creator:  creatorID,
         about:    aboutID,
         content:  content,
-        reply_to: replyTo,
         created:  new Date()
     };
-    Base.prototype.create.call(this, comment, function (err, id) {
+    if (replyTo) { comment.reply_to = replyTo; }
+
+    var self = this;
+    Base.prototype.create.call(self, comment, function (err, id) {
         if (err) { return cb(err); }
-        cb(null, id);
+        Base.prototype.load.call(self, id, cb);
     });
 };
 

@@ -42,7 +42,7 @@
 
           <!-- follow button -->
           <div class="span3 btn-group">
-            <button class="btn" data-ng-click="openDialog(question)">Comment</button>
+            <button class="btn" data-ng-click="createComment(question)">Comment</button>
             <button class="btn" data-ng-click="toggleFollow(question)">
               <div data-ui-if="!question.follows">Follow</div>
               <div data-ui-if="question.follows">Unfollow</div>
@@ -52,6 +52,12 @@
         </div><!-- row -->
       </div>
     </div><!-- row -->
+
+    <div class="row" style="margin-top:11px" data-ui-if="newComment && newComment.about==question.id">
+      <div class="offset1 span5">
+        <div data-ng-include="'templates/partials/create_comment.html'"></div>
+      </div>
+    </div>
 
     <div class="row" style="margin-top:11px" data-collapse="!commentsShown">
       <!-- show comments -->

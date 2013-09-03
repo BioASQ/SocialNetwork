@@ -291,9 +291,9 @@ var routes = exports.createRoutes = function (server) {
      * Post a comment on a question
      */
     server.post('/questions/:id/comments', middleware, function (request, response) {
-        models.activity.comment(request.params.id, request.user.id, request.params('content'), function (err) {
-            if (err) { return response.send(400); }
-            response.send(201);
+        models.activity.comment(request.params.id, request.user.id, request.body.content, function (err, comment) {
+            if (err) { return response.send(500); }
+            response.send(201, comment);
         });
     });
 
