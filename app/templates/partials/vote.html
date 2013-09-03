@@ -4,7 +4,7 @@
     {{vote.dir}}voted a
     <span data-ng-controller="QuestionController">
       <a data-ng-click="fetchQuestionIfNeeded(questionID);questionShown=!questionShown">a question</a>,
-      <span class="label">{{ '' | dateDiff:vote.created }}</span>.
+      <span class="label">{{vote.created | dateDiff}}</span>.
       <!--
          - TODO: Why is vote.about `undefined` here?
          -->

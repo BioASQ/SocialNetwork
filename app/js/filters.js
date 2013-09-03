@@ -1,9 +1,9 @@
 'use strict';
 
 // gets date from now
-BioASQ.filter('dateDiff', function() {
-    return function( /*String*/ prefix, /*ISO 8601*/ date) {
-        return prefix + moment(date).fromNow();
+BioASQ.filter('dateDiff', function () {
+    return function (date) {
+        return moment(date).fromNow();
     };
 });
 

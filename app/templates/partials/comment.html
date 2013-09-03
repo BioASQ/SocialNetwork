@@ -4,7 +4,7 @@
     commented on
     <span data-ng-controller="QuestionController">
       <a data-ng-click="fetchQuestionIfNeeded(comment.about);questionShown=!questionShown">a question</a>,
-      <span class="label">{{ '' | dateDiff:comment.created }}</span>.
+      <span class="label">{{comment.created | dateDiff}}</span>.
       <div data-ui-if="questionShown"
           data-ng-include="'templates/partials/question.html'">
       </div>
