@@ -1,3 +1,5 @@
+var ObjectID = require('mongodb').ObjectID;
+
 var Base = exports.Base = function (database) {
     this._db = database;
     this._collectionName = null;
@@ -66,3 +68,17 @@ Base.prototype.remove = function (id, cb) {
         });
     });
 };
+
+Base.prototype.findAndModify = function (query, sort, update, options, cb) {
+    if (query.id) {
+        query._id = (query.id.length === 24) ? new ObjectID(query.id) : query.id;
+        delete query.id;
+    }
+    this._collection(this._collectionName, function (err, collection) {
+        collection.findAndModify(query, sort, update, options, function (err, doc) {
+            if (err) { return cb(err); }
+            cb(null, doc);
+        });
+    });
+};
+

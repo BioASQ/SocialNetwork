@@ -32,12 +32,12 @@ exports.start = function (options, cb) {
     var dbServer = new mongodb.Server(options.database.host, options.database.port, {}),
     dbConn = new mongodb.Db(options.database.name, dbServer, { safe: false });
     dbConn.open(function (err, database) {
-        var activityModel = new Activity(database);
+        var questionModel = new Question(database);
         var models = {
             user:     new User(database),
             message:  new Message(database),
-            question: new Question(database, activityModel),
-            activity: activityModel
+            activity: new Activity(database, questionModel),
+            question: questionModel
         };
 
         /*
