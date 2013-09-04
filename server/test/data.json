@@ -23,6 +23,8 @@
         "question_type": "list",
         "created": "2013-04-16T11:19",
         "modified": "2013-05-21T11:19",
+        "rank": 0,
+        "comment_count": 3,
         "answer": {
             "ideal": "TX-ray free electron laser (XFEL) technologies provide coherent and extremely intense photon pulses of short duration. XFELs are particularly useful in structural biology and imaging, in structural studies of single biological macromolecules (e.g. high resolution protein structure determination) and assemblies (e.g. viruses) or nanocrystals, which are not amenable to investigation with traditional crystallographic methods. Moreover, XFELs have the potential to be used for studying enzyme kinetics.",
             "exact": [
@@ -57,6 +59,8 @@
         "question_type": "decisive",
         "created": "2013-04-16T11:19",
         "modified": "2013-05-21T11:19",
+        "rank": 2,
+        "comment_count": 0,
         "answer": {
             "ideal": "Yes, CNEs are most often found in gene-poor regions termed gene deserts. There, they often form dense clusters.",
             "exact": "Yes"
@@ -68,6 +72,8 @@
         "question_type": "factoid",
         "created": "2012-04-16T11:19",
         "modified": "2013-05-18T12:49",
+        "rank": -1,
+        "comment_count": 1,
         "answer": {
             "ideal": "The disease with the highest mortality rate has been shown to be …",
             "exact": ["synonym 1", "synonym 2"]
@@ -79,6 +85,8 @@
         "question_type": "summary",
         "created": "2013-08-31T14:22+02:00",
         "modified": "2013-08-31T14:22+02:00",
+        "rank": 0,
+        "comment_count": 0,
         "answer": {
             "ideal": "A summary question does not have an exact answer.",
             "annotations": [
@@ -98,16 +106,16 @@
         { "id": "v11", "type": "Vote", "about": "q4", "about_type": "Question", "creator": "u1", "created": "2013-07-13T12:13", "dir": "down" },
         { "id": "f14", "type": "Follow", "about": "u1", "about_type": "User", "creator": "u2", "created": "2013-08-12T18:24" },
         { "id": "c5", "type": "Comment", "about": "q2", "about_type": "Question", "creator": "u2", "created": "2013-01-16T10:19",
-          "content": "Lorem ipsum dolor sit amet." },
+          "content": "Lorem ipsum dolor sit amet.", "reply_count": 0 },
         { "id": "c6", "type": "Comment", "about": "q2", "about_type": "Question", "creator": "u1", "created": "2013-01-16T10:19",
-          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "reply_count": 1 },
         { "id": "c9", "type": "Comment", "about": "q2", "about_type": "Question", "creator": "u1", "created": "2013-08-16T10:19",
-          "content": "This question is really good." },
+          "content": "This question is really good.", "reply_count": 0 },
         { "id": "c7", "type": "Comment", "about": "q4", "about_type": "Question", "creator": "u1", "created": "2012-03-16T10:19",
-          "content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis." },
+          "content": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis.", "reply_count": 0 },
         { "id": "c8", "type": "Comment", "about": "q2", "about_type": "Question", "creator": "u1", "created": "2012-03-18T10:19",
           "reply_to": "c6",
-          "content": "Suspendisse a dictum erat. Cras eleifend nunc sit amet dolor pellentesque, ut auctor magna rutrum." },
+          "content": "Suspendisse a dictum erat. Cras eleifend nunc sit amet dolor pellentesque, ut auctor magna rutrum.", "reply_count": 0 },
         { "id": "q2a", "type": "Question", "about": "q2", "about_type": "Question", "creator": "u1", "created": "2013-05-16T11:19" },
         { "id": "q3a", "type": "Question", "about": "q3", "about_type": "Question", "creator": "u1", "created": "2013-04-16T11:19" },
         { "id": "q4a", "type": "Question", "about": "q4", "about_type": "Question", "creator": "u1", "created": "2012-04-16T11:19" }
