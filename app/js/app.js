@@ -1,47 +1,54 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ', ['ngResource', 'ngSanitize', 'ui.bootstrap', 'ui']);
+var BioASQ = angular.module('BioASQ', ['bioasq.filter', 'bioasq.resources', 'ngSanitize', 'ui.bootstrap', 'ui']);
 
-BioASQ.pages       = [ 'home', 'messages', 'timeline', 'questions' ];
-BioASQ.controllers = [ 'HomeCtrl', 'MessageCtrl', 'TimelineCtrl', 'QuestionController' ];
+BioASQ.config(['$provide', '$routeProvider', function ($provide, $routeProvider) {
+    var pageControllers = {
+        home:      'HomeCtrl',
+        messages:  'MessageCtrl',
+        timeline:  'TimelineCtrl',
+        questions: 'QuestionController'
+    };
 
-BioASQ.config(['$routeProvider', '$locationProvider',
-    function($routeProvider, $locationProvider) {
-
-        angular.forEach(BioASQ.pages, function(value, key) {
-            $routeProvider.when('/' + value, {
-                templateUrl: 'templates/' + value + '.html',
-                controller: BioASQ.controllers[key]
-            });
+    var pages = [];
+    angular.forEach(pageControllers, function (controllerName, page) {
+        $routeProvider.when('/' + page, {
+            templateUrl: 'templates/' + page + '.html',
+            controller:  controllerName
         });
+        pages.push(page);
+    });
 
-        $routeProvider.when('/users/:creator', {
-            templateUrl: 'templates/user.html',
-            controller: 'UserCtrl'
-        });
+    $provide.value('pages', pages);
+}]);
 
-        $routeProvider.when('/registration/:code', {
-            templateUrl: 'templates/registration.html',
-            controller: 'RegistrationCtrl'
-        });
+BioASQ.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+    $routeProvider.when('/users/:creator', {
+        templateUrl: 'templates/user.html',
+        controller: 'UserCtrl'
+    });
 
-        $routeProvider.when('/registration', {
-            templateUrl: 'templates/registration.html',
-            controller: 'RegistrationCtrl'
-        });
+    $routeProvider.when('/registration/:code', {
+        templateUrl: 'templates/registration.html',
+        controller: 'RegistrationCtrl'
+    });
 
-        $routeProvider.otherwise({
-            //redirectTo: '/' + BioASQ.pages[0]
-            templateUrl: 'templates/login.html',
-            controller: 'LoginCtrl'
-        });
+    $routeProvider.when('/registration', {
+        templateUrl: 'templates/registration.html',
+        controller: 'RegistrationCtrl'
+    });
 
-        $locationProvider.html5Mode(false).hashPrefix('!');
-    }
-]);
+    $routeProvider.otherwise({
+        //redirectTo: '/' + BioASQ.pages[0]
+        templateUrl: 'templates/login.html',
+        controller: 'LoginCtrl'
+    });
 
-BioASQ.run(function ($rootScope, $timeout, Me, Activity) {
-    $rootScope.pages = BioASQ.pages;
+    $locationProvider.html5Mode(false).hashPrefix('!');
+}]);
+
+BioASQ.run(function (pages, $rootScope, Me, Activity) {
+    $rootScope.pages = pages;
     $rootScope.cache = {
         followings: []
     };
@@ -57,5 +64,4 @@ BioASQ.run(function ($rootScope, $timeout, Me, Activity) {
             });
         });
     });
-    $rootScope.pages = BioASQ.pages;
 });
