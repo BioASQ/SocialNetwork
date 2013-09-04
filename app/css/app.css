@@ -34,6 +34,12 @@ a{
 
 }
 
+.activity-icon {
+  float: left;
+  margin-top: 3px;
+  margin-right: 5px;
+}
+
 select:focus, button:focus {
   outline: none !important;
   outline-color: transparent !important;
