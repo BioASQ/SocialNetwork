@@ -19,11 +19,12 @@ Base.prototype.create = function (doc, cb) {
 };
 
 Base.prototype.load = function (id, cb) {
+    if (id.length === 24) { id = new ObjectID(id); }
     this._collection(this._collectionName, function (err, collection) {
         collection.findOne({ _id: id }, function (err, doc) {
             if (err) { return cb(err); }
             if (doc) {
-                doc.id = doc._id;
+                doc.id = String(doc._id);
                 delete doc._id;
             }
             cb(null, doc);

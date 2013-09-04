@@ -46,16 +46,16 @@ var routes = exports.createRoutes = function (server) {
     /*
      * Reply to a comment
      */
-    server.post('/comments/:id/replies', function (request, response) {
+    server.post('/comments/:id/replies', middleware, function (request, response) {
         models.activity.load(request.params.id, function (err, comment) {
             if (err) { return response.send(404); }
-            models.activity.reply(comment.about,
-                                  request.user.id,
-                                  request.params('content'),
-                                  request.params.id,
-                                  function (err, id) {
-                if (err) { return response.send(400); }
-                response.send(201);
+            models.activity.comment(comment.about,
+                                    request.user.id,
+                                    request.body.content,
+                                    request.params.id,
+                                    function (err, comment) {
+                if (err) { return response.send(500); }
+                response.send(201, comment);
             });
         });
     });
