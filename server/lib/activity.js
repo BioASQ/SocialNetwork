@@ -61,11 +61,12 @@ Activity.prototype.comment = function (aboutID, creatorID, content, replyTo, cb)
     }
 
     var comment = {
-        type:    'Comment',
-        creator: creatorID,
-        about:   aboutID,
-        content: content,
-        created: new Date()
+        type:        'Comment',
+        creator:     creatorID,
+        about:       aboutID,
+        content:     content,
+        reply_count: 0,
+        created:     new Date()
     };
     if (replyTo) { comment.reply_to = replyTo; }
 

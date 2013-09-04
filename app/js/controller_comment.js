@@ -27,7 +27,8 @@ BioASQ.CommentController = function($scope, Comment, $http) {
             if (typeof $scope.comment.replies === 'undefined') {
                 $scope.comment.replies = [];
             }
-            $scope.comment.reply_count = $scope.comment.replies.unshift(result);
+            $scope.comment.replies.unshift(result);
+            $scope.comment.reply_count += 1;
             delete $scope.temp.comment;
         });
     };
