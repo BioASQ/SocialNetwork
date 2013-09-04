@@ -1,5 +1,5 @@
 <div class="well" style="font-size:90%">
-  <dl>
+  <dl style="margin-bottom:0.8em">
     <dt>Ideal answer</dt>
     <dd data-ng-bind-html-unsafe="question.answer.ideal | parseContent"></dd>
     <span data-ui-if="question.answer.exact">
@@ -16,22 +16,20 @@
     </span>
   </dl>
 
-  <button class="btn btn-link"
-          data-ng-click="filterAnnotations(question.answer, 'concept')">
-          concepts
-  </button>
-  <button class="btn btn-link"
-          data-ng-click="filterAnnotations(question.answer, 'document')">
-          documents
-    </button>
-    <button class="btn btn-link"
-            data-ng-click="filterAnnotations(question.answer, 'snippet')">
-            snippets
-  </button>
-  <button class="btn btn-link"
-          data-ng-click="filterAnnotations(question.answer, 'statement')">
-          statements
-  </button>
+  <ul class="nav nav-pills" style="margin-bottom:0.8em;padding-left:40px">
+    <li data-ng-class="{active:type=='concept'}">
+      <a data-ng-click="filterAnnotations(question.answer, 'concept')">concepts</a>
+    </li>
+    <li data-ng-class="{active:type=='document'}">
+      <a data-ng-click="filterAnnotations(question.answer, 'document')">documents</a>
+    </li>
+    <li data-ng-class="{active:type=='snippet'}">
+      <a data-ng-click="filterAnnotations(question.answer, 'snippet')">snippets</a>
+    </li>
+    <li data-ng-class="{active:type=='statement'}">
+      <a data-ng-click="filterAnnotations(question.answer, 'statement')">statements</a>
+    </li>
+  </ul>
 
   <ul data-ui-if="filteredAnnotations.length">
     <span data-ng-repeat="annotation in filteredAnnotations">
