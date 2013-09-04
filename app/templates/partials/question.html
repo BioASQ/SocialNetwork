@@ -30,10 +30,10 @@
           <!-- comments link -->
           <div class="span2">
             <a data-ng-show="question.comment_count"
-               data-ng-init="commentsShown=false"
-               data-ng-click="fetchCommentsIfNeeded(question); commentsShown = !commentsShown">
-               <span data-ng-show="commentsShown">hide</span>
-               <span data-ng-show="!commentsShown">show</span>
+               data-ng-init="question.commentsShown=false"
+               data-ng-click="fetchCommentsIfNeeded(question); question.commentsShown = !question.commentsShown">
+               <span data-ng-show="question.commentsShown">hide</span>
+               <span data-ng-show="!question.commentsShown">show</span>
                <span data-ng-pluralize
                      data-count="question.comment_count"
                      data-when="{ 1: 'comment', other: '{{question.comment_count}} comments' }"></span>
@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <div class="row" style="margin-top:11px" data-collapse="!commentsShown">
+    <div class="row" style="margin-top:11px" data-collapse="!question.commentsShown">
       <!-- show comments -->
       <div class="offset1 span5">
         <div data-ng-repeat="comment in question.comments"

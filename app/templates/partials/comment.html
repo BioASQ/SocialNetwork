@@ -30,10 +30,10 @@
   </span>
   <div class="replies" style="margin-top:11px">
     <a data-ng-show="comment.reply_count"
-       data-ng-init="repliesShown=false"
-       data-ng-click="fetchRepliesIfNeeded(comment);repliesShown=!repliesShown">
-      <span data-ng-show="repliesShown">hide</span>
-      <span data-ng-show="!repliesShown">show</span>
+       data-ng-init="comment.repliesShown=false"
+       data-ng-click="fetchRepliesIfNeeded(comment);comment.repliesShown=!comment.repliesShown">
+      <span data-ng-show="comment.repliesShown">hide</span>
+      <span data-ng-show="!comment.repliesShown">show</span>
       <span data-ng-pluralize
             data-count="comment.reply_count"
             data-when="{ 1: 'reply', other: '{{comment.reply_count}} replies' }"></span>
@@ -46,7 +46,7 @@
   <div data-ui-if="temp.comment.reply_to==comment.id">
     <div data-ng-controller="CommentController" data-ng-include="'templates/partials/create_comment.html'"></div>
   </div>
-  <div data-collapse="!repliesShown">
+  <div data-collapse="!comment.repliesShown">
     <div data-ng-repeat="comment in comment.replies"
          data-ng-init="commentOnly=true"
          data-ng-include="'templates/partials/comment.html'">
