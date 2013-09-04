@@ -31,7 +31,9 @@ BioASQ.config(['$routeProvider', '$locationProvider',
         });
 
         $routeProvider.otherwise({
-            redirectTo: '/' + BioASQ.pages[0]
+            //redirectTo: '/' + BioASQ.pages[0]
+            templateUrl: 'templates/login.html',
+            controller: 'LoginCtrl'
         });
 
         $locationProvider.html5Mode(false).hashPrefix('!');
