@@ -1,15 +1,15 @@
 <span class="pull-right">
   <span data-ui-if="section=='inbox'">
     from: <a href="#!/users/{{message.creator}}">{{message.creator}}</a>,
-    <span class="label">{{message.created | dateDiff}}</span>
+    <span class="label">{{message.created | relativeDate}}</span>
   </span>
   <span data-ui-if="section=='outbox'">
     to: <a href="#!/users/{{message.to}}">{{message.to}}</a>,
-    <span class="label">{{message.created | dateDiff}}</span>
+    <span class="label">{{message.created | relativeDate}}</span>
   </span>
 </span>
 <h4 class="clearfix">{{message.title}}</h4>
-<div data-ng-bind-html-unsafe="message.content | parseContent"></div>
+<div data-ng-bind-html="message.content | newlines"></div>
 <hr data-ui-if="newMessage.reply_to==message.id">
 <div class="row" data-ui-if="section=='inbox'" data-ng-init="newMessage.reply_to==message.id">
   <div data-ui-if="newMessage.reply_to==message.id" data-ng-include="'templates/partials/create_message.html'"></div>

@@ -8,7 +8,7 @@
          - TODO: Why is vote `undefined` here?
          -->
       <a data-ng-click="fetchQuestionIfNeeded(questionID);questionShown=!questionShown">a question</a>,
-      <span class="label">{{voteDate | dateDiff}}</span>.
+      <span class="label">{{voteDate | relativeDate}}</span>.
       <div data-ui-if="questionShown"
            data-ng-include="'templates/partials/question.html'">
       </div>

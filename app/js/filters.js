@@ -1,43 +1,28 @@
 'use strict';
 
-// gets date from now
-BioASQ.filter('dateDiff', function () {
+// var filterModule = angular.module('bioasq.filter', [])
+var filterModule = BioASQ;
+
+// Converts date into relative date
+filterModule.filter('relativeDate', function () {
     return function (date) {
         return moment(date).fromNow();
     };
 });
 
-BioASQ.filter('capitalize', function () {
+// Capitalizes the first letter
+filterModule.filter('capitalize', function () {
     return function (str) {
         return str[0].toUpperCase() + str.slice(1);
     };
 });
 
-//replacing &, <, >, ", ', and /
-BioASQ.filter('escapeHTML', function() {
-    return function( /*String*/ plain) {
-        var res = '';
-        if (typeof(plain) === 'string') {
-            res = plain.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;').replace(/\'/g, '&#x27;').replace(/\//g, '&#x2F;');
+// Converts line breaks to <br> tags
+filterModule.filter('newlines', function() {
+    return function(input) {
+        if (typeof(input) === 'string') {
+            return input.replace(/\n/g, '<br>');
         }
-        return res;
-    };
-});
-
-// replacing \n to line breaks
-BioASQ.filter('escapeLineBreaks', function() {
-    return function( /*String*/ plain) {
-        var res = '';
-        if (typeof(plain) === 'string') {
-            res = plain.replace(/\n/g, '<br>');
-        }
-        return res;
-    };
-});
-
-// uses escapeHTML and escapeLineBreaks filter
-BioASQ.filter('parseContent', function($filter) {
-    return function( /*String*/ plain) {
-        return $filter('escapeLineBreaks')($filter('escapeHTML')(plain));
+        return input;
     };
 });

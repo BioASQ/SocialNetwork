@@ -5,7 +5,7 @@
     commented on
     <span data-ng-controller="QuestionController">
       <a data-ng-click="fetchQuestionIfNeeded(comment.about);questionShown=!questionShown">a question</a>,
-      <span class="label">{{comment.created | dateDiff}}</span>.
+      <span class="label">{{comment.created | relativeDate}}</span>.
       <div data-ui-if="questionShown"
           data-ng-include="'templates/partials/question.html'">
       </div>
@@ -14,19 +14,19 @@
   <!--
      - <div data-ui-if="user.id != comment.creator.id">
      -     <div data-ng-init="date=comment.modified">
-     -         {{ ' ' | dateDiff:date }} by <a data-ng-href="#!/users/{{comment.creator.id}}">{{comment.creator.first_name}} {{comment.creator.last_name}}</a>
+     -         {{ ' ' | relativeDate:date }} by <a data-ng-href="#!/users/{{comment.creator.id}}">{{comment.creator.first_name}} {{comment.creator.last_name}}</a>
      -     </div>
      - </div>
      - <div data-ui-if="user.id == comment.creator.id">
      -     <div data-ng-init="date=comment.modified">
-     -         {{ ' ' | dateDiff:date }} by {{comment.creator.first_name}} {{comment.creator.last_name}}
+     -         {{ ' ' | relativeDate:date }} by {{comment.creator.first_name}} {{comment.creator.last_name}}
      -     </div>
      - </div>
      -->
-  <div data-ng-bind-html-unsafe="comment.content | parseContent"></div>
+  <div data-ng-bind-html="comment.content | newlines"></div>
   <span data-ui-if="!displayActivity">
     by <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a>,
-    <span class="label">{{comment.created | dateDiff}}</span>.
+    <span class="label">{{comment.created | relativeDate}}</span>.
   </span>
   <div class="replies" style="margin-top:11px">
     <a data-ng-show="comment.reply_count"

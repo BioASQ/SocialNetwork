@@ -10,7 +10,7 @@
         <a href="{{activity.creator}}">{{activity.creator}}</a> created
         <span data-ng-controller="QuestionController">
           <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">a question</a>,
-          <span class="label">{{activity.created | dateDiff}}</span>.
+          <span class="label">{{activity.created | relativeDate}}</span>.
           <div data-ui-if="questionShown"
                data-ng-include="'templates/partials/question.html'">
           </div>
