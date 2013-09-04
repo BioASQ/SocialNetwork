@@ -9,13 +9,6 @@ filterModule.filter('relativeDate', function () {
     };
 });
 
-// Capitalizes the first letter
-filterModule.filter('capitalize', function () {
-    return function (str) {
-        return str[0].toUpperCase() + str.slice(1);
-    };
-});
-
 // Converts line breaks to <br> tags
 filterModule.filter('newlines', function() {
     return function(input) {
