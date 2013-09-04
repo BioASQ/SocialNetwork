@@ -20,6 +20,16 @@ BioASQ.config(['$routeProvider', '$locationProvider',
             controller: 'UserCtrl'
         });
 
+        $routeProvider.when('/registration/:code', {
+            templateUrl: 'templates/registration.html',
+            controller: 'RegistrationCtrl'
+        });
+
+        $routeProvider.when('/registration', {
+            templateUrl: 'templates/registration.html',
+            controller: 'RegistrationCtrl'
+        });
+
         $routeProvider.otherwise({
             redirectTo: '/' + BioASQ.pages[0]
         });
