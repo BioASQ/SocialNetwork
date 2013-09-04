@@ -1,6 +1,6 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ', ['ngResource', 'ui.bootstrap', 'ui']);
+var BioASQ = angular.module('BioASQ', ['ngResource', 'ngSanitize', 'ui.bootstrap', 'ui']);
 
 BioASQ.pages       = [ 'home', 'messages', 'timeline', 'questions' ];
 BioASQ.controllers = [ 'HomeCtrl', 'MessageCtrl', 'TimelineCtrl', 'QuestionController' ];
