@@ -54,23 +54,26 @@ BioASQ.QuestionController = function($scope, $routeParams, Question, Comment) {
     };
 
     $scope.createComment = function (question) {
-        $scope.newComment = {
-            about:   question.id,
-            creator: $scope.me.id
+        $scope.temp = {
+            comment: {
+                about:   question.id,
+                creator: $scope.me.id
+            }
         };
     };
 
-    $scope.cancelComment = function () {
-        delete $scope.newComment;
+    $scope.cancel = function () {
+        delete $scope.temp.comment;
     };
 
-    $scope.saveComment = function (question, comment) {
-        Question.comment({ id: comment.about }, comment, function (result) {
-            if (typeof question.comments === 'undefined') {
-                question.comments = [];
+    $scope.save = function () {
+        Question.comment({ id: $scope.temp.comment.about }, $scope.temp.comment, function (result) {
+            if (typeof $scope.question.comments === 'undefined') {
+                $scope.question.comments = [];
             }
-            question.comment_count = question.comments.unshift(result);
-            delete $scope.newComment;
+            $scope.question.comments.unshift(result);
+            $scope.question.comment_count += 1;
+            delete $scope.temp.comment;
         });
     };
 
