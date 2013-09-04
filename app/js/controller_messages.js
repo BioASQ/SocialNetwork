@@ -1,6 +1,8 @@
 'use strict';
 
-BioASQ.MessageCtrl = function($scope, Message) {
+var BioASQ = angular.module('BioASQ');
+
+BioASQ.controller('MessageCtrl', function ($scope, Message) {
     $scope.currentCtrl = 'MessageCtrl';
 
     $scope.$watch('section', function () {
@@ -50,6 +52,4 @@ BioASQ.MessageCtrl = function($scope, Message) {
             delete $scope.newMessage;
         });
     };
-};
-
-BioASQ.controller('MessageCtrl', BioASQ.MessageCtrl);
+});

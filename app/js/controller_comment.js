@@ -1,6 +1,8 @@
 'use strict';
 
-BioASQ.CommentController = function($scope, Comment, $http) {
+var BioASQ = angular.module('BioASQ');
+
+BioASQ.controller('CommentController', function($scope, Comment, $http) {
     // comments replies
     $scope.fetchRepliesIfNeeded = function (comment) {
         if (!comment.replies || (comment.replies.length < comment.reply_count)) {
@@ -32,7 +34,4 @@ BioASQ.CommentController = function($scope, Comment, $http) {
             delete $scope.temp.comment;
         });
     };
-};
-
-BioASQ.controller('CommentController', BioASQ.CommentController);
-
+});

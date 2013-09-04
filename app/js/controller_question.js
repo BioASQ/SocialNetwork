@@ -1,6 +1,8 @@
 'use strict';
 
-BioASQ.QuestionController = function($scope, $routeParams, Question, Comment) {
+var BioASQ = angular.module('BioASQ');
+
+BioASQ.controller('QuestionController', function($scope, $routeParams, Question, Comment) {
     // fetch question list
     $scope.fetchQuestionsIfNeeded = function () {
         if (!$scope.questions) {
@@ -86,7 +88,5 @@ BioASQ.QuestionController = function($scope, $routeParams, Question, Comment) {
             }
         });
     };
-};
-
-BioASQ.controller('QuestionController', BioASQ.QuestionController);
+});
 

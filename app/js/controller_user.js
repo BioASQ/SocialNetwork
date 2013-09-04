@@ -1,6 +1,8 @@
 'use strict';
 
-BioASQ.UserCtrl = function($routeParams, $scope, Activity, User, modalFactory) {
+var BioASQ = angular.module('BioASQ');
+
+BioASQ.controller('UserCtrl', function ($routeParams, $scope, Activity, User, modalFactory) {
     $scope.currentCtrl = 'UserCtrl';
 
     $scope.$watch('section', function () {
@@ -37,6 +39,4 @@ BioASQ.UserCtrl = function($routeParams, $scope, Activity, User, modalFactory) {
             $scope.activities = Activity.followers({}, { id: $routeParams.creator });
         }
     };
-};
-
-BioASQ.controller('UserCtrl', BioASQ.UserCtrl);
+});

@@ -1,11 +1,13 @@
 'use strict';
 
+var resources = angular.module('bioasq.resources', [ 'ngResource' ]);
+
 /* 
  * Angular $resource definitions.
  * @see http://docs.angularjs.org/api/ngResource.$resource
  */
 
-BioASQ.factory('Activity', function ($resource) {
+resources.factory('Activity', function ($resource) {
     return $resource(
         '/users/:id/:action',
         { id: '@id' },
@@ -19,14 +21,14 @@ BioASQ.factory('Activity', function ($resource) {
     );
 });
 
-BioASQ.factory('Home', function ($resource) {
+resources.factory('Home', function ($resource) {
     return $resource(
         '/home/user/:id',
         { id: '@id' }
     );
 });
 
-BioASQ.factory('User', function ($resource) {
+resources.factory('User', function ($resource) {
     return $resource(
         '/users/:id/:action/:me',
         { id: '@id', me: '@me' },
@@ -38,7 +40,7 @@ BioASQ.factory('User', function ($resource) {
     );
 });
 
-BioASQ.factory('Question', function ($resource) {
+resources.factory('Question', function ($resource) {
     return $resource(
         '/questions/:id/:action/:follower',
         { id: '@id', follower: '@followerID' },
@@ -54,7 +56,7 @@ BioASQ.factory('Question', function ($resource) {
     );
 });
 
-BioASQ.factory('Comment', function ($resource) {
+resources.factory('Comment', function ($resource) {
     return $resource(
         '/comments/:id/:action',
         { id: '@id' },
@@ -65,7 +67,7 @@ BioASQ.factory('Comment', function ($resource) {
     );
 });
 
-BioASQ.factory('Message', function ($resource) {
+resources.factory('Message', function ($resource) {
     return $resource(
         '/messages/:action',
         {},

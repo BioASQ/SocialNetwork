@@ -1,7 +1,6 @@
 'use strict';
 
-// var filterModule = angular.module('bioasq.filter', [])
-var filterModule = BioASQ;
+var filterModule = angular.module('bioasq.filter', []);
 
 // Converts date into relative date
 filterModule.filter('relativeDate', function () {

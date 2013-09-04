@@ -1,9 +1,8 @@
 'use strict';
 
-/**
- *
- */
-BioASQ.TimelineCtrl = function($scope, TimelineRes, Question) {
+var BioASQ = angular.module('BioASQ');
+
+BioASQ.controller('TimelineCtrl', function ($scope, TimelineRes, Question) {
     $scope.currentCtrl = 'TimelineCtrl';
     var order = '';
 
@@ -15,6 +14,4 @@ BioASQ.TimelineCtrl = function($scope, TimelineRes, Question) {
         $scope.data = [];
         //callback(null);
     });
-};
-
-BioASQ.controller('TimelineCtrl', BioASQ.TimelineCtrl);
+});

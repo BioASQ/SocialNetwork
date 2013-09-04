@@ -1,6 +1,8 @@
 'use strict';
 
-BioASQ.LoginCtrl = function($routeParams, $scope, $location) {
+var BioASQ = angular.module('BioASQ');
+
+BioASQ.controller('LoginCtrl', function($routeParams, $scope, $location) {
     $scope.currentCtrl = 'LoginCtrl';
 
     $scope.login = {};
@@ -8,6 +10,4 @@ BioASQ.LoginCtrl = function($routeParams, $scope, $location) {
         //TODO
         $location.path( "home" );
     };
-};
-
-BioASQ.controller('LoginCtrl', BioASQ.LoginCtrl);
+});
