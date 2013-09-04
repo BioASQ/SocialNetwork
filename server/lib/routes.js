@@ -5,8 +5,16 @@ var routes = exports.createRoutes = function (server) {
     var models = server.get('models'),
         middleware = server.get('middleware');
 
-    server.get('/login', middleware, function (request, response) {
-        response.send(request.user);
+    server.get('/login', function (request, response) {
+        models.user.load('u1', function (err, user) {
+            if (err) { return response.status(500); }
+            if (!user) { return response.status(401); }
+            response.cookie('_auth', {
+                id:    user.id,
+                token: '123abc#?a!'
+            });
+            response.send(user);
+        });
     });
 
     server.get('/activities', middleware, function (request, response) {

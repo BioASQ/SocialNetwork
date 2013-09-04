@@ -13,6 +13,7 @@ exports.createServer = function (port, models, middleware) {
     var appPath = path.normalize(path.join(__dirname, '..', '..', 'app'));
     server.use(express.static(appPath))
           .use(express.bodyParser())
+          .use(express.cookieParser())
           .use(function(err, req, res, next) {
               console.error(err.stack);
               res.send(500, 'Something broke!');
@@ -43,15 +44,19 @@ exports.start = function (options, cb) {
         /*
          * TODO: authentication
          */
-        var loadUser = function (request, response, next) {
-            models.user.load('u1', function (err, user) {
+        var loadToken = function (request, response, next) {
+            if (!request.cookies['_auth']) { throw Error('Not authorized'); }
+            request.id    = request.cookies['_auth'].id;
+            request.token = request.cookies['_auth'].token;
+            console.log('AUTH: using token: ' + request.token);
+            models.user.load(request.id, function (err, user) {
                 request.user = user;
                 next();
             });
         };
 
         if (err) { return cb(Error('Error connecting to database.')); }
-        var server = exports.createServer(options.port, models, [ loadUser ]);
+        var server = exports.createServer(options.port, models, [ loadToken ]);
         cb(null, server);
     });
 };
