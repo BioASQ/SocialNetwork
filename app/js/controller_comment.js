@@ -3,7 +3,7 @@
 BioASQ.CommentController = function($scope, Comment, $http) {
     // comments replies
     $scope.fetchRepliesIfNeeded = function (comment) {
-        if (!comment.replies || (comment.replies < comment.reply_count)) {
+        if (!comment.replies || (comment.replies.length < comment.reply_count)) {
             comment.replies = Comment.replies({ id: comment.id });
         }
     };
