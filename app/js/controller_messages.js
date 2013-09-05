@@ -1,8 +1,8 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ');
+var controllers = angular.module('bioasq.controllers');
 
-BioASQ.controller('MessageCtrl', function ($scope, Message) {
+controllers.controller('MessageCtrl', function ($scope, Message) {
     $scope.currentCtrl = 'MessageCtrl';
 
     $scope.$watch('section', function () {

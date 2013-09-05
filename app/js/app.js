@@ -1,9 +1,19 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ', ['bioasq.filter', 'bioasq.resources', 'ngSanitize', 'ui.bootstrap', 'ui']);
+var dependencies = [
+    'bioasq.filters',
+    'bioasq.resources',
+    'bioasq.controllers',
+    'bioasq.services',
+    'ngSanitize',
+    'ui.bootstrap',
+    'ui'
+];
+
+var BioASQ = angular.module('BioASQ', dependencies);
 
 BioASQ.constant('pages', {
-    home: { description: 'activitites of people/things you follow' },
+    home: { controllerName: 'HomeCtrl', description: 'activitites of people/things you follow' },
     messages: { controllerName: 'MessageCtrl', description: 'received/sent messages' },
     timeline: { controllerName: 'TimelineCtrl', description: 'all activities' },
     questions: { controllerName: 'QuestionController', description: 'all questions' }

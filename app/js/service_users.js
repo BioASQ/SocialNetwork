@@ -3,7 +3,7 @@
 /**
  * Users service
  */
-BioASQ.Users = function(UserRes, CommentsRes, FollowersRes, FollowingRes, FollowRes) {
+var Users = function (UserRes, CommentsRes, FollowersRes, FollowingRes, FollowRes) {
     this.UserRes = UserRes;
     this.CommentsRes = CommentsRes;
     this.FollowersRes = FollowersRes;
@@ -11,7 +11,7 @@ BioASQ.Users = function(UserRes, CommentsRes, FollowersRes, FollowingRes, Follow
     this.FollowRes = FollowRes;
 };
 
-BioASQ.Users.prototype.getUser = function(id, callback) {
+Users.prototype.getUser = function (id, callback) {
     this.UserRes.get({
         id: id
 
@@ -23,7 +23,7 @@ BioASQ.Users.prototype.getUser = function(id, callback) {
     });
 };
 
-BioASQ.Users.prototype.getComments = function(id, callback) {
+Users.prototype.getComments = function (id, callback) {
     this.CommentsRes.get({
         id: id
 
@@ -35,7 +35,7 @@ BioASQ.Users.prototype.getComments = function(id, callback) {
     });
 };
 
-BioASQ.Users.prototype.getFollowers = function(id, callback) {
+Users.prototype.getFollowers = function (id, callback) {
     this.FollowersRes.get({
         id: id
 
@@ -47,7 +47,7 @@ BioASQ.Users.prototype.getFollowers = function(id, callback) {
     });
 };
 
-BioASQ.Users.prototype.getFollowing = function(id, callback) {
+Users.prototype.getFollowing = function (id, callback) {
     this.FollowingRes.get({
         id: id
 
@@ -59,7 +59,7 @@ BioASQ.Users.prototype.getFollowing = function(id, callback) {
     });
 };
 
-BioASQ.Users.prototype.follow = function(me, id, callback) {
+Users.prototype.follow = function (me, id, callback) {
     this.FollowRes.follow({
         who: me,
         id: id
@@ -72,14 +72,14 @@ BioASQ.Users.prototype.follow = function(me, id, callback) {
     });
 };
 
-BioASQ.Users.prototype.getFollowingIds = function(id, callback) {
-    this.getFollowing(id, function(data) {
+Users.prototype.getFollowingIds = function (id, callback) {
+    this.getFollowing(id, function (data) {
         var ids = [];
-        angular.forEach(data, function(v, k) {
+        angular.forEach(data, function (v, k) {
             ids.push(v.id);
         });
         callback(ids);
     });
 };
 
-BioASQ.service('Users', BioASQ.Users);
+angular.module('bioasq.services').service('Users', Users);

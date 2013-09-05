@@ -1,8 +1,8 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ');
+var controllers = angular.module('bioasq.controllers');
 
-BioASQ.controller('DialogCtrl', function ($scope, dialog, CommentRes, modalFactory) {
+controllers.controller('DialogCtrl', function ($scope, dialog, CommentRes, modalFactory) {
     $scope.currentCtrl = 'DialogCtrl';
     $scope.data = modalFactory.getData();
     $scope.input = modalFactory.getCacheData();

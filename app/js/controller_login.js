@@ -1,8 +1,8 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ');
+var controllers = angular.module('bioasq.controllers');
 
-BioASQ.controller('LoginCtrl', function($routeParams, $scope, $location) {
+controllers.controller('LoginCtrl', function($routeParams, $scope, $location) {
     $scope.currentCtrl = 'LoginCtrl';
 
     $scope.login = {};

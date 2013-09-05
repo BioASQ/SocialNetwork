@@ -1,8 +1,8 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ');
+var controllers = angular.module('bioasq.controllers');
 
-BioASQ.controller('QuestionController', function($scope, $routeParams, Question, Comment) {
+controllers.controller('QuestionController', function($scope, $routeParams, Question, Comment) {
     // fetch question list
     $scope.fetchQuestionsIfNeeded = function () {
         if (!$scope.questions) {

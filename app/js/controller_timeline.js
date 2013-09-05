@@ -1,8 +1,8 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ');
+var controllers = angular.module('bioasq.controllers');
 
-BioASQ.controller('TimelineCtrl', function ($scope, TimelineRes, Question) {
+controllers.controller('TimelineCtrl', function ($scope, TimelineRes, Question) {
     $scope.currentCtrl = 'TimelineCtrl';
     var order = '';
 

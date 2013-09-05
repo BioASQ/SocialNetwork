@@ -1,8 +1,8 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ');
+var controllers = angular.module('bioasq.controllers');
 
-BioASQ.controller('UserCtrl', function ($routeParams, $scope, Activity, User, modalFactory) {
+controllers.controller('UserCtrl', function ($routeParams, $scope, Activity, User, modalFactory) {
     $scope.currentCtrl = 'UserCtrl';
 
     $scope.$watch('section', function () {

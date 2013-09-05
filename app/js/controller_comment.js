@@ -1,8 +1,8 @@
 'use strict';
 
-var BioASQ = angular.module('BioASQ');
+var controllers = angular.module('bioasq.controllers');
 
-BioASQ.controller('CommentController', function($scope, Comment, $http) {
+controllers.controller('CommentController', function($scope, Comment, $http) {
     // comments replies
     $scope.fetchRepliesIfNeeded = function (comment) {
         if (!comment.replies || (comment.replies.length < comment.reply_count)) {

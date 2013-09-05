@@ -1,14 +1,11 @@
 'use strict';
 
-/**
- * Cache my user data
- */
-BioASQ.Me = function(MeRes) {
+var Me = function (MeRes) {
     this.MeRes = MeRes;
     this.data = null;
 };
 
-BioASQ.Me.prototype.login = function(callback) {
+Me.prototype.login = function(callback) {
     var self = this;
 
     if (this.data === null) {
@@ -21,7 +18,7 @@ BioASQ.Me.prototype.login = function(callback) {
     }
 };
 
-BioASQ.Me.prototype._login = function(callback) {
+Me.prototype._login = function(callback) {
     this.MeRes.login(
         function(data, headers) {
             callback(data);
@@ -31,4 +28,4 @@ BioASQ.Me.prototype._login = function(callback) {
         });
 };
 
-BioASQ.service('Me', BioASQ.Me);
+angular.module('bioasq.services').service('Me', Me);
