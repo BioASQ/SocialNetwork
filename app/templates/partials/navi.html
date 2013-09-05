@@ -1,20 +1,18 @@
 <div class="navbar navbar-inner">
-    <ul class="nav" data-ng-init="inflectorType='humanize'">
-        <li data-ng-repeat="page in pages"
-            data-ui-route="#/{{page}}"
-            data-ng-class="{active: $uiRoute}">
-                <a  data-ng-init="inflectorText=page"
-                    data-ng-href="#!/{{page}}">
-                        {{inflectorText|inflector:inflectorType}}
-                </a>
-        </li>
-    </ul>
-    <ul class="nav pull-right">
-        <li data-ui-route="#/users/{{me.id}}"
-            data-ng-class="{active: $uiRoute}">
-                <a data-ng-href="#!/users/{{me.id}}">
-                    {{me.first_name}} {{me.last_name}}
-                </a>
-        </li>
-    </ul>
+  <ul class="nav" data-ng-init="inflectorType='humanize'">
+    <li data-ng-repeat="(page, config) in pages"
+        data-ng-class="{active: $uiRoute}"
+        data-ui-route="#/{{page}}">
+        <a data-ng-href="#!/{{page}}">
+        {{page | inflector:inflectorType}}
+      </a>
+    </li>
+  </ul>
+  <ul class="nav pull-right">
+    <li data-ui-route="#/users/{{me.id}}" data-ng-class="{active: $uiRoute}">
+      <a data-ng-href="#!/users/{{me.id}}">
+        {{me.first_name}} {{me.last_name}}
+      </a>
+    </li>
+  </ul>
 </div>

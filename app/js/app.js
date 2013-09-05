@@ -2,27 +2,21 @@
 
 var BioASQ = angular.module('BioASQ', ['bioasq.filter', 'bioasq.resources', 'ngSanitize', 'ui.bootstrap', 'ui']);
 
-BioASQ.config(['$provide', '$routeProvider', function ($provide, $routeProvider) {
-    var pageControllers = {
-        home:      'HomeCtrl',
-        messages:  'MessageCtrl',
-        timeline:  'TimelineCtrl',
-        questions: 'QuestionController'
-    };
+BioASQ.constant('pages', {
+    home: { description: 'activitites of people/things you follow' },
+    messages: { controllerName: 'MessageCtrl', description: 'received/sent messages' },
+    timeline: { controllerName: 'TimelineCtrl', description: 'all activities' },
+    questions: { controllerName: 'QuestionController', description: 'all questions' }
+});
 
-    var pages = [];
-    angular.forEach(pageControllers, function (controllerName, page) {
+BioASQ.config(['$provide', '$routeProvider', 'pages', function ($provide, $routeProvider, pages) {
+    angular.forEach(pages, function (config, page) {
         $routeProvider.when('/' + page, {
             templateUrl: 'templates/' + page + '.html',
-            controller:  controllerName
+            controller: config.controllerName
         });
-        pages.push(page);
     });
 
-    $provide.value('pages', pages);
-}]);
-
-BioASQ.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider.when('/users/:creator', {
         templateUrl: 'templates/user.html',
         controller: 'UserCtrl'
@@ -43,7 +37,9 @@ BioASQ.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: 'templates/login.html',
         controller: 'LoginCtrl'
     });
+}]);
 
+BioASQ.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode(false).hashPrefix('!');
 }]);
 
