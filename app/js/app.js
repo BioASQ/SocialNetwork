@@ -64,7 +64,7 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
         }
         return function(promise) {
             return promise.then(success, error);
-        }
+        };
     }]);
 }]);
 
