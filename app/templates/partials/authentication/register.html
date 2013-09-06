@@ -1,55 +1,46 @@
-<div class="offset2 span8">
-    <div id="account-form" class="form-horizontal well">
-        <p id="sub1" class="subheading">Please tell us a little about yourself.</p>
+<div class="form-horizontal well offset2 span8">
+    <h4>Please tell us a little about yourself.</h4>
+    <hr>
+    <fieldset>
+        <div class="control-group">
+            <label class="control-label">First Name</label>
+            <div class="controls">
+                <input type="text" data-ng-model="register.firstName" class="input-xlarge">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Last Name</label>
+            <div class="controls">
+                <input type="text" data-ng-model="register.lastName" class="input-xlarge">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Email</label>
+            <div class="controls">
+                <input type="email" data-ng-model="register.email" class="input-xlarge">
+            </div>
+        </div>
+        <div class="code-group">
+            <label class="control-label">Invite Code</label>
+            <div class="controls" data-ng-init="code = register.code != ''">
+                <div data-ui-if="code">
+                    <input type="text" data-ng-model="register.code" class="input-xlarge" value={{register.code}} readonly>
+                </div>
+                <div data-ui-if="!code">
+                    <input type="text" data-ng-model="register.code" class="input-xlarge">
+                </div>
+            </div>
+        </div>
         <hr>
-        <fieldset>
-            <div id="firstname-cg" class="control-group">
-                <label for="firstname-tf" class="control-label">First Name</label>
-                <div class="controls">
-                    <input id="firstname-tf" type="text" name="firstname" class="input-xlarge">
-                </div>
+        <div class="control-group">
+            <label class="control-label">Password</label>
+            <div class="controls">
+                <input type="password" data-ng-model="register.password" class="input-xlarge">
             </div>
-            <div id="lastname-cg" class="control-group">
-                <label for="lastname-tf" class="control-label">Last Name</label>
-                <div class="controls">
-                    <input id="lastname-tf" type="text" name="lastname" class="input-xlarge">
-                </div>
-            </div>
-            <div id="email-cg" class="control-group">
-                <label for="email-tf" class="control-label">Email</label>
-                <div class="controls">
-                    <input id="email-tf" type="email" name="email" class="input-xlarge">
-                </div>
-            </div>
-            <div id="code-cg" class="code-group">
-                <label for="code-tf" class="control-label">Invite Code</label>
-                <div class="controls">
-                    <div data-ui-if="register.code">
-                        <input id="code-tf" type="text" name="code" class="input-xlarge" value={{register.code}} readonly>
-                    </div>
-                    <div data-ui-if="!register.code">
-                        <input id="code-tf" type="text" name="code" class="input-xlarge">
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <p id="sub2" class="subheading"></p>
-            <div id="pass-cg" class="control-group">
-                <label for="pass-tf" class="control-label">Password</label>
-                <div class="controls">
-                    <input id="pass-tf" type="password" name="pass" class="input-xlarge">
-                </div>
-            </div>
-            <div id="passagain-cg" class="control-group">
-                <label for="passagain-tf" class="control-label">Password Again</label>
-                <div class="controls">
-                    <input id="passagain-tf" type="password" name="passagain" value="" class="input-xlarge">
-                </div>
-            </div>
-            <div class="form-actions">
-                <button type="button" id="account-form-btn1" class="btn" data-ng-click="authentication.setSection('login')">Cancle</button>
-                <button type="submit" id="account-form-btn2" class="btn" data-ng-click="registration.submit()">Submit</button>
-            </div>
-        </fieldset>
-    </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-ng-click="register.submit()"><i class="icon-ok icon-white"></i> Submit</button>
+            <button type="button" class="btn btn-small"   data-ng-click="authentication.setSection('login')">Cancle</button>
+        </div>
+    </fieldset>
 </div>

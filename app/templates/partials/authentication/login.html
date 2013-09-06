@@ -1,11 +1,11 @@
-<div id="login-form" class="well offset4 span4">
-    <h1>Hello!</h1>
-    <p class="subheading">Please Login To Your Account</p>
+<div class="well offset4 span4">
+    <h3>BioASQ Social Network</h3>
+    <hr>
     <label>Email</label>
-    <input type="email" data-ng-model="login.email" id="email-tf" class="span4 required">
+    <input type="email" data-ng-model="login.email" class="span4 required">
     <label>Password</label>
-    <input type="password" data-ng-model="login.password" id="pass-tf" class="span4 required">
-    <button type="submit" data-ng-click="login.submit()" id="btn-login" class="btn btn-primary"><i class="icon-lock icon-white"></i>Sign in</button>
+    <input type="password" data-ng-model="login.password" class="span4 required">
+    <button type="submit" data-ng-click="login.submit()"  class="btn btn-primary"><i class="icon-lock icon-white"></i> Sign in</button>
     <!--<div class="pull-right">
         <label id="remember-me" class="checkbox">
             <input type="checkbox" data-ng-click="login.remember"checked="checked">Remember Me</label>
@@ -13,7 +13,7 @@
     <div class="clear-fix"></div>
     <hr>
     <div class="btm-links">
-        <a data-ng-click="authentication.setSection('remember')" id="forgot-password">Forgot Your Password?</a>
-        <a data-ng-click="authentication.setSection('register')" id="create-account" class="pull-right">Create An Account</a>
+        <a data-ng-click="authentication.setSection('remember')">Forgot Your Password?</a>
+        <a data-ng-click="authentication.setSection('register')" class="pull-right">Create An Account</a>
     </div>
 </div>
