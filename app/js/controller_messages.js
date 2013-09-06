@@ -8,7 +8,7 @@ controllers.controller('MessageCtrl', function ($scope, Message) {
     $scope.$watch('section', function () {
         if ($scope.section === 'inbox') {
             $scope.messages = Message.inbox();
-        } else {
+        } else if ($scope.section === 'outbox') {
             $scope.messages = Message.outbox();
         }
     });
