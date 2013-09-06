@@ -78,3 +78,15 @@ resources.factory('Message', function ($resource) {
         }
     );
 });
+
+resources.factory('Me', function ($resource) {
+    return $resource(
+        '/login',
+        {},
+        {
+            login:    { method: 'POST', params: { action: 'login'} },
+            register: { method: 'POST', params: { action: 'register'} },
+            remember: { method: 'GET' }
+        }
+    );
+});
