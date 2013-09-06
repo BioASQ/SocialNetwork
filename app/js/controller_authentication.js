@@ -2,8 +2,17 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('LoginCtrl', function($rootScope, $scope, $location, MeRes, Activity) {
-    $scope.currentCtrl = 'LoginCtrl';
+controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, MeRes, Activity) {
+    $scope.currentCtrl = 'AuthenticationCtrl';
+
+    $scope.register = {
+        email: '',
+        password: '',
+        fist_name: '',
+        last_name: '',
+        code : $routeParams['code'] ? $routeParams['code'] : '',
+        error: ''
+    };
 
     $scope.login = {
         email: '',
@@ -11,6 +20,14 @@ controllers.controller('LoginCtrl', function($rootScope, $scope, $location, MeRe
         error: ''
     };
 
+    $scope.authentication = {
+         //'login', 'register', 'remember'
+        section:  $scope.register.code === '' ? 'login' :  'register',
+        setSection: function(value){
+            this.section = value;
+        }
+    };
+    
     $scope.login.submit = function(){
         MeRes.login({id: $scope.login.email, password: $scope.login.password},
             function (user, headers) {
@@ -28,5 +45,8 @@ controllers.controller('LoginCtrl', function($rootScope, $scope, $location, MeRe
                 $scope.login.error = response;
             }
         );
+    }
+
+    $scope.register.submit = function(){  
     }
 });

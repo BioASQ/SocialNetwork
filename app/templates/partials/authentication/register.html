@@ -1,0 +1,55 @@
+<div class="offset2 span8">
+    <div id="account-form" class="form-horizontal well">
+        <p id="sub1" class="subheading">Please tell us a little about yourself.</p>
+        <hr>
+        <fieldset>
+            <div id="firstname-cg" class="control-group">
+                <label for="firstname-tf" class="control-label">First Name</label>
+                <div class="controls">
+                    <input id="firstname-tf" type="text" name="firstname" class="input-xlarge">
+                </div>
+            </div>
+            <div id="lastname-cg" class="control-group">
+                <label for="lastname-tf" class="control-label">Last Name</label>
+                <div class="controls">
+                    <input id="lastname-tf" type="text" name="lastname" class="input-xlarge">
+                </div>
+            </div>
+            <div id="email-cg" class="control-group">
+                <label for="email-tf" class="control-label">Email</label>
+                <div class="controls">
+                    <input id="email-tf" type="email" name="email" class="input-xlarge">
+                </div>
+            </div>
+            <div id="code-cg" class="code-group">
+                <label for="code-tf" class="control-label">Invite Code</label>
+                <div class="controls">
+                    <div data-ui-if="register.code">
+                        <input id="code-tf" type="text" name="code" class="input-xlarge" value={{register.code}} readonly>
+                    </div>
+                    <div data-ui-if="!register.code">
+                        <input id="code-tf" type="text" name="code" class="input-xlarge">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p id="sub2" class="subheading"></p>
+            <div id="pass-cg" class="control-group">
+                <label for="pass-tf" class="control-label">Password</label>
+                <div class="controls">
+                    <input id="pass-tf" type="password" name="pass" class="input-xlarge">
+                </div>
+            </div>
+            <div id="passagain-cg" class="control-group">
+                <label for="passagain-tf" class="control-label">Password Again</label>
+                <div class="controls">
+                    <input id="passagain-tf" type="password" name="passagain" value="" class="input-xlarge">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" id="account-form-btn1" class="btn" data-ng-click="authentication.setSection('login')">Cancle</button>
+                <button type="submit" id="account-form-btn2" class="btn" data-ng-click="registration.submit()">Submit</button>
+            </div>
+        </fieldset>
+    </div>
+</div>

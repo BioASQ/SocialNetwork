@@ -32,19 +32,14 @@ BioASQ.config(['$provide', '$routeProvider', 'pages', function ($provide, $route
         controller: 'UserCtrl'
     });
 
-    $routeProvider.when('/registration/:code', {
-        templateUrl: 'templates/registration.html',
-        controller: 'RegistrationCtrl'
-    });
-
-    $routeProvider.when('/registration', {
-        templateUrl: 'templates/registration.html',
-        controller: 'RegistrationCtrl'
+    $routeProvider.when('/authentication/:code', {
+        templateUrl: 'templates/authentication.html',
+        controller: 'AuthenticationCtrl'
     });
 
     $routeProvider.otherwise({
-        templateUrl: 'templates/login.html',
-        controller: 'LoginCtrl'
+        templateUrl: 'templates/authentication.html',
+        controller: 'AuthenticationCtrl'
     });
 }]);
 
@@ -60,7 +55,7 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
         }
         function error(response) {
             if(response.status === 401) {
-                $location.path('login');
+                $location.path('authentication');
                 return $q.reject(response);
             }
             else {
@@ -73,7 +68,7 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
     }]);
 }]);
 
-BioASQ.run(function (pages, $rootScope, $location) {
+BioASQ.run(function (pages, $rootScope, $routeParams, $location) {
     $rootScope.pages = pages;
     $rootScope.cache = {
         followings: []
@@ -83,8 +78,8 @@ BioASQ.run(function (pages, $rootScope, $location) {
     };
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
-        if($rootScope.me.id === 'anonymous'){
-            $location.path('login');
+        if($rootScope.me.id === 'anonymous' && next.controller !== 'AuthenticationCtrl'){
+            $location.path('authentication');
         }
     });
 });
