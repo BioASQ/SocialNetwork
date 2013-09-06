@@ -43,7 +43,6 @@ BioASQ.config(['$provide', '$routeProvider', 'pages', function ($provide, $route
     });
 
     $routeProvider.otherwise({
-        //redirectTo: '/' + BioASQ.pages[0]
         templateUrl: 'templates/login.html',
         controller: 'LoginCtrl'
     });
@@ -51,6 +50,27 @@ BioASQ.config(['$provide', '$routeProvider', 'pages', function ($provide, $route
 
 BioASQ.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode(false).hashPrefix('!');
+}]);
+
+BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
+    // redirects to the login page in case of a 401
+    $httpProvider.responseInterceptors.push(['$location', '$q', function($location, $q) {
+        function success(response) {
+            return response;
+        }
+        function error(response) {
+            if(response.status === 401) {
+                $location.path('login');
+                return $q.reject(response);
+            }
+            else {
+                return $q.reject(response);
+            }
+        }
+        return function(promise) {
+            return promise.then(success, error);
+        }
+    }]);
 }]);
 
 BioASQ.run(function (pages, $rootScope, Me, Activity) {
