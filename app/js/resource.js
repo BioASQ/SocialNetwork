@@ -117,10 +117,8 @@ BioASQ.factory('VoteRes', function($resource, $window) {
 // /login
 BioASQ.factory('MeRes', function($resource, $window) {
     return $resource(
-        '/login', {}, {
-            login: {
-                method: 'GET'
-            }
-        }
+        '/login',
+        {},
+        { login: { method: 'POST' } }
     );
 });

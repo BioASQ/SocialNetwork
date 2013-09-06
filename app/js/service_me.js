@@ -2,14 +2,14 @@
 
 var Me = function (MeRes) {
     this.MeRes = MeRes;
-    this.data = null;
+    this.data  = null;
 };
 
-Me.prototype.login = function(callback) {
+Me.prototype.login = function (login, password, callback) {
     var self = this;
 
     if (this.data === null) {
-        this._login(function(data) {
+        this._login(login, password, function (data) {
             self.data = data;
             callback(data);
         });
@@ -18,12 +18,12 @@ Me.prototype.login = function(callback) {
     }
 };
 
-Me.prototype._login = function(callback) {
-    this.MeRes.login(
-        function(data, headers) {
+Me.prototype._login = function (login, password, callback) {
+    this.MeRes.login({}, { id: login, password: password },
+        function (data, headers) {
             callback(data);
         },
-        function(response) {
+        function (response) {
             callback(null);
         });
 };

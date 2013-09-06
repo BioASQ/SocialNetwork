@@ -62,7 +62,15 @@ BioASQ.run(function (pages, $rootScope, Me, Activity) {
         id: 'anonymous'
     };
 
-    Me.login(function (user) {
+    // u1
+    var login = 'foo@bar.com', password = 'secret';
+
+    /*
+     * // u2
+     * var login = 'expert2@example.com', password = 'start$123';
+     */
+
+    Me.login(login, password, function (user) {
         $rootScope.me = user;
         Activity.following({ id: user.id }, function (result) {
             $rootScope.cache.followings = result.map(function (f) {
