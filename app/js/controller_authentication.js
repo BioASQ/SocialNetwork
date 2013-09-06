@@ -2,22 +2,24 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, MeRes, Activity) {
+controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, Me, Activity) {
     $scope.currentCtrl = 'AuthenticationCtrl';
+
+    $scope.login = {
+        email: '',
+        password: ''
+    };
 
     $scope.register = {
         email: '',
         password: '',
-        fist_name: '',
-        last_name: '',
-        code : $routeParams['code'] ? $routeParams['code'] : '',
-        error: ''
+        firstName: '',
+        lastName: '',
+        code : $routeParams['code'] ? $routeParams['code'] : ''
     };
 
-    $scope.login = {
-        email: '',
-        password: '',
-        error: ''
+    $scope.remember = {
+        email: ''
     };
 
     $scope.authentication = {
@@ -29,7 +31,8 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
     };
     
     $scope.login.submit = function(){
-        MeRes.login({id: $scope.login.email, password: $scope.login.password},
+        $scope.login.id = $scope.login.email;
+        Me.login($scope.login,
             function (user, headers) {
                 if(user.id !== 'anonymous'){
                     $rootScope.me = user;
@@ -45,8 +48,29 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
                 $scope.login.error = response;
             }
         );
-    }
+    };
 
-    $scope.register.submit = function(){  
-    }
+    $scope.register.submit = function(){
+        Me.register($scope.register,
+            function (data, headers) {
+                // TODO: data
+                $location.path( "authentication" );
+            },
+            function(response) {
+                $scope.register.error = response;
+            }
+        );
+    };
+
+    $scope.remember.submit = function(){
+        Me.remember($scope.remember,
+            function (data, headers) {
+                // TODO: data
+                $location.path( "authentication" );
+            },
+            function(response) {
+                $scope.remember.error = response;
+            }
+        );
+    };
 });
