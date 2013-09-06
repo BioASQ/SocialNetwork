@@ -73,7 +73,7 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
     }]);
 }]);
 
-BioASQ.run(function (pages, $rootScope, Me, Activity) {
+BioASQ.run(function (pages, $rootScope, $location) {
     $rootScope.pages = pages;
     $rootScope.cache = {
         followings: []
@@ -85,5 +85,6 @@ BioASQ.run(function (pages, $rootScope, Me, Activity) {
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         if($rootScope.me.id === 'anonymous'){
             $location.path('login');
-    }
+        }
+    });
 });
