@@ -2,12 +2,18 @@ var path    = require('path'),
     mongodb = require('mongodb'),
     express = require('express');
 
+// models
 var User     = require('./user').User,
     Question = require('./question').Question,
     Message  = require('./message').Message,
-    Activity = require('./activity').Activity;
+    Activity = require('./activity').Activity,
+    Login    = require('./login').Login;
 
-exports.createServer = function (port, models, middleware) {
+var Auth = require('./auth').Auth;
+
+const kAuthCookieKey = '_auth';
+
+exports.createServer = function (port, database, cb) {
     var server = express();
 
     var appPath = path.normalize(path.join(__dirname, '..', '..', 'app'));
@@ -19,44 +25,65 @@ exports.createServer = function (port, models, middleware) {
               res.send(500, 'Something broke!');
           });
 
-    server.set('models', models);
-    server.set('middleware', middleware);
+    var question = new Question(database),
+        user = new User(database);
+    server.set('models', {
+        user:     user,
+        message:  new Message(database),
+        activity: new Activity(database, question),
+        question: question
+    });
+
+    var auth = new Auth(user, new Login(database));
+
+    // authentication middleware
+    server.set('authenticate', function (request, response, next) {
+        var authCookie = request.cookies[kAuthCookieKey];
+        if (!authCookie) { return response.send(401); }
+        auth.validateToken(authCookie, function (err, result) {
+            if (err || !result.success) { return response.send(401); }
+            console.log('user ' + result.user.id + ' authenticated via token');
+            request.user = result.user;
+            next();
+        });
+    });
+
+    // login route
+    server.post('/login', function (request, response) {
+        var username = request.body.id,
+            password = request.body.password;
+        console.log(username);
+        console.log(password);
+        auth.validateCredentials(username, password, function (err, result) {
+            if (err || !result.success) { return response.send(401); }
+            console.log('user ' + result.user.id + ' authenticated login');
+            response.cookie(kAuthCookieKey, result.token);
+            response.send(result.user);
+        });
+    });
+
+    // logout route
+    server.get('/logout', function (request, response) {
+        var authCookie = request.cookies[kAuthCookieKey];
+        if (!authCookie) { return response.send(204); }
+        auth.invalidateToken(authCookie, function (err) {
+            response.clearCookie(kAuthCookieKey);
+            response.send(204);
+        });
+    });
 
     require('./routes').createRoutes(server);
 
     server.listen(port);
 
-    return server;
+    cb(null, server);
 };
 
 exports.start = function (options, cb) {
     var dbServer = new mongodb.Server(options.database.host, options.database.port, {}),
     dbConn = new mongodb.Db(options.database.name, dbServer, { safe: false });
     dbConn.open(function (err, database) {
-        var questionModel = new Question(database);
-        var models = {
-            user:     new User(database),
-            message:  new Message(database),
-            activity: new Activity(database, questionModel),
-            question: questionModel
-        };
-
-        /*
-         * TODO: authentication
-         */
-        var loadToken = function (request, response, next) {
-            if (!request.cookies['_auth']) { throw Error('Not authorized'); }
-            request.id    = request.cookies['_auth'].id;
-            request.token = request.cookies['_auth'].token;
-            console.log('AUTH: using token: ' + request.token);
-            models.user.load(request.id, function (err, user) {
-                request.user = user;
-                next();
-            });
-        };
-
         if (err) { return cb(Error('Error connecting to database.')); }
-        var server = exports.createServer(options.port, models, [ loadToken ]);
-        cb(null, server);
+        var server = exports.createServer(options.port, database, cb);
     });
 };

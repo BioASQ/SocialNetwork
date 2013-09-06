@@ -5,6 +5,7 @@
         "first_name": "Bio. med.",
         "last_name": "Expert 1",
         "email": "foo@bar.com",
+        "password": "$2a$04$LLKrDB1nUGREyjDrc.X7tubeihQnXXRpdOafv4YWSwoPuWssyf0Rm",
         "img": "http://placehold.it/100x100&text==(",
         "desciption": "Maecenas posuere ipsum eget mauris ultricies consequat. Maecenas rhoncus commodo venenatis." },
       { "id": "u2",
@@ -12,6 +13,7 @@
         "first_name": "Bio. med.",
         "last_name": "Expert 2",
         "email": "expert2@example.com",
+        "password": "$2a$04$7PbQmBJphpUa5ajI1YUD6etiDz0UxLpi5qAFST3aMAOZKwtfB4f5y",
         "img": "http://placehold.it/100x100&text==)",
         "desciption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
     ],
