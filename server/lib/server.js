@@ -1,4 +1,5 @@
 var path    = require('path'),
+    util    = require('util'),
     mongodb = require('mongodb'),
     express = require('express');
 
@@ -42,7 +43,7 @@ exports.createServer = function (port, database, cb) {
         if (!authCookie) { return response.send(401); }
         auth.validateToken(authCookie, function (err, result) {
             if (err || !result.success) { return response.send(401); }
-            console.log('user ' + result.user.id + ' authenticated via token');
+            util.log('auth: user ' + result.user.id + ' authenticated using token');
             request.user = result.user;
             next();
         });
@@ -52,11 +53,9 @@ exports.createServer = function (port, database, cb) {
     server.post('/login', function (request, response) {
         var username = request.body.id,
             password = request.body.password;
-        console.log(username);
-        console.log(password);
         auth.validateCredentials(username, password, function (err, result) {
             if (err || !result.success) { return response.send(401); }
-            console.log('user ' + result.user.id + ' authenticated login');
+            util.log('auth: user ' + result.user.id + ' authenticated via login');
             response.cookie(kAuthCookieKey, result.token);
             response.send(result.user);
         });
