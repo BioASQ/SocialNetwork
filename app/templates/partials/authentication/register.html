@@ -1,6 +1,4 @@
-<div class="form-horizontal well offset2 span8">
-    <h4>Please tell us a little about yourself.</h4>
-    <hr>
+
     <fieldset>
         <div class="control-group">
             <label class="control-label">First Name</label>
@@ -15,12 +13,12 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">Email</label>
+            <label class="control-label">Email Address</label>
             <div class="controls">
                 <input type="email" data-ng-model="register.email" class="input-xlarge">
             </div>
         </div>
-        <div class="code-group">
+        <div class="code-group" data-ui-if="authentication.section == 'register'">
             <label class="control-label">Invite Code</label>
             <div class="controls" data-ng-init="code = register.code != ''">
                 <div data-ui-if="code">
@@ -43,4 +41,3 @@
             <button type="button" class="btn btn-small"   data-ng-click="authentication.setSection('login')">Cancle</button>
         </div>
     </fieldset>
-</div>

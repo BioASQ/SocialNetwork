@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, MeService, Me) {
+controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, MeService) {
     $scope.currentCtrl = 'AuthenticationCtrl';
 
     $scope.login = {
@@ -48,7 +48,8 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
     };
 
     $scope.register.submit = function(){
-        Me.register($scope.register,
+        console.log('register');
+        MeService.Me.register($scope.register,
             function (data, headers) {
                 // TODO: data
                 $location.path( "authentication" );
@@ -60,7 +61,7 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
     };
 
     $scope.remember.submit = function(){
-        Me.remember($scope.remember,
+        MeService.Me.remember($scope.remember,
             function (data, headers) {
                 // TODO: data
                 $location.path( "authentication" );
@@ -69,5 +70,15 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
                 $scope.remember.error = response;
             }
         );
+    };
+
+    $scope.preferences = {
+        clicked: false,
+        click: function (){
+            this.clicked = !this.clicked;
+            if(this.clicked){
+                 $scope.register = MeService.user.data;
+            }
+        }
     };
 });

@@ -86,7 +86,8 @@ resources.factory('Me', function ($resource) {
         {
             login:    { method: 'POST', params: { action: 'login'} },
             register: { method: 'POST', params: { action: 'register'} },
-            remember: { method: 'GET' }
+            remember: { method: 'GET' },
+            preferences: { method: 'POST', params: { action: 'preferences'} }
         }
     );
 });

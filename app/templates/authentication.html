@@ -1,7 +1,13 @@
 <div class="container">
     <div class="row">
         <span data-ui-if="authentication.section=='login'"    data-ng-include="'templates/partials/authentication/login.html'"></span>
-        <span data-ui-if="authentication.section=='register'" data-ng-include="'templates/partials/authentication/register.html'"></span>
+        <div data-ui-if="authentication.section=='register'">
+            <div class="form-horizontal well offset2 span8">
+            <h4>Please tell us a little about yourself.</h4>
+            <hr>
+            <div data-ng-include="'templates/partials/authentication/register.html'"></div>
+            </div>
+        </div>
         <span data-ui-if="authentication.section=='remember'" data-ng-include="'templates/partials/authentication/remember.html'"></span>
     </div>
 </div>
