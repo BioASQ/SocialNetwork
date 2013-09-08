@@ -70,7 +70,7 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
     }]);
 }]);
 
-BioASQ.run(function (pages, $rootScope, $routeParams, $location, $cookies) {
+BioASQ.run(function (pages, $rootScope, $routeParams, $location, $cookies, MeService) {
 
     $rootScope.me = {
         id: 'anonymous'
@@ -84,6 +84,9 @@ BioASQ.run(function (pages, $rootScope, $routeParams, $location, $cookies) {
     $rootScope.cache = {
         followings: []
     };
+    if(MeService.user.followings !== null){
+        $rootScope.cache.followings = MeService.user.followings;
+    }
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         if($rootScope.me.id === 'anonymous' && next.controller !== 'AuthenticationCtrl'){
