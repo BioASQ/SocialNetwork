@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, Me, Activity) {
+controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, MeService) {
     $scope.currentCtrl = 'AuthenticationCtrl';
 
     $scope.login = {
@@ -32,22 +32,17 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
     
     $scope.login.submit = function(){
         $scope.login.id = $scope.login.email;
-        Me.login($scope.login,
-            function (user, headers) {
-                if(user.id !== 'anonymous'){
-                    $rootScope.me = user;
-                    Activity.following({ id: user.id }, function (result) {
-                        $rootScope.cache.followings = result.map(function (f) {
-                            return f.about;
-                        });
-                    });
-
-                    $cookies.id = user.id;
+        MeService.login($scope.login,
+            function(user){
+                if(user.data.id !== 'anonymous'){
+                    $rootScope.me = user.data;
+                    $rootScope.cache.followings = user.followings;
+                    $cookies.id = user.data.id;
                     $location.path( "home" );
                 }
             },
-            function(response) {
-                $scope.login.error = response;
+            function(error){
+                // TODO
             }
         );
     };
