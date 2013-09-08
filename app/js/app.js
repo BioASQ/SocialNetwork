@@ -56,7 +56,6 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
         }
         function error(response) {
             if(response.status === 401) {
-                $rootScope.me.id = 'anonymous';
                 $location.path('authentication');
                 return $q.reject(response);
             }
