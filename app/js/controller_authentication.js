@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, MeService) {
+controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, MeService, Me) {
     $scope.currentCtrl = 'AuthenticationCtrl';
 
     $scope.login = {
