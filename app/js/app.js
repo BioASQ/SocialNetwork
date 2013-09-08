@@ -7,7 +7,8 @@ var dependencies = [
     'bioasq.services',
     'ngSanitize',
     'ui.bootstrap',
-    'ui'
+    'ui',
+    'ngCookies'
 ];
 
 var BioASQ = angular.module('BioASQ', dependencies);
@@ -55,6 +56,7 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
         }
         function error(response) {
             if(response.status === 401) {
+                $rootScope.me.id = 'anonymous';
                 $location.path('authentication');
                 return $q.reject(response);
             }
@@ -68,18 +70,27 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
     }]);
 }]);
 
-BioASQ.run(function (pages, $rootScope, $routeParams, $location) {
+BioASQ.run(function (pages, $rootScope, $routeParams, $location, $cookies) {
+
+    $rootScope.me = {
+        id: 'anonymous'
+    };
+
+    if($cookies._auth && $cookies.id){
+        $rootScope.me.id = $cookies.id;
+    }
+
     $rootScope.pages = pages;
     $rootScope.cache = {
         followings: []
-    };
-    $rootScope.me = {
-        id: 'anonymous'
     };
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         if($rootScope.me.id === 'anonymous' && next.controller !== 'AuthenticationCtrl'){
             $location.path('authentication');
+        }
+        if($rootScope.me.id !== 'anonymous' && next.controller === 'AuthenticationCtrl'){
+            $location.path('home');
         }
     });
 });

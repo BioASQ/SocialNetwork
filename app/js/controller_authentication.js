@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, Me, Activity) {
+controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, Me, Activity) {
     $scope.currentCtrl = 'AuthenticationCtrl';
 
     $scope.login = {
@@ -41,6 +41,8 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
                             return f.about;
                         });
                     });
+
+                    $cookies.id = user.id;
                     $location.path( "home" );
                 }
             },
