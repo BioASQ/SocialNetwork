@@ -18,10 +18,15 @@ Base.prototype.create = function (doc, cb) {
     });
 };
 
-Base.prototype.load = function (id, cb) {
+Base.prototype.load = function (id, options, cb) {
+    if (typeof cb === 'undefined') {
+        cb = options;
+        options = {};
+    }
+
     if (id.length === 24) { id = new ObjectID(id); }
     this._collection(this._collectionName, function (err, collection) {
-        collection.findOne({ _id: id }, function (err, doc) {
+        collection.findOne({ _id: id }, options, function (err, doc) {
             if (err) { return cb(err); }
             if (doc) {
                 doc.id = String(doc._id);
@@ -52,11 +57,14 @@ Base.prototype.find = function (query, options, cb) {
 };
 
 Base.prototype.update = function (id, doc, cb) {
+    if (id.length === 24) { id = new ObjectID(id); }
     delete doc._id;
     this._collection(this._collectionName, function (err, collection) {
-        collection.update({ _id: id }, { $set: doc, save: true }, function (err) {
-            if (err) { return cb(err); }
-            cb(null);
+        collection.update({ _id: id }, { $set: doc } , function (err) {
+            if (typeof cb !== 'undefined') {
+                if (err) { return cb(err); }
+                cb(null);
+            }
         });
     });
 };

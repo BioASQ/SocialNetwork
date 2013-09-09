@@ -3,6 +3,11 @@ var path    = require('path'),
     mongodb = require('mongodb'),
     express = require('express');
 
+const kAuthCookieKey     = '_auth',
+      kRefreshCookieKey  = '_ret',
+      kMaxTokenAge       = 7200000, // 120 min
+      kRefreshDifference =   10000; //  10 sec
+
 // models
 var User     = require('./user').User,
     Question = require('./question').Question,
@@ -11,8 +16,6 @@ var User     = require('./user').User,
     Login    = require('./login').Login;
 
 var Auth = require('./auth').Auth;
-
-const kAuthCookieKey = '_auth';
 
 exports.createServer = function (port, database, cb) {
     var server = express();
@@ -26,8 +29,8 @@ exports.createServer = function (port, database, cb) {
               res.send(500, 'Something broke!');
           });
 
-    var question = new Question(database),
-        user = new User(database);
+    var user     = new User(database, { useRegistrationCode: true }),
+        question = new Question(database);
     server.set('models', {
         user:     user,
         message:  new Message(database),
@@ -35,7 +38,9 @@ exports.createServer = function (port, database, cb) {
         question: question
     });
 
-    var auth = new Auth(user, new Login(database));
+    var auth = new Auth(user, kMaxTokenAge);
+
+    user.setAuth(auth);
 
     // authentication middleware
     server.set('authenticate', function (request, response, next) {
@@ -49,28 +54,12 @@ exports.createServer = function (port, database, cb) {
         });
     });
 
-    // login route
-    server.post('/login', function (request, response) {
-        var username = request.body.id,
-            password = request.body.password;
-        auth.validateCredentials(username, password, function (err, result) {
-            if (err || !result.success) { return response.send(401); }
-            util.log('auth: user ' + result.user.id + ' authenticated via login');
-            response.cookie(kAuthCookieKey, result.token);
-            response.send(result.user);
-        });
+    require('./secure').createSecureRoutes(server, auth, {
+        authCookieKey:     kAuthCookieKey,
+        refreshCookieKey:  kRefreshCookieKey,
+        maxTokenAge:       kMaxTokenAge,
+        refreshDifference: kRefreshDifference
     });
-
-    // logout route
-    server.get('/logout', function (request, response) {
-        var authCookie = request.cookies[kAuthCookieKey];
-        if (!authCookie) { return response.send(204); }
-        auth.invalidateToken(authCookie, function (err) {
-            response.clearCookie(kAuthCookieKey);
-            response.send(204);
-        });
-    });
-
     require('./routes').createRoutes(server);
 
     server.listen(port);

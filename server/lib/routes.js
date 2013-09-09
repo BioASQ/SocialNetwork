@@ -150,11 +150,22 @@ var routes = exports.createRoutes = function (server) {
     });
 
     /*
+     * Get a user's preferences
+     */
+    server.get('/users/:id/preferences', authenticate, function (request, response) {
+        if (request.params.id !== request.user.id) { return response.send(401); }
+        models.user.details(request.user.id, function (err, user) {
+            if (err || !user) { return response.send(404); }
+            response.send(user);
+        });
+    });
+
+    /*
      * Unfollow a question
      */
     server.delete('/users/:uid/followers/:fid', authenticate, function (request, response) {
         if (request.params.fid !== request.user.id) {
-            return response.send(403);
+            return response.send(403, 'Cannot follow yourself');
         }
         models.activity.unfollow(request.params.uid, request.params.fid, function (err) {
             if (err) { return response.send(404); }
