@@ -31,5 +31,6 @@ server.start(options, function (err, server) {
     process.exit(-1);
   }
 
-  util.puts('social network server listening on http://127.0.0.1:' + options.port);
+  util.log('social network server started');
+  util.log('listening on port ' + options.port);
 });
