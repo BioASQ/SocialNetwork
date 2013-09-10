@@ -38,7 +38,7 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
                     $rootScope.me = user.data;
                     $rootScope.cache.followings = user.followings;
                     $cookies.id = user.data.id;
-                    $location.path( "home" );
+                    $location.path('/');
                 }
             },
             function (error) {

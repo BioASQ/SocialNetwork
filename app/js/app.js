@@ -33,9 +33,13 @@ BioASQ.config(['$provide', '$routeProvider', 'pages', function ($provide, $route
         controller: 'UserCtrl'
     });
 
-    $routeProvider.when('/authentication/:code', {
+    $routeProvider.when('/register/:code', {
         templateUrl: 'templates/authentication.html',
         controller: 'AuthenticationCtrl'
+    });
+
+    $routeProvider.when('/', {
+        redirectTo: '/home'
     });
 
     $routeProvider.otherwise({
@@ -49,21 +53,20 @@ BioASQ.config(['$locationProvider', function ($locationProvider) {
 }]);
 
 BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
-    // redirects to the login page in case of a 401
-    $httpProvider.responseInterceptors.push(['$location', '$q', function($location, $q) {
+    // redirects to the signin page in case of a 401
+    $httpProvider.responseInterceptors.push(['$location', '$q', function ($location, $q) {
         function success(response) {
             return response;
         }
         function error(response) {
-            if(response.status === 401) {
-                $location.path('authentication');
+            if (response.status === 401) {
+                $location.path('signin');
                 return $q.reject(response);
-            }
-            else {
+            } else {
                 return $q.reject(response);
             }
         }
-        return function(promise) {
+        return function (promise) {
             return promise.then(success, error);
         };
     }]);
@@ -75,7 +78,7 @@ BioASQ.run(function (pages, $rootScope, $routeParams, $location, $cookies, MeSer
         id: 'anonymous'
     };
 
-    if($cookies._auth && $cookies.id){
+    if ($cookies.id) {
         $rootScope.me.id = $cookies.id;
     }
 
@@ -83,16 +86,14 @@ BioASQ.run(function (pages, $rootScope, $routeParams, $location, $cookies, MeSer
     $rootScope.cache = {
         followings: []
     };
-    if(MeService.user.followings !== null){
+
+    if (MeService.user.followings !== null) {
         $rootScope.cache.followings = MeService.user.followings;
     }
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
-        if($rootScope.me.id === 'anonymous' && next.controller !== 'AuthenticationCtrl'){
-            $location.path('authentication');
-        }
-        if($rootScope.me.id !== 'anonymous' && next.controller === 'AuthenticationCtrl'){
-            $location.path('home');
+        if (!$rootScope.me.id === 'anonymous' && next.controller !== 'AuthenticationCtrl') {
+            $location.path('signin');
         }
     });
 });
