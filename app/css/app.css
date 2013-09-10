@@ -27,6 +27,12 @@ a{
     padding-bottom: 19px;
 }
 
+.center {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* ui-reset */
 .ui-resetwrap {
     position: relative;

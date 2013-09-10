@@ -1,16 +1,21 @@
 <div class="form-horizontal well offset2 span8">
-  <h4>Retrieve Your Password</h4>
+  <h4>Reset Your Password</h4>
   <hr>
   <fieldset>
     <div class="control-group">
-      <label class="control-label">Email Address</label>
+      <label class="control-label" for="input.email">Email address</label>
       <div class="controls">
-        <input type="email" data-ng-model="remember.email" class="input-xlarge span4 required">
+        <input type="text" id="input.email" data-ng-model="remember.email" class="span5 required">
       </div>
     </div>
     <div class="form-actions">
-      <button type="submit" data-ng-click="remember.submit()" class="btn btn-primary"><i class="icon-white icon-refresh"></i> Send Password</button>
-      <button type="button" data-ng-click="authentication.setSection('login')" class="btn btn-small">Cancle</button>
+      <div class="pull-right" style="margin-right:40px">
+        <button type="button" data-ng-click="authentication.setSection('login')" class="btn">Cancel</button>
+        <button type="submit" data-ng-click="remember.submit()" class="btn btn-primary">
+          <i class="icon-white icon-refresh"></i>
+          Send Link
+        </button>
+      </div>
     </div>
   </fieldset>
 </div>

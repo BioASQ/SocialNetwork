@@ -13,8 +13,8 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
     $scope.register = {
         email: '',
         password: '',
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         code : $routeParams['code'] ? $routeParams['code'] : ''
     };
 

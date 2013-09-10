@@ -81,7 +81,7 @@ resources.factory('Message', function ($resource) {
 
 resources.factory('Me', function ($resource) {
     return $resource(
-        '/login',
+        '/:action',
         {},
         {
             login:    { method: 'POST', params: { action: 'login'} },
