@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, MeService) {
+controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, MeService, Alert) {
     $scope.currentCtrl = 'AuthenticationCtrl';
 
     $scope.login = {
@@ -41,8 +41,10 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
                     $location.path( "home" );
                 }
             },
-            function(error){
-                // TODO
+            function (error) {
+                if (error.status === 401) {
+                    Alert.add({ type: 'error', message: 'Invalid login!' });
+                }
             }
         );
     };
