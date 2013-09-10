@@ -36,6 +36,7 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
         if (request.params.id !== request.user.id) { return response.send(401); }
         var username = request.user.email,
             password = request.body.password;
+        if (!username || !password) { return response.send(401); }
         auth.validateCredentials(username, password, function (err, result) {
             if (!result.success) { return response.send(401); }
             models.user.update(request.user.id, request.body, function (err) {
@@ -71,6 +72,7 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
     server.post('/login', function (request, response) {
         var username = request.body.id,
             password = request.body.password;
+        if (!username || !password) { return response.send(401); }
         auth.validateCredentials(username, password, function (err, result) {
             if (err || !result.success) { return response.send(401); }
             util.log('auth: user ' + result.user.id + ' authenticated via login');
