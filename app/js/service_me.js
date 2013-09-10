@@ -21,7 +21,7 @@ MeService.prototype.login = function (input, okCb, errorCb) {
             }
         );
     } else {
-        callback(this.data.user);
+        errorCb(this.user.data);
     }
 };
 
