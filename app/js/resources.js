@@ -87,6 +87,7 @@ resources.factory('Me', function ($resource) {
         {},
         {
             login:       { method: 'POST', params: { action: 'login'} },
+            logout:      { method: 'GET',  params: { action: 'logout'} },
             register:    { method: 'POST', params: { action: 'register'} },
             remember:    { method: 'GET' }
         }

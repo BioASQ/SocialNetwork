@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('UserCtrl', function ($routeParams, $scope, $modal, Activity, User) {
+controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Me) {
     $scope.currentCtrl = 'UserCtrl';
 
     $scope.$watch('section', function () {
@@ -40,6 +40,15 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $modal, Activ
         }
     };
 
+    $scope.signout = function () {
+        Me.logout(function () {
+            $rootScope.me = {
+                id: 'anonymous'
+            };
+            $location.path('/');
+        });
+    };
+
     $scope.preferences = function () {
         User.details({ id: $scope.me.id }, function (details) {
             $scope.userDetails = details;
@@ -47,6 +56,7 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $modal, Activ
                 templateUrl: 'templates/partials/preferences.html',
                 backdrop: true,
                 scope: $scope,
+                windowClass: 'modal-wide'
             });
             modal.result.then(function () {
                 User.preferences({ id: $scope.me.id }, $scope.userDetails, function () {

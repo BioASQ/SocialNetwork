@@ -18,6 +18,11 @@ a{
     width: 515px;
 }
 
+.modal-wide {
+  width: 620px;
+  margin-left: -310px;
+}
+
 .vspace{
     height: 20px
 }
