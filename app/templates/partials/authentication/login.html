@@ -1,29 +1,29 @@
 <div class="row">
   <div class="span5 center">
-<div class="well">
-  <h3>BioASQ Social Network</h3>
-  <hr>
-  <label for="input.email">Email address</label>
-  <input type="text" id="input.email" data-ng-model="login.email" class="span4 required" style="width:96%">
+    <div class="well">
+      <h3>BioASQ Social Network</h3>
+      <hr>
+      <label for="input.email">Email address</label>
+      <input type="text" id="input.email" data-ng-model="login.email" class="span4 required" style="width:96%">
 
-  <label for="input.password">Password</label>
-  <input type="password" id="input.password" data-ng-model="login.password" class="span4 required" style="width:96%">
-  <div class="pull-right">
-    <button data-ng-click="login.submit()" class="btn btn-primary">
-      <i class="icon-lock icon-white"></i>
-      Sign in
-    </button>
+      <label for="input.password">Password</label>
+      <input type="password" id="input.password" data-ng-model="login.password" class="span4 required" style="width:96%">
+      <div class="pull-right">
+        <button data-ng-click="login.submit()" class="btn btn-primary">
+          <i class="icon-lock icon-white"></i>
+          Sign in
+        </button>
+      </div>
+      <div class="clearfix"></div>
+      <!--<div class="pull-right">
+        <label id="remember-me" class="checkbox">
+          <input type="checkbox" data-ng-click="login.remember"checked="checked">Remember Me</label>
+      </div>-->
+      <hr>
+      <div class="btm-links">
+        <a data-ng-click="authentication.setSection('remember')">Forgot Your Password?</a>
+        <a data-ng-click="authentication.setSection('register')" class="pull-right">Create An Account</a>
+      </div>
+    </div>
   </div>
-  <div class="clearfix"></div>
-  <!--<div class="pull-right">
-    <label id="remember-me" class="checkbox">
-      <input type="checkbox" data-ng-click="login.remember"checked="checked">Remember Me</label>
-  </div>-->
-  <hr>
-  <div class="btm-links">
-    <a data-ng-click="authentication.setSection('remember')">Forgot Your Password?</a>
-    <a data-ng-click="authentication.setSection('register')" class="pull-right">Create An Account</a>
-  </div>
-</div>
-</div>
 </div>

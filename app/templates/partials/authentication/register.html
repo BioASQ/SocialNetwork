@@ -1,53 +1,61 @@
-<fieldset>
-  <div class="control-group">
-    <label class="control-label" for="input.first_name">First name</label>
-    <div class="controls">
-      <input type="text" id="input.first_name" data-ng-model="register.first_name" class="span4">
+<div class="row">
+  <div class="span8 center">
+    <div class="form-horizontal well">
+      <h4>Please tell us a little about yourself.</h4>
+      <hr>
+      <fieldset>
+        <div class="control-group">
+          <label class="control-label" for="input.first_name">First name</label>
+          <div class="controls">
+            <input type="text" id="input.first_name" data-ng-model="register.first_name" class="span4">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="input.last_name">Last name</label>
+          <div class="controls">
+            <input type="text" id="input.last_name" data-ng-model="register.last_name" class="span4">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="input.email">Email address</label>
+          <div class="controls">
+            <input type="text" id="input.email" data-ng-model="register.email" class="span4">
+          </div>
+        </div>
+        <div class="code-group" data-ui-if="authentication.section == 'register'">
+          <label class="control-label" for="input.code">Invite code</label>
+          <div class="controls" data-ng-init="code = register.code != ''">
+            <div data-ui-if="code">
+              <input type="text" data-ng-model="register.code" class="span4" value={{register.code}} readonly>
+            </div>
+            <div data-ui-if="!code">
+              <input type="text" id="input.code" data-ng-model="register.code" class="span4">
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="control-group">
+          <label class="control-label" for="input.password1">Password</label>
+          <div class="controls">
+            <input type="password" id="input.password1" data-ng-model="register.password1" class="span4">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="input.password2">Repeat password</label>
+          <div class="controls">
+            <input type="password" id="input.password2" data-ng-model="register.password2" class="span4">
+          </div>
+        </div>
+        <div class="form-actions">
+          <div class="pull-right" style="margin-right:80px">
+            <button type="button" class="btn"   data-ng-click="authentication.setSection('login')">Cancel</button>
+            <button type="submit" class="btn btn-primary" data-ng-click="register.submit()">
+              <i class="icon-ok icon-white"></i>
+              Register
+            </button>
+          </div>
+        </div>
+      </fieldset>
     </div>
   </div>
-  <div class="control-group">
-    <label class="control-label" for="input.last_name">Last name</label>
-    <div class="controls">
-      <input type="text" id="input.last_name" data-ng-model="register.last_name" class="span4">
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label" for="input.email">Email address</label>
-    <div class="controls">
-      <input type="text" id="input.email" data-ng-model="register.email" class="span4">
-    </div>
-  </div>
-  <div class="code-group" data-ui-if="authentication.section == 'register'">
-    <label class="control-label" for="input.code">Invite code</label>
-    <div class="controls" data-ng-init="code = register.code != ''">
-      <div data-ui-if="code">
-        <input type="text" data-ng-model="register.code" class="span4" value={{register.code}} readonly>
-      </div>
-      <div data-ui-if="!code">
-        <input type="text" id="input.code" data-ng-model="register.code" class="span4">
-      </div>
-    </div>
-  </div>
-  <hr>
-  <div class="control-group">
-    <label class="control-label" for="input.password1">Password</label>
-    <div class="controls">
-      <input type="password" id="input.password1" data-ng-model="register.password1" class="span4">
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label" for="input.password2">Repeat password</label>
-    <div class="controls">
-      <input type="password" id="input.password2" data-ng-model="register.password2" class="span4">
-    </div>
-  </div>
-  <div class="form-actions">
-    <div class="pull-right" style="margin-right:120px">
-      <button type="button" class="btn"   data-ng-click="authentication.setSection('login')">Cancle</button>
-      <button type="submit" class="btn btn-primary" data-ng-click="register.submit()">
-        <i class="icon-ok icon-white"></i>
-        Submit
-      </button>
-    </div>
-  </div>
-</fieldset>
+</div>
