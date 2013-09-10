@@ -1,43 +1,42 @@
-
-    <fieldset>
-        <div class="control-group">
-            <label class="control-label">First Name</label>
-            <div class="controls">
-                <input type="text" data-ng-model="register.firstName" class="input-xlarge">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Last Name</label>
-            <div class="controls">
-                <input type="text" data-ng-model="register.lastName" class="input-xlarge">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Email Address</label>
-            <div class="controls">
-                <input type="email" data-ng-model="register.email" class="input-xlarge">
-            </div>
-        </div>
-        <div class="code-group" data-ui-if="authentication.section == 'register'">
-            <label class="control-label">Invite Code</label>
-            <div class="controls" data-ng-init="code = register.code != ''">
-                <div data-ui-if="code">
-                    <input type="text" data-ng-model="register.code" class="input-xlarge" value={{register.code}} readonly>
-                </div>
-                <div data-ui-if="!code">
-                    <input type="text" data-ng-model="register.code" class="input-xlarge">
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div class="control-group">
-            <label class="control-label">Password</label>
-            <div class="controls">
-                <input type="password" data-ng-model="register.password" class="input-xlarge">
-            </div>
-        </div>
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary" data-ng-click="register.submit()"><i class="icon-ok icon-white"></i> Submit</button>
-            <button type="button" class="btn btn-small"   data-ng-click="authentication.setSection('login')">Cancle</button>
-        </div>
-    </fieldset>
+<fieldset>
+  <div class="control-group">
+    <label class="control-label">First Name</label>
+    <div class="controls">
+      <input type="text" data-ng-model="register.firstName" class="input-xlarge">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Last Name</label>
+    <div class="controls">
+      <input type="text" data-ng-model="register.lastName" class="input-xlarge">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Email Address</label>
+    <div class="controls">
+      <input type="email" data-ng-model="register.email" class="input-xlarge">
+    </div>
+  </div>
+  <div class="code-group" data-ui-if="authentication.section == 'register'">
+    <label class="control-label">Invite Code</label>
+    <div class="controls" data-ng-init="code = register.code != ''">
+      <div data-ui-if="code">
+        <input type="text" data-ng-model="register.code" class="input-xlarge" value={{register.code}} readonly>
+      </div>
+      <div data-ui-if="!code">
+        <input type="text" data-ng-model="register.code" class="input-xlarge">
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="control-group">
+    <label class="control-label">Password</label>
+    <div class="controls">
+      <input type="password" data-ng-model="register.password" class="input-xlarge">
+    </div>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary" data-ng-click="register.submit()"><i class="icon-ok icon-white"></i> Submit</button>
+    <button type="button" class="btn btn-small"   data-ng-click="authentication.setSection('login')">Cancle</button>
+  </div>
+</fieldset>
