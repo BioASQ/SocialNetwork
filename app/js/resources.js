@@ -33,9 +33,11 @@ resources.factory('User', function ($resource) {
         '/users/:id/:action/:me',
         { id: '@id', me: '@me' },
         {
-            follow:    { method: 'POST',   params: { action: 'followers' } },
-            unfollow:  { method: 'DELETE', params: { action: 'followers' } },
-            message:   { method: 'POST',   params: { action: 'messages' } }
+            follow:      { method: 'POST',   params: { action: 'followers' } },
+            unfollow:    { method: 'DELETE', params: { action: 'followers' } },
+            message:     { method: 'POST',   params: { action: 'messages' } },
+            details:     { method: 'GET',    params: { action: 'preferences'} },
+            preferences: { method: 'POST',   params: { action: 'preferences'} }
         }
     );
 });
@@ -84,10 +86,9 @@ resources.factory('Me', function ($resource) {
         '/:action',
         {},
         {
-            login:    { method: 'POST', params: { action: 'login'} },
-            register: { method: 'POST', params: { action: 'register'} },
-            remember: { method: 'GET' },
-            preferences: { method: 'POST', params: { action: 'preferences'} }
+            login:       { method: 'POST', params: { action: 'login'} },
+            register:    { method: 'POST', params: { action: 'register'} },
+            remember:    { method: 'GET' }
         }
     );
 });

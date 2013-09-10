@@ -1,0 +1,66 @@
+<div class="row dialog">
+  <div class="span8 center">
+    <div class="form-horizontal well">
+      <h4>Change your user preferences</h4>
+      <hr>
+      {{test}}
+      <fieldset>
+        <div class="control-group">
+          <label class="control-label" for="input.first_name">First name</label>
+          <div class="controls">
+            <input type="text" id="input.first_name" data-ng-model="userDetails.first_name" class="span4">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="input.last_name">Last name</label>
+          <div class="controls">
+            <input type="text" id="input.last_name" data-ng-model="userDetails.last_name" class="span4">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="input.email">Email address</label>
+          <div class="controls">
+            <input type="text" id="input.email" data-ng-model="userDetails.email" class="span4">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="input.password1">New password</label>
+          <div class="controls">
+            <input type="password" id="input.password1" data-ng-model="userDetails.password1" class="span4">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="input.password2">Repeat new password</label>
+          <div class="controls">
+            <input type="password" id="input.password2" data-ng-model="userDetails.password2" class="span4">
+          </div>
+        </div>
+        <hr>
+        <div class="control-group">
+          <div class="controls">
+            <label class="checkbox">
+              <input type="checkbox" data-ng-model="userDetails.notifications">
+              Receive notifications by email
+            </label>
+          </div>
+        </div>
+        <hr>
+        <div class="control-group">
+          <label class="control-label" for="input.password">Current password</label>
+          <div class="controls">
+            <input type="password" id="input.password" data-ng-model="userDetails.password" class="span4">
+          </div>
+        </div>
+        <div class="form-actions">
+          <div class="pull-right" style="margin-right:80px">
+            <button type="button" class="btn" data-ng-click="$dismiss()">Cancel</button>
+            <button type="submit" class="btn btn-primary" data-ng-click="$close(userDetails)">
+              <i class="icon-ok icon-white"></i>
+              Save preferences
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</div>

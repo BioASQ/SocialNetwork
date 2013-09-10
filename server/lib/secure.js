@@ -74,7 +74,7 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
         auth.validateCredentials(username, password, function (err, result) {
             if (err || !result.success) { return response.send(401); }
             util.log('auth: user ' + result.user.id + ' authenticated via login');
-            models.user.update(username, { last_login: new Date() } );
+            models.user.update(result.user.id, { last_login: new Date() } );
             response.status(200)
                     .cookie(options.authCookieKey,
                             result.token,

@@ -92,17 +92,19 @@ User.prototype.create = function (doc, cb) {
 };
 
 User.prototype.update = function (id, doc, cb) {
-    if (!(doc.password1 || doc.password2)) {
-        return Base.prototype.update.call(this, id, doc, cb);
+    var self = this,
+        user = JSON.parse(JSON.stringify(doc));
+
+    if (!(user.password1 || user.password2)) {
+        delete user.password;
+        return Base.prototype.update.call(self, id, user, cb);
     }
 
-    if ((doc.password1 !== doc.password2)) {
+    if ((user.password1 !== user.password2)) {
         return cb(new Error('passwords do not match'));
     }
 
-    var self = this,
-        user = JSON.parse(JSON.stringify(doc));
-    self._auth.hashPassword(doc.password1, function (err, hash) {
+    self._auth.hashPassword(user.password1, function (err, hash) {
         user.password = hash;
         delete user.password1;
         delete user.password2;

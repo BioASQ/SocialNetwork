@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('UserCtrl', function ($routeParams, $scope, Activity, User, modalFactory) {
+controllers.controller('UserCtrl', function ($routeParams, $scope, $modal, Activity, User) {
     $scope.currentCtrl = 'UserCtrl';
 
     $scope.$watch('section', function () {
@@ -38,5 +38,26 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, Activity, Use
         if ($scope.section === 'followers') {
             $scope.activities = Activity.followers({}, { id: $routeParams.creator });
         }
+    };
+
+    $scope.preferences = function () {
+        User.details({ id: $scope.me.id }, function (details) {
+            $scope.userDetails = details;
+            var modal = $modal.open({
+                templateUrl: 'templates/partials/preferences.html',
+                backdrop: true,
+                scope: $scope,
+            });
+            modal.result.then(function () {
+                User.preferences({ id: $scope.me.id }, $scope.userDetails, function () {
+                    console.log('preferences saved');
+                    delete $scope.userDetails;
+                }, function () {
+                    console.error('error saving prefs');
+                });
+            }, function () {
+                delete $scope.userDetails;
+            });
+        });
     };
 });

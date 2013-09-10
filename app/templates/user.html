@@ -28,12 +28,9 @@
       </div>
     </div>
   </div>
-  <div class="row" data-ng-hide="me.id != user.id" data-ng-controller="AuthenticationCtrl">
+  <div class="row" data-ng-hide="me.id != user.id">
     <div class="offset1 span12 btn-group">
-        <button class="btn" data-ng-click="preferences.click()">Preferences</button>
-    </div>
-    <div class="form-horizontal well offset1 span10" data-ui-if="preferences.clicked">
-        <div data-ng-include="'templates/partials/authentication/register.html'"></div>
+        <button class="btn" data-ng-click="preferences()">Preferences</button>
     </div>
   </div>
   <div class="row"><hr class="offset3 span6"></div>
