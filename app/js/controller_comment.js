@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('CommentController', function($scope, Comment, $http) {
+controllers.controller('CommentController', function($scope, Comment, Auth) {
     // comments replies
     $scope.fetchRepliesIfNeeded = function (comment) {
         if (!comment.replies || (comment.replies.length < comment.reply_count)) {
@@ -14,7 +14,7 @@ controllers.controller('CommentController', function($scope, Comment, $http) {
         $scope.temp = {
             comment: {
                 about:    comment.about,
-                creator:  $scope.me.id,
+                creator:  Auth.user().id,
                 reply_to: comment.id
             }
         };

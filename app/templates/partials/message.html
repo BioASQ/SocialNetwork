@@ -8,7 +8,7 @@
     <span class="label">{{message.created | relativeDate}}</span>
   </span>
 </span>
-<h4 class="clearfix">{{message.title}}</h4>
+<h4 class="clearfix">{{message.title || '[No subject]'}}</h4>
 <div data-ng-bind-html="message.content | newlines"></div>
 <hr data-ui-if="newMessage.reply_to==message.id">
 <div class="row" data-ui-if="section=='inbox'" data-ng-init="newMessage.reply_to==message.id">

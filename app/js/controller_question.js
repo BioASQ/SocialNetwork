@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('QuestionController', function($scope, $routeParams, Question, Comment) {
+controllers.controller('QuestionController', function($scope, $routeParams, Question, Comment, Auth) {
     // fetch question list
     $scope.fetchQuestionsIfNeeded = function () {
         if (!$scope.questions) {
@@ -35,12 +35,12 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
     // follow
     $scope.toggleFollow = function (question) {
         if (question.follows) {
-            Question.unfollow({ id: question.id, follower: $scope.me.id }, function () {
+            Question.unfollow({ id: question.id, follower: Auth.user().id }, function () {
                 question.follows = false;
                 $scope.cache.followings.splice($scope.cache.followings.indexOf(question.id), 1);
             });
         } else {
-            Question.follow({ id: question.id }, { creator: $scope.me.id }, function () {
+            Question.follow({ id: question.id }, { creator: Auth.user().id }, function () {
                 question.follows = true;
                 $scope.cache.followings.push(question.id);
             });
@@ -50,7 +50,7 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
     // vote on a question
     $scope.vote = function (question, dir) {
         Question.vote({ id: question.id },
-                      { creator: $scope.me.id, about: question.id, dir: dir },
+                      { creator: Auth.user().id, about: question.id, dir: dir },
                       function (response) { question.rank = response.rank; }
         );
     };
@@ -59,7 +59,7 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
         $scope.temp = {
             comment: {
                 about:   question.id,
-                creator: $scope.me.id
+                creator: Auth.user().id
             }
         };
     };

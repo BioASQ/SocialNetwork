@@ -2,9 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('MessageCtrl', function ($scope, Message) {
-    $scope.currentCtrl = 'MessageCtrl';
-
+controllers.controller('MessageCtrl', function ($scope, Message, Auth) {
     $scope.$watch('section', function () {
         if ($scope.section === 'inbox') {
             $scope.messages = Message.inbox();
@@ -15,7 +13,7 @@ controllers.controller('MessageCtrl', function ($scope, Message) {
 
     $scope.create = function (receipient) {
         $scope.newMessage = {
-            creator: $scope.me.id,
+            creator: Auth.user().id,
             isReply: false
         };
 
@@ -29,7 +27,7 @@ controllers.controller('MessageCtrl', function ($scope, Message) {
 
     $scope.reply = function (message) {
         $scope.newMessage = {
-            creator:         $scope.me.id,
+            creator:         Auth.user().id,
             to:              message.creator,
             reply_to:        message.id,
             needsReceipient: false,
