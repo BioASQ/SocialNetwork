@@ -81,7 +81,7 @@ resources.factory('Message', function ($resource) {
     );
 });
 
-resources.factory('Me', function ($resource) {
+resources.factory('Backend', function ($resource) {
     return $resource(
         '/:action',
         {},

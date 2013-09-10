@@ -1,5 +1,5 @@
 <div class="container">
-  <div data-ng-include="'templates/partials/navi.html'"></div>
+  <div data-ng-controller="NavigationCtrl" data-ng-include="'templates/partials/navi.html'"></div>
   <div class="row">
   <button class="btn offset4 span4" data-ui-if="!newMessage.needsReceipient" data-ng-click="create()">
     New Message

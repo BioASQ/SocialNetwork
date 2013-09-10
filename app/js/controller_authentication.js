@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, MeService, Alert) {
+controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, $scope, $location, $cookies, Auth, Alert) {
     $scope.currentCtrl = 'AuthenticationCtrl';
 
     $scope.login = {
@@ -30,18 +30,13 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
         }
     };
     
-    $scope.login.submit = function(){
+    $scope.login.submit = function () {
         $scope.login.id = $scope.login.email;
-        MeService.login($scope.login,
-            function(user){
-                if(user.data.id !== 'anonymous'){
-                    $rootScope.me = user.data;
-                    $rootScope.cache.followings = user.followings;
-                    $cookies.id = user.data.id;
-                    $location.path('/');
-                }
-            },
-            function (error) {
+        Auth.signin(
+            $scope.login,
+            function (user) {
+                $location.path('/');
+            }, function (error) {
                 if (error.status === 401) {
                     Alert.add({ type: 'error', message: 'Invalid login!' });
                 }
@@ -51,36 +46,28 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
 
     $scope.register.submit = function(){
         console.log('register');
-        MeService.Me.register($scope.register,
-            function (data, headers) {
-                // TODO: data
-                $location.path( "authentication" );
+        Auth.register(
+            $scope.register,
+            function () {
+                $location.path('/signin');
             },
-            function(response) {
-                $scope.register.error = response;
+            function (error) {
+                $scope.register.error = error;
             }
         );
     };
 
     $scope.remember.submit = function(){
-        MeService.Me.remember($scope.remember,
-            function (data, headers) {
-                // TODO: data
-                $location.path( "authentication" );
-            },
-            function(response) {
-                $scope.remember.error = response;
-            }
-        );
-    };
-
-    $scope.preferences = {
-        clicked: false,
-        click: function (){
-            this.clicked = !this.clicked;
-            if(this.clicked){
-                 $scope.register = MeService.user.data;
-            }
-        }
+        /*
+         * MeService.Me.remember($scope.remember,
+         *     function (data, headers) {
+         *         // TODO: data
+         *         $location.path( "authentication" );
+         *     },
+         *     function(response) {
+         *         $scope.remember.error = response;
+         *     }
+         * );
+         */
     };
 });

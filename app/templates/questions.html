@@ -1,5 +1,5 @@
 <div class="container" data-ng-init="fetchQuestionsIfNeeded()">
-  <div data-ng-include="'templates/partials/navi.html'"></div>
+  <div data-ng-controller="NavigationCtrl" data-ng-include="'templates/partials/navi.html'"></div>
 
   <div class="row" data-ng-repeat="question in questions">
     <div class="span12" data-ng-controller="QuestionController" data-ng-include="'templates/partials/question.html'"></div>

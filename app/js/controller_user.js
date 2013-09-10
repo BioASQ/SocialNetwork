@@ -2,9 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Me) {
-    $scope.currentCtrl = 'UserCtrl';
-
+controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Auth) {
     $scope.$watch('section', function () {
         switch ($scope.section) {
         case 'activities':
@@ -20,6 +18,7 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
     });
 
     var userID = $routeParams.creator;
+    $scope.me = Auth.user();
     $scope.user = User.get({ id: userID });
     $scope.$watch('cache', function () {
         $scope.follows = ($scope.cache.followings.indexOf(userID) > -1);
@@ -27,11 +26,11 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
 
     $scope.toggleFollow = function () {
         if ($scope.follows) {
-            User.unfollow({ id: userID, me: $scope.me.id }, function () {
+            User.unfollow({ id: userID, me: Auth.user().id }, function () {
                 delete $scope.cache.followings[$scope.cache.followings.indexOf(userID)];
             });
         } else {
-            User.follow({ id: userID }, { about: $scope.me.id }, function () {
+            User.follow({ id: userID }, { about: Auth.user().id }, function () {
                 $scope.cache.followings.push(userID);
             });
         }
@@ -41,16 +40,13 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
     };
 
     $scope.signout = function () {
-        Me.logout(function () {
-            $rootScope.me = {
-                id: 'anonymous'
-            };
+        Auth.signout(function () {
             $location.path('/');
         });
     };
 
     $scope.preferences = function () {
-        User.details({ id: $scope.me.id }, function (details) {
+        User.details({ id: Auth.user().id }, function (details) {
             $scope.userDetails = details;
             var modal = $modal.open({
                 templateUrl: 'templates/partials/preferences.html',
@@ -59,7 +55,7 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
                 windowClass: 'modal-wide'
             });
             modal.result.then(function () {
-                User.preferences({ id: $scope.me.id }, $scope.userDetails, function () {
+                User.preferences({ id: Auth.user().id }, $scope.userDetails, function () {
                     console.log('preferences saved');
                     delete $scope.userDetails;
                 }, function () {

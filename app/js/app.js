@@ -72,27 +72,14 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
     }]);
 }]);
 
-BioASQ.run(function (pages, $rootScope, $routeParams, $location, $cookies, MeService) {
-
-    $rootScope.me = {
-        id: 'anonymous'
-    };
-
-    if ($cookies.id) {
-        $rootScope.me.id = $cookies.id;
-    }
-
+BioASQ.run(function (pages, $rootScope, $routeParams, $location, $cookies, Auth) {
     $rootScope.pages = pages;
     $rootScope.cache = {
         followings: []
     };
 
-    if (MeService.user.followings !== null) {
-        $rootScope.cache.followings = MeService.user.followings;
-    }
-
-    $rootScope.$on("$routeChangeStart", function (event, next, current) {
-        if (!$rootScope.me.id === 'anonymous' && next.controller !== 'AuthenticationCtrl') {
+    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+        if (!Auth.isSignedIn() && next.controller !== 'AuthenticationCtrl') {
             $location.path('signin');
         }
     });
