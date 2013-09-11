@@ -2,13 +2,16 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('QuestionController', function($scope, $routeParams, Question, Comment, Auth) {
+controllers.controller('QuestionController', function($scope, $routeParams, Question, Comment, Auth, Followings) {
     // fetch question list
     $scope.fetchQuestionsIfNeeded = function () {
         if (!$scope.questions) {
             $scope.questions = Question.query(function () {
                 angular.forEach($scope.questions, function (question) {
-                    question.follows = ($scope.cache.followings.indexOf(question.id) > -1);
+                    question.follows = false;
+                    Followings.isFollowing(question.id).then(function (value) {
+                        question.follows = value;
+                    });
                 });
             });
         }
@@ -18,7 +21,10 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
     $scope.fetchQuestionIfNeeded = function (questionID) {
         if (!$scope.question) {
             $scope.question = Question.get({ id: questionID }, function () {
-                $scope.question.follows = ($scope.cache.followings.indexOf($scope.question.id) > -1);
+                $scope.question.follows = false;
+                Followings.isFollowing($scope.question.id).then(function (value) {
+                    $scope.question.follows = value;
+                });
             });
         }
     };
@@ -35,16 +41,11 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
     // follow
     $scope.toggleFollow = function (question) {
         if (question.follows) {
-            Question.unfollow({ id: question.id, follower: Auth.user().id }, function () {
-                question.follows = false;
-                $scope.cache.followings.splice($scope.cache.followings.indexOf(question.id), 1);
-            });
+            Followings.remove({ about: question.id, type: 'Question', me: Auth.user().id });
         } else {
-            Question.follow({ id: question.id }, { creator: Auth.user().id }, function () {
-                question.follows = true;
-                $scope.cache.followings.push(question.id);
-            });
+            Followings.add({ about: question.id, type: 'Question', creator: Auth.user().id });
         }
+        question.follows = !question.follows;
     };
 
     // vote on a question

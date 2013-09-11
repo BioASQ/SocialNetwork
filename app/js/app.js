@@ -74,10 +74,6 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
 
 BioASQ.run(function (pages, $rootScope, $routeParams, $location, $cookies, Auth) {
     $rootScope.pages = pages;
-    $rootScope.cache = {
-        followings: []
-    };
-
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (!Auth.isSignedIn() && next.controller !== 'AuthenticationCtrl') {
             $location.path('signin');
