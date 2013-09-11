@@ -52,7 +52,7 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
 
         // TODO: generic notification service
         if ($scope.section === 'followers') {
-            $scope.activities = Activity.followers({}, { id: $routeParams.creator });
+            $scope.activities = Activity.followers({}, { id: $routeParams.creator }, populateCreators);
         }
     };
 
