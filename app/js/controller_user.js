@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Auth, Followings, Username) {
+controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Auth, Followings, Username, Alert) {
     function populate(message, key) {
         message[key] = {
             id:   message[key],
@@ -62,7 +62,7 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
         });
     };
 
-    $scope.preferences = function () {
+    $scope.preferencesOpen = function () {
         User.details({ id: Auth.user().id }, function (details) {
             $scope.userDetails = details;
             var modal = $modal.open({
@@ -71,16 +71,28 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
                 scope: $scope,
                 windowClass: 'modal-wide'
             });
+            $scope.modal = modal;
+
             modal.result.then(function () {
-                User.preferences({ id: Auth.user().id }, $scope.userDetails, function () {
-                    console.log('preferences saved');
-                    delete $scope.userDetails;
-                }, function () {
-                    console.error('error saving prefs');
-                });
             }, function () {
                 delete $scope.userDetails;
             });
+        });
+    };
+
+    $scope.preferencesSave = function (details) {
+        User.preferences({ id: Auth.user().id }, $scope.userDetails, function () {
+            Alert.add({ type: 'success', message: 'Preferences saved.' });
+            $scope.modal.close(details);
+            delete $scope.modal;
+            delete $scope.userDetails;
+        }, function (error) {
+            if (error.status === 401) {
+                Alert.add({ type: 'error', message: '401' });
+            }
+            if (error.status === 400) {
+                Alert.add({ type: 'error', message: '400' });
+            }
         });
     };
 });
