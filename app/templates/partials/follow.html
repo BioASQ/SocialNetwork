@@ -5,7 +5,7 @@
     is now following
     <span data-ng-switch data-on="follow.about_type">
       <span data-ng-switch-when="User">
-        <a href="#!/users/{{follow.about}}">{{follow.about}}</a>,
+        <a href="#!/users/{{follow.about.id}}">{{follow.about.name}}</a>,
         <span class="label">{{follow.created | relativeDate}}</span>.
       </span>
       <span data-ng-switch-when="Question" data-ng-controller="QuestionController">
