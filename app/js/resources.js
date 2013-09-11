@@ -9,10 +9,10 @@ var resources = angular.module('bioasq.resources', [ 'ngResource' ]);
 
 resources.factory('Activity', function ($resource) {
     return $resource(
-        '/users/:id/:action',
-        { id: '@id' },
+        '/:section/:id/:action',
+        { id: '@id', section: 'users' },
         {
-            global:    { method: 'GET', isArray: true, url: '/activities' },
+            global:    { method: 'GET', isArray: true, params: { section: 'activities' } },
             home:      { method: 'GET', isArray: true, params: { action: 'home'} },
             query:     { method: 'GET', isArray: true, params: { action: 'activities'} },
             following: { method: 'GET', isArray: true, params: { action: 'following'} },
