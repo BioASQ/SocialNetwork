@@ -14,3 +14,13 @@
     </li>
   </ul>
 </div>
+<div class="row">
+  <div class="offset3 span6">
+    <div data-ui-if="alerts">
+      <div data-ng-repeat="alert in alerts" data-ng-controller="AlertCtrl" class="alert alert-{{alert.type}}">
+        <button type="button" class="close" data-ng-click="close($index)">&times;</button>
+        {{alert.message}}
+      </div>
+    </div>
+  </div>
+</div>
