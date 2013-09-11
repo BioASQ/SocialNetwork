@@ -30,34 +30,44 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
         }
     };
     
-    $scope.login.submit = function () {
-        $scope.login.id = $scope.login.email;
-        Auth.signin(
-            $scope.login,
-            function (user) {
-                $location.path('/');
-            }, function (error) {
-                if (error.status === 401) {
-                    Alert.add({ type: 'error', message: 'Invalid login!' });
+    $scope.login.submit = function (form) {
+        if(form.$valid){
+            $scope.login.id = $scope.login.email;
+            Auth.signin(
+                $scope.login,
+                function (user) {
+                    $location.path('/');
+                }, function (error) {
+                    if (error.status === 401) {
+                        Alert.add({ type: 'error', message: 'Invalid login!' });
+                    }
                 }
-            }
-        );
+            );
+        }
     };
 
-    $scope.register.submit = function(){
-        console.log('register');
-        Auth.register(
-            $scope.register,
-            function () {
-                $location.path('/signin');
-            },
-            function (error) {
-                $scope.register.error = error;
+    $scope.register.submit = function (form) {
+        if(form.$valid){
+            if($scope.register.password1 !== $scope.register.password2){
+                Alert.add({ type: 'error', message: 'Passwords must match!' });
+            }else{
+                Auth.register(
+                    $scope.register,
+                    function () {
+                        $location.path('/signin');
+                    },
+                    function (error) {
+                        if (error.status === 400) {
+                            Alert.add({ type: 'error', message: 'Email address already in use!' });
+                        }
+                    }
+                );
             }
-        );
+        }
     };
 
-    $scope.remember.submit = function(){
+    $scope.remember.submit = function (form) {
+        if(form.$valid){
         /*
          * MeService.Me.remember($scope.remember,
          *     function (data, headers) {
@@ -69,5 +79,6 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
          *     }
          * );
          */
+        }
     };
 });
