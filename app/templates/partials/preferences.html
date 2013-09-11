@@ -1,11 +1,5 @@
 <!-- <div class="row"> -->
   <div class="span8 center">
-    <div data-ui-if="alerts">
-      <div data-ng-repeat="alert in alerts" data-ng-controller="AlertCtrl" class="alert alert-{{alert.type}}">
-        <button type="button" class="close" data-ng-click="close($index)">&times;</button>
-        {{alert.message}}
-      </div>
-    </div>
     <div class="form-horizontal well">
       <h4>Change your user preferences</h4>
       <hr>
@@ -68,5 +62,6 @@
         </div>
       </fieldset>
     </div>
+  <span data-ng-include="'templates/partials/alert.html'"></span>
   </div>
 <!-- </div> -->
