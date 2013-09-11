@@ -28,6 +28,7 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, Backen
                 function (user) {
                     $cookies.uid = user.id;
                     currentUser  = user;
+                    nameDeferred.resolve([ user.first_name, user.last_name ].join(' '));
                     success(currentUser);
                 }, function (response) {
                     error(response);
@@ -37,6 +38,7 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, Backen
             Backend.logout(function () {
                 currentUser  = defaultUser;
                 $cookies.uid = defaultUser.uid;
+                nameDeferred = $q.defer();
                 success();
             });
         },
