@@ -3,5 +3,6 @@
 var controllers = angular.module('bioasq.controllers');
 
 controllers.controller('NavigationCtrl', function ($scope, Auth) {
-    $scope.me = Auth.user();
+    $scope.me   = Auth.user();
+    $scope.name = Auth.name();
 });

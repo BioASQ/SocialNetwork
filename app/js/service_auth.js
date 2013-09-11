@@ -1,18 +1,23 @@
 'use strict';
 
 angular.module('bioasq.services').factory('Auth', function ($q, $cookies, Backend, User) {
-    var defaultUser = { id: '' },
-        currentUser = { id: $cookies.uid || defaultUser.id };
+    var defaultUser  = { id: '' },
+        currentUser  = { id: $cookies.uid || defaultUser.id },
+        nameDeferred = $q.defer();
 
     if (!!currentUser.id) {
         User.get({ id: currentUser.id }, function (user) {
             currentUser = user;
+            nameDeferred.resolve([ user.first_name, user.last_name ].join(' '));
         });
     }
 
     return {
         user: function () {
             return currentUser;
+        },
+        name: function () {
+            return nameDeferred.promise;
         },
         isSignedIn: function () {
             return (currentUser.id !== defaultUser.id);
