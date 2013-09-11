@@ -7,7 +7,7 @@
     <div class="well">
       <i class="activity-icon icon-question-sign"></i>
       <div>
-        <a href="{{activity.creator.id}}">{{activity.creator.name}}</a> created
+        <a href="#!/users/{{activity.creator.id}}">{{activity.creator.name}}</a> created
         <span data-ng-controller="QuestionController">
           <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">a question</a>,
           <span class="label">{{activity.created | relativeDate}}</span>.
