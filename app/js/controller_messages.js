@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('MessageCtrl', function ($scope, Message, Auth, Username) {
+controllers.controller('MessageCtrl', function ($scope, Message, Auth, Username, Alert) {
     function populate(message, key) {
         message[key] = {
             id:   message[key],
@@ -57,7 +57,7 @@ controllers.controller('MessageCtrl', function ($scope, Message, Auth, Username)
         }
         var m = new Message(message);
         m.$send(function () {
-            alert('Message successfully sent.');
+            Alert.add({ type: 'success', message: 'Message successfully sent.' });
             delete $scope.newMessage;
         });
     };
