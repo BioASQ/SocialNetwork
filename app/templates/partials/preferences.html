@@ -1,5 +1,11 @@
 <!-- <div class="row"> -->
   <div class="span8 center">
+    <div data-ui-if="alerts">
+      <div data-ng-repeat="alert in alerts" data-ng-controller="AlertCtrl" class="alert alert-{{alert.type}}">
+        <button type="button" class="close" data-ng-click="close($index)">&times;</button>
+        {{alert.message}}
+      </div>
+    </div>
     <div class="form-horizontal well">
       <h4>Change your user preferences</h4>
       <hr>
@@ -54,7 +60,7 @@
         <div class="form-actions">
           <div class="pull-right" style="margin-right:80px">
             <button type="button" class="btn" data-ng-click="$dismiss()">Cancel</button>
-            <button type="submit" class="btn btn-primary" data-ng-click="$close(userDetails)">
+            <button type="submit" class="btn btn-primary" data-ng-click="preferencesSave(userDetails)">
               <i class="icon-ok icon-white"></i>
               Save preferences
             </button>
