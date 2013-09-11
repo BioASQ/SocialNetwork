@@ -88,10 +88,10 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
             delete $scope.userDetails;
         }, function (error) {
             if (error.status === 401) {
-                Alert.add({ type: 'error', message: '401' });
+                Alert.add({ type: 'error', message: 'Invalid password!' });
             }
             if (error.status === 400) {
-                Alert.add({ type: 'error', message: '400' });
+                Alert.add({ type: 'error', message: 'Email address already in use!' });
             }
         });
     };
