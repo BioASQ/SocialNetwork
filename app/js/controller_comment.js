@@ -2,11 +2,20 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('CommentController', function($scope, Comment, Auth) {
+controllers.controller('CommentController', function($scope, Comment, Auth, Username) {
+    function populateCreator(comment) {
+        comment.creator = {
+            id:   comment.creator,
+            name: Username.get(comment.creator)
+        };
+    }
+
     // comments replies
     $scope.fetchRepliesIfNeeded = function (comment) {
         if (!comment.replies || (comment.replies.length < comment.reply_count)) {
-            comment.replies = Comment.replies({ id: comment.id });
+            comment.replies = Comment.replies({ id: comment.id }, function (replies) {
+                angular.forEach(replies, function (reply) { populateCreator(reply); });
+            });
         }
     };
 
@@ -29,6 +38,7 @@ controllers.controller('CommentController', function($scope, Comment, Auth) {
             if (typeof $scope.comment.replies === 'undefined') {
                 $scope.comment.replies = [];
             }
+            populateCreator(result);
             $scope.comment.replies.unshift(result);
             $scope.comment.reply_count += 1;
             delete $scope.temp.comment;

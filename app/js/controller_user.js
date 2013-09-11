@@ -2,17 +2,27 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Auth, Followings) {
+controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Auth, Followings, Username) {
+
+    function populateCreators(activities) {
+        angular.forEach(activities, function (activity) {
+            activity.creator = {
+                id:   activity.creator,
+                name: Username.get(activity.creator)
+            };
+        });
+    };
+
     $scope.$watch('section', function () {
         switch ($scope.section) {
         case 'activities':
-            $scope.activities = Activity.query({}, { id: $routeParams.creator });
+            $scope.activities = Activity.query({}, { id: $routeParams.creator }, populateCreators);
             break;
         case 'followings':
-            $scope.activities = Activity.following({}, { id: $routeParams.creator });
+            $scope.activities = Activity.following({}, { id: $routeParams.creator }, populateCreators);
             break;
         case 'followers':
-            $scope.activities = Activity.followers({}, { id: $routeParams.creator });
+            $scope.activities = Activity.followers({}, { id: $routeParams.creator }, populateCreators);
             break;
         }
     });

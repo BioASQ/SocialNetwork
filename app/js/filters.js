@@ -11,7 +11,7 @@ filterModule.filter('relativeDate', function () {
 
 // Converts line breaks to <br> tags
 filterModule.filter('newlines', function() {
-    return function(input) {
+    return function (input) {
         if (typeof(input) === 'string') {
             return input.replace(/\n/g, '<br>');
         }

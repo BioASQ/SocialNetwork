@@ -1,7 +1,7 @@
 <div class="well">
   <i class="activity-icon icon-star"></i>
   <div>
-    <a href="#!/users/{{follow.creator}}">{{follow.creator}}</a>
+    <a href="#!/users/{{follow.creator.id}}">{{follow.creator.name}}</a>
     is now following
     <span data-ng-switch data-on="follow.about_type">
       <span data-ng-switch-when="User">

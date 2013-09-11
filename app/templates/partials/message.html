@@ -1,10 +1,10 @@
 <span class="pull-right">
   <span data-ui-if="section=='inbox'">
-    from: <a href="#!/users/{{message.creator}}">{{message.creator}}</a>,
+    from: <a href="#!/users/{{message.creator.id}}">{{message.creator.name}}</a>,
     <span class="label">{{message.created | relativeDate}}</span>
   </span>
   <span data-ui-if="section=='outbox'">
-    to: <a href="#!/users/{{message.to}}">{{message.to}}</a>,
+    to: <a href="#!/users/{{message.to.id}}">{{message.to.name}}</a>,
     <span class="label">{{message.created | relativeDate}}</span>
   </span>
 </span>

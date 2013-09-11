@@ -2,12 +2,23 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('MessageCtrl', function ($scope, Message, Auth) {
+controllers.controller('MessageCtrl', function ($scope, Message, Auth, Username) {
+    function populate(message, key) {
+        message[key] = {
+            id:   message[key],
+            name: Username.get(message[key])
+        };
+    }
+
     $scope.$watch('section', function () {
         if ($scope.section === 'inbox') {
-            $scope.messages = Message.inbox();
+            $scope.messages = Message.inbox(function (results) {
+                angular.forEach(results, function (message) { populate(message, 'creator'); });
+            });
         } else if ($scope.section === 'outbox') {
-            $scope.messages = Message.outbox();
+            $scope.messages = Message.outbox(function (results) {
+                angular.forEach(results, function (message) { populate(message, 'to'); });
+            });
         }
     });
 

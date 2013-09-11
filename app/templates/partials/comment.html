@@ -1,7 +1,7 @@
 <div data-ng-init="displayActivity=!commentOnly" ng-class="{well: true, 'well-small': !displayActivity }">
   <i class="activity-icon icon-comment"></i>
   <div data-ui-if="displayActivity">
-    <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a>
+    <a href="#!/users/{{comment.creator.id}}">{{comment.creator.name}}</a>
     commented on
     <span data-ng-controller="QuestionController">
       <a data-ng-click="fetchQuestionIfNeeded(comment.about);questionShown=!questionShown">a question</a>,
@@ -25,7 +25,7 @@
      -->
   <div data-ng-bind-html="comment.content | newlines"></div>
   <span data-ui-if="!displayActivity">
-    by <a href="#!/users/{{comment.creator}}">{{comment.creator}}</a>,
+    by <a href="#!/users/{{comment.creator.id}}">{{comment.creator.name}}</a>,
     <span class="label">{{comment.created | relativeDate}}</span>.
   </span>
   <div class="replies" style="margin-top:11px">

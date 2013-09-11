@@ -2,7 +2,14 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('QuestionController', function($scope, $routeParams, Question, Comment, Auth, Followings) {
+controllers.controller('QuestionController', function($scope, $routeParams, Question, Comment, Auth, Followings, Username) {
+    function populateCreator(comment) {
+        comment.creator = {
+            id:   comment.creator,
+            name: Username.get(comment.creator)
+        };
+    }
+
     // fetch question list
     $scope.fetchQuestionsIfNeeded = function () {
         if (!$scope.questions) {
@@ -32,8 +39,14 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
     // fetch comments
     $scope.fetchCommentsIfNeeded = function (question) {
         if (!question.comments || question.comments.length < question.comment_count) {
-            Question.comments({ id: question.id },
-                              function (comments) { question.comments = comments; }
+            Question.comments(
+                { id: question.id },
+                function (comments) {
+                    angular.forEach(comments, function (comment) {
+                        populateCreator(comment);
+                    });
+                    question.comments = comments;
+                }
             );
         }
     };
@@ -74,6 +87,7 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
             if (typeof $scope.question.comments === 'undefined') {
                 $scope.question.comments = [];
             }
+            populateCreator(result);
             $scope.question.comments.unshift(result);
             $scope.question.comment_count += 1;
             delete $scope.temp.comment;
