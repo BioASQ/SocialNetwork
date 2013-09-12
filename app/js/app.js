@@ -60,8 +60,8 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
         }
         function error(response) {
             if (response.status === 401) {
-                // except for users (preferences)
-                if($location.path().lastIndexOf('/users/', 0) !== 0) {
+                // except for user details
+                if(response.config.url.indexOf('/preferences') === -1) {
                     $location.path('signin');
                 }
                 return $q.reject(response);
