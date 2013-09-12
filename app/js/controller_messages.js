@@ -50,15 +50,17 @@ controllers.controller('MessageCtrl', function ($scope, Message, Auth, Username,
         delete $scope.newMessage;
     };
 
-    $scope.send = function (message) {
-        if (message.creating) {
-            delete message.needsReceipient;
-            delete message.isReply;
+    $scope.send = function (message, form) {
+        if(form.$valid){
+            if (message.creating) {
+                delete message.needsReceipient;
+                delete message.isReply;
+            }
+            var m = new Message(message);
+            m.$send(function () {
+                Alert.add({ type: 'success', message: 'Message successfully sent.' });
+                delete $scope.newMessage;
+            });
         }
-        var m = new Message(message);
-        m.$send(function () {
-            Alert.add({ type: 'success', message: 'Message successfully sent.' });
-            delete $scope.newMessage;
-        });
     };
 });

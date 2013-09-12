@@ -1,17 +1,19 @@
 <div class="row">
+  <form name="messageForm">
   <div class="offset1 span8" data-ui-if="newMessage.needsReceipient">
-    <input type="text" class="span8" placeholder="Receipient" data-ng-model="newMessage.to">
+    <input type="text" class="span8 required" placeholder="Receipient" data-ng-model="newMessage.to" required>
   </div>
   <div class="offset1 span8">
-    <input type="text" class="span8" placeholder="Subject" data-ng-model="newMessage.title">
+    <input type="text" class="span8 required" placeholder="Subject" data-ng-model="newMessage.title" required>
   </div>
   <div class="offset1 span8">
-    <textarea type="text" class="span8" rows="5" placeholder="Your message" data-ng-model="newMessage.content"></textarea>
+    <textarea type="text" class="span8 required" rows="5" placeholder="Your message" data-ng-model="newMessage.content" required></textarea>
   </div>
   <div class="offset1 span8">
     <div class="pull-right">
       <button class="btn" data-ng-click="cancel()">Cancel</button>
-      <button class="btn btn-success" data-ng-click="send(newMessage)">Send</button>
+      <button class="btn btn-success" data-ng-click="send(newMessage, messageForm)">Send</button>
     </div>
   </div>
+  </form>
 </div>
