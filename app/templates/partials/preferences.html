@@ -3,24 +3,25 @@
     <div class="form-horizontal well">
       <h4>Change your user preferences</h4>
       <hr>
+      <form name="userDetailsForm">
       {{test}}
       <fieldset>
         <div class="control-group">
           <label class="control-label" for="input.first_name">First name</label>
           <div class="controls">
-            <input type="text" id="input.first_name" data-ng-model="userDetails.first_name" class="span4">
+            <input type="text" id="input.first_name" data-ng-model="userDetails.first_name" class="span4" required>
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="input.last_name">Last name</label>
           <div class="controls">
-            <input type="text" id="input.last_name" data-ng-model="userDetails.last_name" class="span4">
+            <input type="text" id="input.last_name" data-ng-model="userDetails.last_name" class="span4" required>
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="input.email">Email address</label>
           <div class="controls">
-            <input type="text" id="input.email" data-ng-model="userDetails.email" class="span4">
+            <input type="text" id="input.email" data-ng-model="userDetails.email" class="span4" required>
           </div>
         </div>
         <div class="control-group">
@@ -48,19 +49,20 @@
         <div class="control-group">
           <label class="control-label" for="input.password">Current password</label>
           <div class="controls">
-            <input type="password" id="input.password" data-ng-model="userDetails.password" class="span4">
+            <input type="password" id="input.password" data-ng-model="userDetails.password" class="span4" required>
           </div>
         </div>
         <div class="form-actions">
           <div class="pull-right" style="margin-right:80px">
             <button type="button" class="btn" data-ng-click="$dismiss()">Cancel</button>
-            <button type="submit" class="btn btn-primary" data-ng-click="preferencesSave(userDetails)">
+            <button type="submit" class="btn btn-primary" data-ng-click="preferencesSave(userDetailsForm)">
               <i class="icon-ok icon-white"></i>
               Save preferences
             </button>
           </div>
         </div>
       </fieldset>
+      </form>
     </div>
   <span data-ng-include="'templates/partials/alert.html'"></span>
   </div>

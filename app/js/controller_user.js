@@ -74,25 +74,31 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
             $scope.modal = modal;
 
             modal.result.then(function () {
+                delete $scope.userDetails;
             }, function () {
                 delete $scope.userDetails;
             });
         });
     };
 
-    $scope.preferencesSave = function (details) {
-        User.preferences({ id: Auth.user().id }, $scope.userDetails, function () {
-            Alert.add({ type: 'success', message: 'Preferences saved.' });
-            $scope.modal.close(details);
-            delete $scope.modal;
-            delete $scope.userDetails;
-        }, function (error) {
-            if (error.status === 401) {
-                Alert.add({ type: 'error', message: 'Invalid password!' });
+    $scope.preferencesSave = function (form) {
+        if(form.$valid){
+            if($scope.userDetails.password1 !== $scope.userDetails.password2){
+                Alert.add({ type: 'error', message: 'New passwords must match!' });
+            }else{
+                User.preferences({ id: Auth.user().id }, $scope.userDetails, function () {
+                    Alert.add({ type: 'success', message: 'Preferences saved.' });
+                    $scope.modal.close();
+                    delete $scope.modal;
+                }, function (error) {
+                    if (error.status === 401) {
+                        Alert.add({ type: 'error', message: 'Invalid password!' });
+                    }
+                    if (error.status === 400) {
+                        Alert.add({ type: 'error', message: 'Email address already in use!' });
+                    }
+                });
             }
-            if (error.status === 400) {
-                Alert.add({ type: 'error', message: 'Email address already in use!' });
-            }
-        });
+        }
     };
 });
