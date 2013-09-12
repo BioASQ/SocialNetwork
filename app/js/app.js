@@ -20,7 +20,7 @@ BioASQ.constant('pages', {
     questions: { controllerName: 'QuestionController', description: 'all questions' }
 });
 
-BioASQ.config(['$provide', '$routeProvider', 'pages', function ($provide, $routeProvider, pages) {
+BioASQ.config(['$routeProvider', 'pages', function ($routeProvider, pages) {
     angular.forEach(pages, function (config, page) {
         $routeProvider.when('/' + page, {
             templateUrl: 'templates/' + page + '.html',
@@ -52,7 +52,7 @@ BioASQ.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode(false).hashPrefix('!');
 }]);
 
-BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
+BioASQ.config(['$httpProvider', function ($httpProvider) {
     // redirects to the signin page in case of a 401
     $httpProvider.responseInterceptors.push(['$location', '$q', function ($location, $q) {
         function success(response) {
@@ -75,7 +75,7 @@ BioASQ.config(['$routeProvider', '$locationProvider', '$httpProvider', function 
     }]);
 }]);
 
-BioASQ.run(function (pages, $rootScope, $routeParams, $location, $cookies, Auth) {
+BioASQ.run(function (pages, $rootScope, $location, Auth) {
     $rootScope.pages = pages;
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (!Auth.isSignedIn() && next.controller !== 'AuthenticationCtrl') {
