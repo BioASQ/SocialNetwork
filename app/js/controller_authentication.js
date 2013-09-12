@@ -6,15 +6,16 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
     $scope.currentCtrl = 'AuthenticationCtrl';
 
     $scope.login = {
-        email: '',
+        id: '',
         password: ''
     };
 
     $scope.register = {
         email: '',
-        password: '',
         first_name: '',
         last_name: '',
+        password1: '',
+        password2: '',
         code : $routeParams['code'] ? $routeParams['code'] : ''
     };
 
@@ -32,7 +33,6 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $routeParams, 
     
     $scope.login.submit = function (form) {
         if(form.$valid){
-            $scope.login.id = $scope.login.email;
             Auth.signin(
                 $scope.login,
                 function (user) {
