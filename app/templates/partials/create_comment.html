@@ -1,7 +1,9 @@
-<textarea type="text" style="width:97%" rows="3" placeholder="Your comment" data-ng-model="temp.comment.content"></textarea>
+<form name="commentForm">
+<textarea type="text" class="required" style="width:97%" rows="3" placeholder="Your comment" data-ng-model="temp.comment.content" required></textarea>
 <div class="row">
   <div class="pull-right">
     <button class="btn" data-ng-click="cancel()">Cancel</button>
-    <button class="btn btn-success" data-ng-click="save()">Save</button>
+    <button class="btn btn-success" data-ng-click="save(commentForm)">Save</button>
   </div>
 </div>
+</form>

@@ -33,15 +33,17 @@ controllers.controller('CommentController', function($scope, Comment, Auth, User
         delete $scope.temp.comment;
     };
 
-    $scope.save = function () {
-        Comment.reply({ id: $scope.temp.comment.reply_to }, $scope.temp.comment, function (result) {
-            if (typeof $scope.comment.replies === 'undefined') {
-                $scope.comment.replies = [];
-            }
-            populateCreator(result);
-            $scope.comment.replies.unshift(result);
-            $scope.comment.reply_count += 1;
-            delete $scope.temp.comment;
-        });
+    $scope.save = function (form) {
+        if(form.$valid){
+            Comment.reply({ id: $scope.temp.comment.reply_to }, $scope.temp.comment, function (result) {
+                if (typeof $scope.comment.replies === 'undefined') {
+                    $scope.comment.replies = [];
+                }
+                populateCreator(result);
+                $scope.comment.replies.unshift(result);
+                $scope.comment.reply_count += 1;
+                delete $scope.temp.comment;
+            });
+        }
     };
 });
