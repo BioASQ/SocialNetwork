@@ -37,6 +37,40 @@ Base.prototype.load = function (id, options, cb) {
     });
 };
 
+Base.prototype.cursor = function (query, options, cb) {
+    if (query.hasOwnProperty('id')) {
+        query._id = query.id;
+        delete query.id;
+    }
+
+    this._collection(this._collectionName, function (err, collection) {
+        if (err) { return cb(err); }
+        cb(null, {
+            _cursor: collection.find(query, options),
+            toArray: function (cb) {
+                return this._cursor.toArray(function (err, res) {
+                    cb(null, res.map(function (doc) {
+                        doc.id = doc._id;
+                        delete doc._id;
+                        return doc;
+                    }));
+                });
+            },
+            limit: function (limit) {
+                this._cursor.limit(limit);
+                return this;
+            },
+            skip: function (skip) {
+                this._cursor.skip(skip);
+                return this;
+            },
+            count: function (cb) {
+                return this._cursor.count(cb);
+            }
+        });
+    });
+};
+
 Base.prototype.find = function (query, options, cb) {
     if (query.hasOwnProperty('id')) {
         query._id = query.id;
