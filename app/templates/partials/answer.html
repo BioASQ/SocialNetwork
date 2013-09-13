@@ -1,5 +1,7 @@
 <div class="well" style="font-size:90%">
   <dl style="margin-bottom:0.8em">
+    <dt>ID</dt>
+    <dd>{{question.id}}</dd>
     <dt>Ideal answer</dt>
     <dd data-ng-bind-html="question.answer.ideal | newlines"></dd>
     <span data-ui-if="question.answer.exact">
@@ -37,7 +39,9 @@
         <a data-ng-switch-when="concept" href="{{annotation.uri}}">{{annotation.title}}</a>
         <a data-ng-switch-when="document" href="{{annotation.uri}}">{{annotation.title}}</a>
         <span data-ng-switch-when="snippet" data-ng-bind-html="annotation.text | newlines"></span>
-        <span data-ng-switch-when="statement">{{annotation.title}}</span>
+        <span data-ng-switch-when="statement">
+          {{annotation.s | rdf}} {{annotation.p | rdf}} {{annotation.o | rdf}} .
+        </span>
       </span>
     </li>
   </ul>
