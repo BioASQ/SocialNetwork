@@ -43,7 +43,7 @@ exports.createServer = function (port, database, cb) {
     user.setAuth(auth);
 
     // authentication middleware
-    server.set('authenticate', function (request, response, next) {
+    server.set('authentication', function (request, response, next) {
         var authCookie = request.cookies[kAuthCookieKey];
         if (!authCookie) { return response.send(401); }
         auth.validateToken(authCookie, function (err, result) {
@@ -52,6 +52,18 @@ exports.createServer = function (port, database, cb) {
             request.user = result.user;
             next();
         });
+    });
+
+    server.set('pagination', function (request, response, next) {
+        var limit  = parseInt(request.param('limit'), 10),
+            offset = parseInt(request.param('offset'), 10);
+        request.limit  = limit || 10;
+        request.offset = offset || 0;
+        /*
+         * console.log('using limit: ' + request.limit);
+         * console.log('using offset: ' + request.offset);
+         */
+        next();
     });
 
     require('./secure').createSecureRoutes(server, auth, {

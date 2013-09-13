@@ -1,8 +1,11 @@
-<div class="container">
+<div class="container" data-ng-init="fetchActivitiesIfNeeded()">
   <div data-ng-controller="NavigationCtrl" data-ng-include="'templates/partials/navi.html'"></div>
   <div data-ng-repeat="activity in activities">
     <div class="row">
       <div class="offset1 span10" data-ng-include="'templates/partials/activity.html'"></div>
     </div>
+  </div>
+  <div data-ui-if="totalItems > itemsPerPage">
+    <div data-pagination data-max-size="5" data-boundary-links="true" data-total-items="totalItems" data-items-per-page="itemsPerPage" data-page="$parent.currentPage"></div>
   </div>
 </div>

@@ -3,6 +3,11 @@
 var controllers = angular.module('bioasq.controllers');
 
 controllers.controller('QuestionController', function($scope, $routeParams, Question, Comment, Auth, Followings, Username) {
+    $scope.currentPage  = 1;
+    $scope.itemsPerPage = 10;
+
+    var _watches = false;
+
     function populateCreator(comment) {
         comment.creator = {
             id:   comment.creator,
@@ -13,7 +18,13 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
     // fetch question list
     $scope.fetchQuestionsIfNeeded = function () {
         if (!$scope.questions) {
-            $scope.questions = Question.query(function () {
+            var options = {
+                limit:  $scope.itemsPerPage,
+                offset: ($scope.currentPage - 1) * $scope.itemsPerPage
+            };
+            $scope.questions = Question.query(options, function (data, getHeader) {
+                var resultSize = parseInt(getHeader('X-Result-Size'), 10);
+                $scope.totalItems = resultSize;
                 angular.forEach($scope.questions, function (question) {
                     question.follows = false;
                     Followings.isFollowing(question.id).then(function (value) {
@@ -21,6 +32,14 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
                     });
                 });
             });
+        }
+
+        if (!_watches) {
+            $scope.$watch('currentPage', function () {
+                delete $scope.questions;
+                $scope.fetchQuestionsIfNeeded();
+            });
+            _watches = true;
         }
     };
 

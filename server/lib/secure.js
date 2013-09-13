@@ -6,8 +6,8 @@ var fs   = require('fs'),
  * Routes related to authentication and secure routes that require passord.
  */
 var routes = exports.createSecureRoutes = function (server, auth, options) {
-    var models       = server.get('models'),
-        authenticate = server.get('authenticate');
+    var models         = server.get('models'),
+        authentication = server.get('authentication');
 
     /*
      * logout route
@@ -25,14 +25,14 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
     /*
      * refresh auth token
      */
-    server.get('/ping', authenticate, function (request, response) {
+    server.get('/ping', authentication, function (request, response) {
         response.send(204);
     });
 
     /*
      * change user preferences
      */
-    server.post('/users/:id/preferences', authenticate, function (request, response) {
+    server.post('/users/:id/preferences', authentication, function (request, response) {
         if (request.params.id !== request.user.id) { return response.send(401); }
         var username = request.user.email,
             password = request.body.password;

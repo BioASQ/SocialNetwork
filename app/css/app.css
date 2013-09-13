@@ -27,6 +27,10 @@ a{
     height: 20px
 }
 
+.pagination {
+  text-align: center;
+}
+
 .btn-group-wrap {
     text-align: center;
     padding-bottom: 19px;

@@ -1,8 +1,10 @@
 <div class="container" data-ng-init="fetchQuestionsIfNeeded()">
   <div data-ng-controller="NavigationCtrl" data-ng-include="'templates/partials/navi.html'"></div>
-
   <div class="row" data-ng-repeat="question in questions">
     <div class="span12" data-ng-controller="QuestionController" data-ng-include="'templates/partials/question.html'"></div>
     <div><hr class="offset3 span6"></div>
+  </div>
+  <div data-ui-if="totalItems > itemsPerPage">
+    <div data-pagination data-max-size="5" data-boundary-links="true" data-total-items="totalItems" data-items-per-page="itemsPerPage" data-page="$parent.currentPage"></div>
   </div>
 </div>

@@ -47,6 +47,9 @@
       <div class="offset1 span10" data-ng-include="'templates/partials/activity.html'"></div>
     </div>
   </div>
+  <div data-ui-if="totalItems > itemsPerPage">
+    <div data-pagination data-max-size="5" data-boundary-links="true" data-total-items="totalItems" data-items-per-page="itemsPerPage" data-page="$parent.currentPage"></div>
+  </div>
   <div data-ui-if="activities.length==0" class="row">
     <div class="offset1 span10">
       <div class="well">No {{section | inflector:'humanize'}} yet.</div>

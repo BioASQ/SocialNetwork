@@ -3,6 +3,14 @@
 var controllers = angular.module('bioasq.controllers');
 
 controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Auth, Followings, Username, Alert) {
+    var userID     = $routeParams.creator;
+    $scope.me      = Auth.user();
+    $scope.user    = User.get({ id: userID });
+    $scope.follows = false;
+
+    $scope.itemsPerPage = 10;
+    $scope.currentPage  = 1;
+
     function populate(message, key) {
         message[key] = {
             id:   message[key],
@@ -10,7 +18,29 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
         };
     }
 
-    function populateCreators(activities) {
+    function fetchActivitiesIfNeeded() {
+        var options = {
+            limit: $scope.itemsPerPage,
+            offset: ($scope.currentPage - 1) * $scope.itemsPerPage
+        };
+        if (!$scope.activities) {
+            switch ($scope.section) {
+            case 'activities':
+                $scope.activities = Activity.query(options, { id: $routeParams.creator }, populateCreators);
+                break;
+            case 'followings':
+                $scope.activities = Activity.following(options, { id: $routeParams.creator }, populateCreators);
+                break;
+            case 'followers':
+                $scope.activities = Activity.followers(options, { id: $routeParams.creator }, populateCreators);
+                break;
+            }
+        }
+    }
+
+    function populateCreators(activities, getHeader) {
+        var resultSize = parseInt(getHeader('X-Result-Size'), 10);
+        $scope.totalItems = resultSize;
         angular.forEach(activities, function (activity) {
             populate(activity, 'creator');
             if (activity.type === 'Follow' && activity.about_type === 'User') {
@@ -20,23 +50,15 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
     }
 
     $scope.$watch('section', function () {
-        switch ($scope.section) {
-        case 'activities':
-            $scope.activities = Activity.query({}, { id: $routeParams.creator }, populateCreators);
-            break;
-        case 'followings':
-            $scope.activities = Activity.following({}, { id: $routeParams.creator }, populateCreators);
-            break;
-        case 'followers':
-            $scope.activities = Activity.followers({}, { id: $routeParams.creator }, populateCreators);
-            break;
-        }
+        $scope.currentPage = 1;
+        delete $scope.activities;
+        fetchActivitiesIfNeeded();
     });
 
-    var userID     = $routeParams.creator;
-    $scope.me      = Auth.user();
-    $scope.user    = User.get({ id: userID });
-    $scope.follows = false;
+    $scope.$watch('currentPage', function () {
+        delete $scope.activities;
+        fetchActivitiesIfNeeded();
+    });
 
     Followings.isFollowing(userID).then(function (value) {
         $scope.follows = value;
