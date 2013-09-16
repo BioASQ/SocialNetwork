@@ -1,3 +1,5 @@
+var crypto = require('crypto');
+
 var Base = require('./base').Base;
 
 var User = exports.User = function (database, options) {
@@ -51,43 +53,90 @@ User.prototype.create = function (doc, cb) {
             // copy doc
             var user = JSON.parse(JSON.stringify(doc));
 
-            user.type          = 'User';
-            user.img           = user.img || 'http://placehold.it/100x100&text=No%20image';
-            user.notifications = user.notifications || true;
+            crypto.pseudoRandomBytes(8, function (err, bytes) {
+                user.type          = 'User';
+                user.img           = user.img || 'http://placehold.it/100x100&text=No%20image';
+                user.notifications = user.notifications || true;
+                user.confirmation  = bytes.toString('hex');
 
-            self._auth.hashPassword(doc.password1, function (err, hash) {
-                user.password = hash;
-                delete user.password1;
-                delete user.password2;
+                self._auth.hashPassword(doc.password1, function (err, hash) {
+                    user.password = hash;
+                    delete user.password1;
+                    delete user.password2;
 
-                var query;
-                if (!!self._options.useRegistrationCode) {
-                    query   = { code: user.code };
-                    options = { 'new': true };
-                } else {
-                    // Querying for the email should not find anything, 
-                    // since we made sure it is unique. The upsert will thus
-                    // always insert a new document.
-                    query   = { email: user.email };
-                    options = { upsert: true, 'new': true };
-                }
-
-                Base.prototype.findAndModify.call(
-                    self,
-                    query,
-                    {},
-                    { $set: user },
-                    options,
-                    function (err, user) {
-                        if (err) { return cb(err); }
-                        if (!user) { return cb(new Error('invalid code')); }
-                        user.id = user._id;
-                        delete user._id;
-                        cb(null, user);
+                    var query;
+                    if (!!self._options.useRegistrationCode) {
+                        query   = { code: user.code };
+                        options = { 'new': true };
+                    } else {
+                        // Querying for the email should not find anything, 
+                        // since we made sure it is unique. The upsert will thus
+                        // always insert a new document.
+                        query   = { email: user.email };
+                        options = { upsert: true, 'new': true };
                     }
-                );
+
+                    Base.prototype.findAndModify.call(
+                        self,
+                        query,
+                        {},
+                        { $set: user },
+                        options,
+                        function (err, user) {
+                            if (err) { return cb(err); }
+                            if (!user) { return cb(new Error('invalid code')); }
+                            user.id = user._id;
+                            delete user._id;
+                            cb(null, user);
+                        }
+                    );
+                });
             });
         });
+    });
+};
+
+User.prototype.activate = function (email, code, cb) {
+    var self = this;
+    Base.prototype.findAndModify.call(
+        self,
+        { email: email, confirmation: code },
+        {},
+        { $set: { confirmation: true } },
+        {'new': true },
+        function (err, user) {
+            if (err) { return cb(err); }
+            if (!user) { return cb(new Error('account not found')); }
+            user.id = user._id;
+            delete user._id;
+            cb(null, user);
+        }
+    );
+};
+
+User.prototype.reset = function (doc, cb) {
+    if (!doc.code) { return cb(new Error('invalid code')); }
+    if (doc.password1 !== doc.password2) {
+        return cb(new Error('passwords do not match'));
+    }
+    if (!doc.password1) {
+        return cb(new Error('password required'));
+    }
+    var self = this;
+    self._auth.hashPassword(doc.password1, function (err, hash) {
+        Base.prototype.findAndModify.call(
+            self,
+            { code: doc.code },
+            {},
+            { $set: { password: hash } },
+            {'new': true },
+            function (err, user) {
+                if (err || !user) { return cb(new Error('invalid code')); }
+                user.id = user._id;
+                delete user._id;
+                cb(null, user);
+            }
+        );
     });
 };
 

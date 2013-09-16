@@ -157,9 +157,14 @@ var routes = exports.createRoutes = function (server) {
                     uniqueQuestionIDs[follow.about] = true;
                 }
             });
-            var query2 = { $or: [ { about: { $in: Object.keys(uniqueQuestionIDs) } },
-                                  { creator: { $in: Object.keys(uniqueUserIDs) } } ] };
 
+            /*
+             * Activities obout questions the user follows but not created by her or
+             * activities created by users she follows.
+             */
+            var query2 = { $or: [ { about: { $in: Object.keys(uniqueQuestionIDs) },
+                                    creator: { $ne: request.params.id } },
+                                  { creator: { $in: Object.keys(uniqueUserIDs) } } ] };
             models.activity.cursor(query2, { sort: { created: -1 } }, function (err, cursor) {
                 if (err) { throw err; }
                 cursor.count(function (err, count) {

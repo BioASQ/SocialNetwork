@@ -23,11 +23,13 @@ exports.createServer = function (port, database, cb) {
     var appPath = path.normalize(path.join(__dirname, '..', '..', 'app'));
     server.use(express.static(appPath))
           .use(express.bodyParser())
-          .use(express.cookieParser())
-          .use(function(err, req, res, next) {
-              console.error(err.stack);
-              res.send(500, 'Something broke!');
-          });
+          .use(express.cookieParser());
+          /*
+           * .use(function(err, req, res, next) {
+           *     console.error(err.stack);
+           *     res.send(500, 'Something broke!');
+           * });
+           */
 
     var user     = new User(database, { useRegistrationCode: true }),
         question = new Question(database);
@@ -48,7 +50,7 @@ exports.createServer = function (port, database, cb) {
         if (!authCookie) { return response.send(401); }
         auth.validateToken(authCookie, function (err, result) {
             if (err || !result.success) { return response.send(401); }
-            util.log('auth: user ' + result.user.id + ' authenticated using token');
+            response.cookie('uid', String(result.user.id), { maxAge: kRefreshDifference });
             request.user = result.user;
             next();
         });
@@ -59,10 +61,6 @@ exports.createServer = function (port, database, cb) {
             offset = parseInt(request.param('offset'), 10);
         request.limit  = limit || 10;
         request.offset = offset || 0;
-        /*
-         * console.log('using limit: ' + request.limit);
-         * console.log('using offset: ' + request.offset);
-         */
         next();
     });
 

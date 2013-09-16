@@ -56,6 +56,10 @@ Auth.prototype.generateToken = function (id, cb) {
     });
 };
 
+Auth.prototype.generatePassword = function (cb) {
+    
+};
+
 Auth.prototype.verifyToken = function (token, cb) {
     var self = this;
     self.decryptToken(token, function (err, decrypted) {
@@ -73,10 +77,17 @@ Auth.prototype.validateCredentials = function (username, password, cb) {
     if (!password) { throw new Error('Missing password'); }
     var self = this;
     self._userModel.find({ email: username }, {}, function (err, users) {
-        if (err || (users.length !== 1)) { return cb(null, { success: false }); }
+        if (err || (users.length !== 1)) {
+            return cb(null, { success: false, reason: 'invalid credentials' });
+        }
         var user = users[0];
+        if (true !== user.confirmation) {
+            return cb(null, { success: false, reason: 'account not activated' });
+        }
         bcrypt.compare(password, user.password, function (err, result) {
-            if (err || !result) { return cb(null, { success: false }); }
+            if (err || !result) {
+                return cb(null, { success: false, reason: 'invalid credentials' });
+            }
             self.generateToken(user.id, function (err, encryptedToken) {
                 return cb(null, {
                     success: true,
