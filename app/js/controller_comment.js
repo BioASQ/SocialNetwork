@@ -24,7 +24,7 @@ controllers.controller('CommentController', function($scope, Comment, Auth, User
             comment: {
                 about:    comment.about,
                 creator:  Auth.user().id,
-                reply_to: comment.id
+                reply_of: comment.id
             }
         };
     };
@@ -35,7 +35,7 @@ controllers.controller('CommentController', function($scope, Comment, Auth, User
 
     $scope.save = function (form) {
         if(form.$valid){
-            Comment.reply({ id: $scope.temp.comment.reply_to }, $scope.temp.comment, function (result) {
+            Comment.reply({ id: $scope.temp.comment.reply_of }, $scope.temp.comment, function (result) {
                 if (typeof $scope.comment.replies === 'undefined') {
                     $scope.comment.replies = [];
                 }

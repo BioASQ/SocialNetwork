@@ -43,7 +43,7 @@ var routes = exports.createRoutes = function (server) {
      * Get replies for a comment
      */
     server.get('/comments/:id/replies', authentication, function (request, response) {
-        var query = { type: 'Comment', reply_to: request.params.id };
+        var query = { type: 'Comment', reply_of: request.params.id };
         models.activity.find(query, { sort: { created: -1 } }, function (err, doc) {
             if (err) { throw err; }
             else if (!doc) { response.send(404); }
@@ -335,7 +335,7 @@ var routes = exports.createRoutes = function (server) {
      * Get commments for question with id
      */
     server.get('/questions/:id/comments', authentication, function (request, response) {
-        var query = { type: 'Comment', about: request.params.id, reply_to: null };
+        var query = { type: 'Comment', about: request.params.id, reply_of: null };
         models.activity.find(query, { sort: { created: -1 } }, function (err, res) {
             if (err) { throw err; }
             response.send(res);

@@ -54,10 +54,10 @@ Activity.prototype.vote = function (questionID, userID, direction, cb) {
     );
 };
 
-Activity.prototype.comment = function (aboutID, creatorID, content, replyTo, cb) {
+Activity.prototype.comment = function (aboutID, creatorID, content, replyOf, cb) {
     if (typeof cb === 'undefined') {
-        cb      = replyTo;
-        replyTo = null;
+        cb      = replyOf;
+        replyOf = null;
     }
 
     var comment = {
@@ -68,15 +68,15 @@ Activity.prototype.comment = function (aboutID, creatorID, content, replyTo, cb)
         reply_count: 0,
         created:     new Date()
     };
-    if (replyTo) { comment.reply_to = replyTo; }
+    if (replyOf) { comment.reply_of = replyOf; }
 
     var self = this;
     Base.prototype.create.call(self, comment, function (err, id) {
         if (err) { return cb(err); }
         var countModel, idSpec, incSpec;
-        if (replyTo) {
+        if (replyOf) {
             countModel = self;
-            idSpec     = replyTo;
+            idSpec     = replyOf;
             incSpec    = { reply_count: 1 };
         } else {
             countModel = self._questionModel;

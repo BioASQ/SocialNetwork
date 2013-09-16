@@ -10,8 +10,8 @@
 </span>
 <h4 class="clearfix">{{message.title || '[No subject]'}}</h4>
 <div data-ng-bind-html="message.content | newlines"></div>
-<hr data-ui-if="newMessage.reply_to==message.id">
-<div class="row" data-ui-if="section=='inbox'" data-ng-init="newMessage.reply_to==message.id">
-  <div data-ui-if="newMessage.reply_to==message.id" data-ng-include="'templates/partials/create_message.html'"></div>
-  <button class="btn pull-right" data-ui-if="newMessage.reply_to!=message.id" data-ng-click="reply(message)">Reply</button>
+<hr data-ui-if="newMessage.reply_of==message.id">
+<div class="row" data-ui-if="section=='inbox'" data-ng-init="newMessage.reply_of==message.id">
+  <div data-ui-if="newMessage.reply_of==message.id" data-ng-include="'templates/partials/create_message.html'"></div>
+  <button class="btn pull-right" data-ui-if="newMessage.reply_of!=message.id" data-ng-click="reply(message)">Reply</button>
 </div>

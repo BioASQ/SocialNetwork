@@ -63,8 +63,8 @@ controllers.controller('MessageCtrl', function ($scope, Message, Auth, Username,
     $scope.reply = function (message) {
         $scope.newMessage = {
             creator:         Auth.user().id,
-            to:              message.creator,
-            reply_to:        message.id,
+            to:              message.creator.id,
+            reply_of:        message.id,
             needsReceipient: false,
             isReply:         true
         };

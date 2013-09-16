@@ -43,7 +43,7 @@
     </div>
     <div class="clearfix"></div>
   </div>
-  <div data-ui-if="temp.comment.reply_to==comment.id">
+  <div data-ui-if="temp.comment.reply_of==comment.id">
     <div data-ng-controller="CommentController" data-ng-include="'templates/partials/create_comment.html'"></div>
   </div>
   <div data-collapse="!comment.repliesShown">
