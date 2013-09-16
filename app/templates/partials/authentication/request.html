@@ -1,19 +1,19 @@
 <div class="row">
   <div class="span8 center">
     <div class="form-horizontal well">
-      <h4>Reset your password</h4>
-      <hr><form name="rememberForm">
+      <h4>Request password reset</h4>
+      <hr><form name="requestForm">
       <fieldset>
         <div class="control-group">
           <label class="control-label" for="input.email">Email address</label>
           <div class="controls">
-            <input type="email" id="input.email" data-ng-model="remember.email" class="span5 required" required>
+            <input type="email" id="input.email" data-ng-model="request.email" class="span5 required" required>
           </div>
         </div>
         <div class="form-actions">
           <div class="pull-right">
-            <button type="button" data-ng-click="authentication.setSection('login')" class="btn">Cancel</button>
-            <button type="submit" data-ng-click="remember.submit(rememberForm)" class="btn btn-primary">
+            <a class="btn" href="/#!/signin">Cancel</a>
+            <button type="submit" data-ng-click="request.submit(requestForm)" class="btn btn-primary">
               <i class="icon-white icon-refresh"></i>
               Send Link
             </button>
