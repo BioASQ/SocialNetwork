@@ -1,7 +1,7 @@
 <div class="well">
   <i class="activity-icon icon-thumbs-{{vote.dir}}"></i>
   <div data-ng-init="questionID=vote.about;voteDate=vote.created">
-    <a href="#/users/{{vote.creator.id}}">{{vote.creator.name}}</a>
+    <a href="#!/users/{{vote.creator.id}}">{{vote.creator.name}}</a>
     {{vote.dir}}voted a
     <span data-ng-controller="QuestionController">
       <!--
