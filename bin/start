@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-
+#!/usr/bin/env node --debug
 
 var util = require('util'),
     path = require('path');
