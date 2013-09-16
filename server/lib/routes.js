@@ -1,10 +1,14 @@
 var fs   = require('fs'),
-    path = require('path');
+    url  = require('url'),
+    path = require('path'),
+    Mail = require('./mail').Mail;
 
 var routes = exports.createRoutes = function (server) {
     var models         = server.get('models'),
         authentication = server.get('authentication'),
         pagination     = server.get('pagination');
+
+    var mail = new Mail();
 
     server.get('/activities', [ authentication, pagination ], function (request, response) {
         models.activity.cursor({}, { sort: { created: -1 } }, function (err, cursor) {
@@ -183,9 +187,19 @@ var routes = exports.createRoutes = function (server) {
      * Follow a user
      */
     server.post('/users/:id/followers', authentication, function (request, response) {
-        models.activity.follow(request.params.id, 'User', request.user.id, function (err) {
+        var followeeID = request.params.id;
+        models.activity.follow(followeeID, 'User', request.user.id, function (err) {
             if (err) { return response.send(400); }
-            response.send(201);
+            models.user.load(followeeID, function (err, followee) {
+                response.send(201);
+                if (followee.notifications) {
+                    var actionURL = url.format({
+                        protocol: 'http',
+                        host:     request.headers.host
+                    });
+                    mail.sendFollowerNotification(followee, request.user, actionURL);
+                }
+            });
         });
     });
 
@@ -271,12 +285,21 @@ var routes = exports.createRoutes = function (server) {
      * Send a message to a user
      */
     server.post('/messages', authentication, function (request, response) {
-        if (request.user.id != request.body.creator) {
+        if (request.user.id !== request.body.creator) {
             return response.send(400);
         }
         models.message.create(request.body, function (err) {
-            if (err) { return response.send(500); }
-            response.send(204);
+            if (err) { return response.send(400, err.message); }
+            models.user.load(request.body.to, function (err, receipient) {
+                response.send(201);
+                if (receipient.notifications) {
+                    var actionURL = url.format({
+                        protocol: 'http',
+                        host:     request.headers.host
+                    });
+                    mail.sendMessageNotification(receipient, request.user, actionURL);
+                }
+            });
         });
     });
 

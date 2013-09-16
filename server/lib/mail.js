@@ -1,14 +1,15 @@
-﻿var nodemailer = require('nodemailer'),
+var nodemailer = require('nodemailer'),
     ejs        = require('ejs'),
     path       = require('path'),
-    fs         = require('fs');
+    fs         = require('fs'),
+    config     = require(path.join('..', '..', 'config'));
 
 var Mail = exports.Mail = function () {
     this.transport = nodemailer.createTransport('SMTP', {
         service: 'Gmail',
         auth: {
-            user: 'bioasqat@gmail.com',
-            pass: 'PQvUAmykm7U4pe8dJKL2'
+            user: config.defaults.mail.user,
+            pass: config.defaults.mail.pass
         }
     });
 
@@ -66,43 +67,26 @@ Mail.prototype.sendResetMail = function (user, resetURL, cb) {
     this.transport.sendMail(this._mailOptions(user.email, this.sender, subject, htmlMail), cb);
 };
 
-Mail.prototype.sendFollowerNotification = function () {
-    var htmlMail = this.templates.activation({
+Mail.prototype.sendFollowerNotification = function (user, follower, URL, cb) {
+    var htmlMail = this.templates.followers({
         userName:    user.first_name,
+        follower:    [ follower.first_name, follower.last_name ].join(' '),
         projectName: this.projectName,
-        signInURL:   activationURL
+        signInURL:   URL
     });
 
     var subject = 'New Followers';
-    this.transport.sendMail(this._mailOptions(user.email, subject, htmlMail), cb);
+    this.transport.sendMail(this._mailOptions(user.email, this.sender, subject, htmlMail), cb);
 };
 
-Mail.prototype.sendMessageNotification = function () {
-    var htmlMail = this.templates.activation({
-        userName:    user.first_name,
-        sender:      sender,
+Mail.prototype.sendMessageNotification = function (receipient, sender, URL, cb) {
+    var htmlMail = this.templates.message({
+        userName:    receipient.first_name,
+        sender:      [ sender.first_name, sender.last_name ].join(' '),
         projectName: this.projectName,
-        signInURL:   activationURL
+        signInURL:   URL
     });
 
     var subject = 'New Messages';
-    this.transport.sendMail(this._mailOptions(user.email, subject, htmlMail), cb);
+    this.transport.sendMail(this._mailOptions(receipient.email, this.sender, subject, htmlMail), cb);
 };
-
-/*
- * Mail.prototype.sendResetMail = function (emailAddress, tempPw, url, cb) {
- * 
- *     var html = config.mail.resetPassword;
- *     var pass = tmpPassword.replace(/\$/g, "$$$$");
- *     html = html.replace("%NEWPASSWORD%", pass);
- *     html = html.replace("%URL%", url);
- *     html = html.replace("%EMAIL%", encodeURIComponent(email));
- *     html = html.replace("%NEWPASSWORD%", encodeURIComponent(tmpPassword));
- * 
- *     this.transport.sendMail(
- *         this._mailOptions(email, html),
- *         function (error, responseStatus) {           
- *             callback(error, responseStatus);
- *     });
- * };
- */

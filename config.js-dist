@@ -1,0 +1,9 @@
+var defaults = exports.defaults = {
+    /*
+     * Credentials for Gmail account.
+     */
+    mail: {
+        user: '',
+        pass: ''
+    }
+};

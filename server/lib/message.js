@@ -21,3 +21,16 @@ Message.prototype.all = function (userID, withID, cb) {
     }
     Base.prototype.find.call(this, query, { sort: { created: -1 } }, cb);
 };
+
+Message.prototype.create = function (doc, cb) {
+    var required = [ 'creator', 'to', 'title', 'content' ],
+        missing  = required.filter(function (key) { return (typeof doc[key] === 'undefined'); });
+    if (missing.length) {
+        return cb(new Error('missing ' + missing.join(', ') + '.'));
+    }
+    
+    var message = JSON.parse(JSON.stringify(doc));
+    doc.created = new Date();
+
+    Base.prototype.create.call(this, doc, cb);
+};

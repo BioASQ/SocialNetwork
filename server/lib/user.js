@@ -17,13 +17,14 @@ User.prototype.setAuth = function (auth) {
 
 User.prototype.load = function (id, cb) {
     var fields = {
-        type:        true,
-        id:          true,
-        first_name:  true,
-        last_name:   true,
-        email:       true,
-        img:         true,
-        description: true
+        type:          true,
+        id:            true,
+        first_name:    true,
+        last_name:     true,
+        email:         true,
+        img:           true,
+        description:   true,
+        notifications: true
     };
     Base.prototype.load.call(this, id, { fields: fields }, cb);
 };

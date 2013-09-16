@@ -75,11 +75,11 @@ controllers.controller('MessageCtrl', function ($scope, Message, Auth, Username,
     };
 
     $scope.send = function (message, form) {
-        if(form.$valid){
-            if (message.creating) {
-                delete message.needsReceipient;
-                delete message.isReply;
-            }
+        if (form.$valid) {
+            // Clean up view model properties
+            if (typeof message.needsReceipient !== 'undefined') { delete message.needsReceipient; }
+            if (typeof message.isReply !== 'undefined')         { delete message.isReply; }
+
             var m = new Message(message);
             m.$send(function () {
                 Alert.add({ type: 'success', message: 'Message successfully sent.' });
