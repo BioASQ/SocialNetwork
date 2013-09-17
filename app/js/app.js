@@ -28,6 +28,11 @@ BioASQ.config(['$routeProvider', 'pages', function ($routeProvider, pages) {
         });
     });
 
+    $routeProvider.when('/questions/:id', {
+        templateUrl: 'templates/questions.html',
+        controller: 'QuestionController'
+    });
+
     $routeProvider.when('/users/:creator', {
         templateUrl: 'templates/user.html',
         controller: 'UserCtrl'

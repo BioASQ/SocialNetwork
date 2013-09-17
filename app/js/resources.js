@@ -47,6 +47,7 @@ resources.factory('Question', function ($resource) {
         '/questions/:id/:action/:me',
         { id: '@id', me: '@me' },
         {
+            query_id:  { method: 'GET' },
             query:     { method: 'GET', isArray: true },
             followers: { method: 'GET', isArray: true, params: { action: 'followers'} },
             comments:  { method: 'GET', isArray: true, params: { action: 'comments'} },

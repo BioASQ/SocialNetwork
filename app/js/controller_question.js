@@ -7,6 +7,7 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
     $scope.itemsPerPage = 10;
 
     var _watches = false;
+    var id = $routeParams.id || '';
 
     function populateCreator(comment) {
         comment.creator = {
@@ -17,6 +18,18 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
 
     // fetch question list
     $scope.fetchQuestionsIfNeeded = function () {
+
+        if (!$scope.questions && id !== '') {
+            Question.query_id({id: id}, function (data, header) {
+                $scope.totalItems = 1;
+                data.follows = false;
+                Followings.isFollowing(data.id).then(function (value) {
+                    data.follows = value;
+                });
+                $scope.questions = [data];
+            });
+        }
+
         if (!$scope.questions) {
             var options = {
                 limit:  $scope.itemsPerPage,
