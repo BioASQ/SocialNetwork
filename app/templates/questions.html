@@ -10,7 +10,7 @@
     <div class="span12" data-ng-controller="QuestionController" data-ng-include="'templates/partials/question.html'"></div>
     <div><hr class="offset3 span6"></div>
   </div>
-  <div data-ui-if="totalItems > itemsPerPage">
+  <div data-ui-if="questions.length && totalItems > itemsPerPage">
     <div data-pagination data-max-size="5" data-boundary-links="true" data-total-items="totalItems" data-items-per-page="itemsPerPage" data-page="$parent.currentPage"></div>
   </div>
 </div>
