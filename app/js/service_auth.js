@@ -6,25 +6,26 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, $windo
         nameDeferred    = $q.defer(),
         currentInterval = null;
 
-    function setRefreshInterval(cookies) {
-        var matches = cookies.match(/exp=([0-9]+)/);
-        if (matches.length < 2) { return; }
-        var timeout = parseInt(matches[1], 10);
-        // request a little bit earlier
-        if (timeout > 20000) { timeout -= 10000; }
+    function setRefreshInterval(interval) {
+        $window.clearInterval(currentInterval);
+        $cookies.expiry = String(Date.now() + interval);
         currentInterval = $window.setInterval(function () {
             Backend.refresh({}, function (result, getHeader) {
+                var matches = $window.document.cookie.match(/exp=([0-9]+)/);
+                if (matches) {
+                    setRefreshInterval(parseInt(matches[1], 10));
+                }
             }, function (response) {
                 $window.clearInterval(currentInterval);
             });
-        }, timeout);
+        }, interval - 5000);
     }
 
     if (!!currentUser.id) {
         User.get({ id: currentUser.id }, function (user) {
             currentUser = user;
             nameDeferred.resolve([ user.first_name, user.last_name ].join(' '));
-            setRefreshInterval($window.document.cookie);
+            setRefreshInterval(parseInt($cookies.expiry, 10) - Date.now());
         });
     }
 
@@ -45,7 +46,10 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, $windo
                 function (user) {
                     currentUser  = user;
                     nameDeferred.resolve([ user.first_name, user.last_name ].join(' '));
-                    setRefreshInterval($window.document.cookie);
+                    var matches = $window.document.cookie.match(/exp=([0-9]+)/);
+                    if (matches) {
+                        setRefreshInterval(parseInt(matches[1], 10));
+                    }
                     success(currentUser);
                 }, function (response) {
                     error(response);
@@ -56,6 +60,7 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, $windo
                 currentUser  = defaultUser;
                 nameDeferred = $q.defer();
                 $window.clearInterval(currentInterval);
+                delete $cookies.expiry;
                 success();
             });
         },

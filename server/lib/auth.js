@@ -49,9 +49,10 @@ Auth.prototype.decryptToken = function (encrypted, cb) {
 Auth.prototype.generateToken = function (id, cb) {
     var self = this;
     crypto.pseudoRandomBytes(8, function (err, randomBytes) {
-        var token = [ id, String(Date.now()), randomBytes ].join(kValueSeparator);
+        var date  = new Date(),
+            token = [ id, String(date.getTime()), randomBytes ].join(kValueSeparator);
         self.encryptToken(token, function (err, encrypted) {
-            cb(null, encrypted);
+            cb(null, encrypted, date);
         });
     });
 };
@@ -88,10 +89,11 @@ Auth.prototype.validateCredentials = function (username, password, cb) {
             if (err || !result) {
                 return cb(null, { success: false, reason: 'invalid credentials' });
             }
-            self.generateToken(user.id, function (err, encryptedToken) {
+            self.generateToken(user.id, function (err, encryptedToken, tokenDate) {
                 return cb(null, {
                     success: true,
                     token: encryptedToken,
+                    date: tokenDate,
                     user: user
                 });
             });
@@ -104,12 +106,13 @@ Auth.prototype.validateToken = function (token, cb) {
     var self = this;
     self.verifyToken(token, function (err, valid, fields) {
         if (err | !valid) { return cb(null, { success: false }); }
-        self.generateToken(fields[0], function (err, encryptedToken) {
+        self.generateToken(fields[0], function (err, encryptedToken, tokenDate) {
             self._userModel.load(fields[0], function (err, user) {
                 if (err || !user) { return cb(null, { success: false }); }
                 return cb(null, {
                     success: true,
                     token: encryptedToken,
+                    date: tokenDate,
                     user: user
                 });
             });

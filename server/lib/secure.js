@@ -6,16 +6,17 @@ var fs     = require('fs'),
     qstr   = require('querystring'),
     Mail   = require('./mail').Mail;
 
-function setAuthCookies(response, token, userID, options) {
+function setAuthCookies(response, token, userID, tokenDate, options) {
+    var expiresDate = new Date (tokenDate.getTime() + options.maxTokenAge);
     response.cookie(options.authCookieKey,
                     token,
-                    { maxAge: options.maxTokenAge, httpOnly: true })
+                    { expires: expiresDate, httpOnly: true })
             .cookie(options.userIDCookieKey,
                     String(userID),
-                    { maxAge: options.maxTokenAge })
+                    { expires: expiresDate })
             .cookie(options.expirationCookieKey,
-                    String(options.maxTokenAge),
-                    { maxAge: options.maxTokenAge });
+                    String(expiresDate - new Date()),
+                    { expires: expiresDate });
 }
 
 /*
@@ -48,7 +49,7 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
      */
     server.get('/refresh', authentication, function (request, response) {
         util.log('auth: refreshing token for ' + request.user.id);
-        setAuthCookies(response, request.auth.token, request.auth.user.id, options);
+        setAuthCookies(response, request.auth.token, request.auth.user.id, request.auth.date, options);
         response.send(204);
     });
 
@@ -62,9 +63,9 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
             if (err) { response.send(400, err.message); }
             util.log('auth: account ' + user.id + ' activated.');
             util.log('auth: user ' + user.id + ' authenticated via email.');
-            auth.generateToken(user.id, function (err, token) {
+            auth.generateToken(user.id, function (err, token, tokenDate) {
                 models.user.update(user.id, { last_login: new Date() } );
-                setAuthCookies(response, token, user.id, options);
+                setAuthCookies(response, token, user.id, tokenDate, options);
                 response.status(302)
                         .location('/')
                         .send();
@@ -162,7 +163,7 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
             if (err || !result.success) { return response.send(401, result.reason); }
             util.log('auth: user ' + result.user.id + ' authenticated via login.');
             models.user.update(result.user.id, { last_login: new Date() } );
-            setAuthCookies(response, result.token, result.user.id, options);
+            setAuthCookies(response, result.token, result.user.id, result.date, options);
             response.send(200, result.user);
         });
     });
