@@ -1,11 +1,12 @@
 var crypto  = require('crypto'),
+    util    = require('util'),
     bcrypt  = require('bcrypt');
 
 const kValueSeparator = ':';
 
-var Auth = exports.Auth = function (user, maxTokenAge) {
+var Auth = exports.Auth = function (user, secret, maxTokenAge) {
     this._userModel   = user;
-    this._secret      = null;
+    this._secret      = new Buffer(secret, 'hex');
     this._maxTokenAge = maxTokenAge;
 };
 
@@ -14,10 +15,6 @@ Auth.prototype.secret = function (cb) {
     if (null !== self._secret) {
         return cb(null, self._secret);
     }
-    crypto.randomBytes(32, function (err, randomBytes) {
-        self._secret = randomBytes;
-        cb(null, self._secret);
-    });
 };
 
 Auth.prototype.hashPassword = function (password, cb) {
@@ -40,7 +37,7 @@ Auth.prototype.decryptToken = function (encrypted, cb) {
             var decrypted = decipher.update(encrypted, 'base64', 'binary')
                           + decipher.final('binary');
             cb(null, decrypted);
-        } catch(error) {
+        } catch (error) {
             cb(error);
         }
     });

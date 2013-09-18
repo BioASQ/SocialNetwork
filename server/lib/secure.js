@@ -61,8 +61,8 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
             code  = parts.shift().trim();
         models.user.activate(email, code, function (err, user) {
             if (err) { response.send(400, err.message); }
-            util.log('auth: account ' + user.id + ' activated.');
-            util.log('auth: user ' + user.id + ' authenticated via email.');
+            util.log('auth: account ' + user.id + ' activated');
+            util.log('auth: user ' + user.id + ' authenticated via email');
             auth.generateToken(user.id, function (err, token, tokenDate) {
                 models.user.update(user.id, { last_login: new Date() } );
                 setAuthCookies(response, token, user.id, tokenDate, options);
@@ -104,7 +104,7 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
                 pathname: [ 'activate', new Buffer(token).toString('base64') ].join('/')
             });
             mail.sendActivationMail(user, activationURL, function (err, status) {
-                util.log('auth: account created for ' + user.id + '.');
+                util.log('auth: account created for ' + user.id);
                 if (err) {
                     console.error('Error sending activation mail.');
                     console.trace(err);
@@ -161,7 +161,7 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
         if (!username || !password) { return response.send(401); }
         auth.validateCredentials(username, password, function (err, result) {
             if (err || !result.success) { return response.send(401, result.reason); }
-            util.log('auth: user ' + result.user.id + ' authenticated via login.');
+            util.log('auth: user ' + result.user.id + ' authenticated via login');
             models.user.update(result.user.id, { last_login: new Date() } );
             setAuthCookies(response, result.token, result.user.id, result.date, options);
             response.send(200, result.user);

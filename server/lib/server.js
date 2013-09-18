@@ -1,5 +1,6 @@
 var path    = require('path'),
     util    = require('util'),
+    crypto  = require('crypto'),
     mongodb = require('mongodb'),
     express = require('express');
 
@@ -39,7 +40,8 @@ exports.createServer = function (config, database, cb) {
         question: question
     });
 
-    var auth = new Auth(user, config.session.timeout * 60000); // in milliseconds
+    var auth = new Auth(user, config.session.key, config.session.timeout * 60000); // in milliseconds
+    util.log('auth: using session key ' + config.session.key);
 
     user.setAuth(auth);
 
@@ -83,6 +85,14 @@ exports.start = function (config, cb) {
 
     dbConn.open(function (err, database) {
         if (err) { return cb(Error('Error connecting to database.')); }
-        exports.createServer(config, database, cb);
+
+        if (config.session.key) {
+            exports.createServer(config, database, cb);
+        } else {
+            crypto.randomBytes(32, function (err, randomBytes) {
+                config.session.key = randomBytes.toString('hex');
+                exports.createServer(config, database, cb);
+            });
+        }
     });
 };
