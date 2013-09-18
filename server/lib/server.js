@@ -5,7 +5,6 @@ var path    = require('path'),
 
 const kAuthCookieKey     = '_auth',
       kRefreshCookieKey  = '_ret',
-      kMaxTokenAge       = 7200000, // 120 min
       kRefreshDifference =   10000; //  10 sec
 
 // models
@@ -17,7 +16,7 @@ var User     = require('./user').User,
 
 var Auth = require('./auth').Auth;
 
-exports.createServer = function (port, database, cb) {
+exports.createServer = function (config, database, cb) {
     var server = express();
 
     var appPath = path.normalize(path.join(__dirname, '..', '..', 'app'));
@@ -40,7 +39,7 @@ exports.createServer = function (port, database, cb) {
         question: question
     });
 
-    var auth = new Auth(user, kMaxTokenAge);
+    var auth = new Auth(user, config.session.timeout * 60000); // in milliseconds
 
     user.setAuth(auth);
 
@@ -67,21 +66,22 @@ exports.createServer = function (port, database, cb) {
     require('./secure').createSecureRoutes(server, auth, {
         authCookieKey:     kAuthCookieKey,
         refreshCookieKey:  kRefreshCookieKey,
-        maxTokenAge:       kMaxTokenAge,
+        maxTokenAge:       config.session.timeout * 60000, // in milliseconds
         refreshDifference: kRefreshDifference
     });
     require('./routes').createRoutes(server);
 
-    server.listen(port);
+    server.listen(config.server.port);
 
     cb(null, server);
 };
 
-exports.start = function (options, cb) {
-    var dbServer = new mongodb.Server(options.database.host, options.database.port, {}),
-    dbConn = new mongodb.Db(options.database.name, dbServer, { safe: false });
+exports.start = function (config, cb) {
+    var dbServer = new mongodb.Server(config.database.host, config.database.port, {}),
+        dbConn   = new mongodb.Db(config.database.name, dbServer, { safe: false });
+
     dbConn.open(function (err, database) {
         if (err) { return cb(Error('Error connecting to database.')); }
-        var server = exports.createServer(options.port, database, cb);
+        exports.createServer(config, database, cb);
     });
 };

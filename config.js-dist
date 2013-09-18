@@ -1,5 +1,28 @@
 var defaults = exports.defaults = {
     /*
+     * Server settings
+     */
+    server: {
+        port: 3000
+    },
+
+    /*
+     * Database settings
+     */
+    database: {
+        host: '127.0.0.1',
+        port: 27017,
+        name: 'bioasq-sn'
+    },
+
+    /*
+     * Session settings
+     */
+    session: {
+        timeout: 120
+    },
+
+    /*
      * Credentials for Gmail account.
      */
     mail: {

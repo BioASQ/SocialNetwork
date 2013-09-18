@@ -3,33 +3,21 @@
 var util = require('util'),
     path = require('path');
 
-/*
- * var config;
- * try {
- *     config = require(path.join(__dirname, '..', 'server', 'config')).defaults;
- * } catch (error) {
- *     console.error('Could not find config.js.');
- *     console.error('Please copy config.js-dist to config.js, adapt it to your needs and try again.');
- *     process.exit();
- * }
- */
-
-var options = {
-    port: 3000,
-    database: {
-        host: '127.0.0.1',
-        port: 27017,
-        name: 'bioasq-sn'
-    }
-};
+try {
+    var config = require(path.join(__dirname, '..', 'config')).defaults;
+} catch (error) {
+    console.error('Could not find config.js.');
+    console.error('Please copy config.js-dist to config.js, adapt it to your needs and try again.');
+    process.exit();
+}
 
 var server = require(path.join('..', 'server', 'lib', 'server.js'));
-server.start(options, function (err, server) {
+server.start(config, function (err, server) {
   if (err) {
     console.error('Could not start social network server: ' + err.message);
     process.exit(-1);
   }
 
   util.log('social network server started');
-  util.log('listening on port ' + options.port);
+  util.log('listening on port ' + config.server.port);
 });
