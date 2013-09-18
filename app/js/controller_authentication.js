@@ -3,8 +3,6 @@
 var controllers = angular.module('bioasq.controllers');
 
 controllers.controller('AuthenticationCtrl', function($rootScope, $route, $routeParams, $scope, $location, $cookies, Auth, Alert, Backend) {
-    Auth.remember();
-
     $scope.login = {
         submit: function (form) {
             if (form.$valid) {

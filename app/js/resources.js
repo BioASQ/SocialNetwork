@@ -91,7 +91,8 @@ resources.factory('Backend', function ($resource) {
             logout:   { method: 'GET',  params: { action: 'logout'} },
             register: { method: 'POST', params: { action: 'register'} },
             reset:    { method: 'POST', params: { action: 'reset' } },
-            request:  { method: 'POST', params: { action: 'request' } }
+            request:  { method: 'POST', params: { action: 'request' } },
+            refresh:  { method: 'GET',  params: { action: 'refresh' } }
         }
     );
 });

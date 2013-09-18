@@ -3,9 +3,9 @@ var path    = require('path'),
     mongodb = require('mongodb'),
     express = require('express');
 
-const kAuthCookieKey     = '_auth',
-      kRefreshCookieKey  = '_ret',
-      kRefreshDifference =   10000; //  10 sec
+const kAuthCookieKey       = '_auth',
+      kUserIDCookieKey     = 'uid',
+      kExpirationCookieKey = 'exp';
 
 // models
 var User     = require('./user').User,
@@ -49,8 +49,9 @@ exports.createServer = function (config, database, cb) {
         if (!authCookie) { return response.send(401); }
         auth.validateToken(authCookie, function (err, result) {
             if (err || !result.success) { return response.send(401); }
-            response.cookie('uid', String(result.user.id), { maxAge: kRefreshDifference });
             request.user = result.user;
+            // override express' auth getter definition
+            request.__defineGetter__('auth', function () { return result; });
             next();
         });
     });
@@ -64,10 +65,10 @@ exports.createServer = function (config, database, cb) {
     });
 
     require('./secure').createSecureRoutes(server, auth, {
-        authCookieKey:     kAuthCookieKey,
-        refreshCookieKey:  kRefreshCookieKey,
-        maxTokenAge:       config.session.timeout * 60000, // in milliseconds
-        refreshDifference: kRefreshDifference
+        authCookieKey:       kAuthCookieKey,
+        userIDCookieKey:     kUserIDCookieKey,
+        expirationCookieKey: kExpirationCookieKey,
+        maxTokenAge:         config.session.timeout * 60000 // in milliseconds
     });
     require('./routes').createRoutes(server);
 

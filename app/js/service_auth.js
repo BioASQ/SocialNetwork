@@ -1,18 +1,33 @@
 'use strict';
 
-angular.module('bioasq.services').factory('Auth', function ($q, $cookies, Backend, User) {
-    var defaultUser  = { id: '' },
-        currentUser  = { id: $cookies.uid || defaultUser.id },
-        nameDeferred = $q.defer();
+angular.module('bioasq.services').factory('Auth', function ($q, $cookies, $window, Backend, User) {
+    var defaultUser     = { id: '' },
+        currentUser     = { id: $cookies.uid || defaultUser.id },
+        nameDeferred    = $q.defer(),
+        currentInterval = null;
 
-    delete $cookies.uid;
+    function setRefreshInterval(cookies) {
+        var matches = cookies.match(/exp=([0-9]+)/);
+        if (matches.length < 2) { return; }
+        var timeout = parseInt(matches[1], 10);
+        // request a little bit earlier
+        if (timeout > 20000) { timeout -= 10000; }
+        currentInterval = $window.setInterval(function () {
+            Backend.refresh({}, function (result, getHeader) {
+            }, function (response) {
+                $window.clearInterval(currentInterval);
+            });
+        }, timeout);
+    }
 
     if (!!currentUser.id) {
         User.get({ id: currentUser.id }, function (user) {
             currentUser = user;
             nameDeferred.resolve([ user.first_name, user.last_name ].join(' '));
+            setRefreshInterval($window.document.cookie);
         });
     }
+
 
     return {
         user: function () {
@@ -30,6 +45,7 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, Backen
                 function (user) {
                     currentUser  = user;
                     nameDeferred.resolve([ user.first_name, user.last_name ].join(' '));
+                    setRefreshInterval($window.document.cookie);
                     success(currentUser);
                 }, function (response) {
                     error(response);
@@ -39,6 +55,7 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, Backen
             Backend.logout(function () {
                 currentUser  = defaultUser;
                 nameDeferred = $q.defer();
+                $window.clearInterval(currentInterval);
                 success();
             });
         },
@@ -52,9 +69,6 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, Backen
                     error(response);
                 }
             );
-        },
-        remember: function () {
-            $cookies.uid = currentUser.id;
         }
     };
 });

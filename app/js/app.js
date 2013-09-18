@@ -106,9 +106,6 @@ BioASQ.run(function (pages, $rootScope, $location, Auth, Alert) {
         if (!Auth.isSignedIn() && next.controller !== 'AuthenticationCtrl') {
             $location.path('signin');
         }
-        if (next.controller === 'AuthenticationCtrl' && Auth.isSignedIn()) {
-            Auth.remember();
-        }
         Alert.reset();
     });
 });

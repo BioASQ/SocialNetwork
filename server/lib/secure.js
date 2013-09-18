@@ -6,6 +6,18 @@ var fs     = require('fs'),
     qstr   = require('querystring'),
     Mail   = require('./mail').Mail;
 
+function setAuthCookies(response, token, userID, options) {
+    response.cookie(options.authCookieKey,
+                    token,
+                    { maxAge: options.maxTokenAge, httpOnly: true })
+            .cookie(options.userIDCookieKey,
+                    String(userID),
+                    { maxAge: options.maxTokenAge })
+            .cookie(options.expirationCookieKey,
+                    String(options.maxTokenAge),
+                    { maxAge: options.maxTokenAge });
+}
+
 /*
  * Routes related to authentication and
  * secure routes that require a passord or a code.
@@ -25,6 +37,8 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
         auth.invalidateToken(authCookie, function (err) {
             response.status(204)
                     .clearCookie(options.authCookieKey)
+                    .clearCookie(options.userIDCookieKey)
+                    .clearCookie(options.expirationCookieKey)
                     .send();
         });
     });
@@ -33,6 +47,8 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
      * Refresh auth token
      */
     server.get('/refresh', authentication, function (request, response) {
+        util.log('auth: refreshing token for ' + request.user.id);
+        setAuthCookies(response, request.auth.token, request.auth.user.id, options);
         response.send(204);
     });
 
@@ -48,13 +64,8 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
             util.log('auth: user ' + user.id + ' authenticated via email.');
             auth.generateToken(user.id, function (err, token) {
                 models.user.update(user.id, { last_login: new Date() } );
+                setAuthCookies(response, token, user.id, options);
                 response.status(302)
-                        .cookie(options.authCookieKey,
-                                token,
-                                { maxAge: options.maxTokenAge, httpOnly: true })
-                        .cookie(options.refreshCookieKey,
-                                String(options.maxTokenAge - options.refreshDifference))
-                        .cookie('uid', String(user.id), { maxAge: options.refreshDifference })
                         .location('/')
                         .send();
             });
@@ -151,14 +162,8 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
             if (err || !result.success) { return response.send(401, result.reason); }
             util.log('auth: user ' + result.user.id + ' authenticated via login.');
             models.user.update(result.user.id, { last_login: new Date() } );
-            response.status(200)
-                    .cookie(options.authCookieKey,
-                            result.token,
-                            { maxAge: options.maxTokenAge, httpOnly: true })
-                    .cookie(options.refreshCookieKey,
-                            String(options.maxTokenAge - options.refreshDifference))
-                    .cookie('uid', String(result.user.id), { maxAge: options.refreshDifference })
-                    .send(result.user);
+            setAuthCookies(response, result.token, result.user.id, options);
+            response.send(200, result.user);
         });
     });
 };
