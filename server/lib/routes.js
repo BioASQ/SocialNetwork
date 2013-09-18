@@ -307,7 +307,10 @@ var routes = exports.createRoutes = function (server) {
      * Get questions
      */
     server.get('/questions', [ authentication, pagination ], function (request, response) {
-        models.question.cursor({}, { sort: { created: -1 } }, function (err, cursor) {
+        var sort = request.param('sort') || 'created',
+            sortOptions = {};
+        sortOptions[sort] = -1;
+        models.question.cursor({}, { sort: sortOptions }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
                 if (err) { throw err; }
