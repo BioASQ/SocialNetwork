@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('MessageCtrl', function ($scope, Message, Auth, Username, Alert) {
+controllers.controller('MessageCtrl', function ($scope, Message, Auth, Username, Alert, User) {
     $scope.itemsPerPage = 10;
     $scope.currentPage  = 1;
 
@@ -51,6 +51,16 @@ controllers.controller('MessageCtrl', function ($scope, Message, Auth, Username,
             creator: Auth.user().id,
             isReply: false
         };
+
+        $scope.users = [];
+        User.query({}, function (users) {
+            $scope.users = _.map(_.filter(users, function (user) {
+                return (user.id !== Auth.user().id);
+            }), function (user) {
+                user.name = [ user.first_name, user.last_name ].join(' ');
+                return user;
+            });
+        });
 
         if (typeof receipient !== 'undefined') {
             $scope.newMessage.to = receipient;

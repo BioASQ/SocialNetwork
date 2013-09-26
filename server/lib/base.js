@@ -77,6 +77,11 @@ Base.prototype.find = function (query, options, cb) {
         delete query.id;
     }
 
+    if (options.fields && options.fields.id) {
+        options.fields._id = options.fields.id;
+        delete options.fields.id;
+    }
+
     this._collection(this._collectionName, function (err, collection) {
         var cursor = collection.find(query, options);
         cursor.toArray(function (err, res) {

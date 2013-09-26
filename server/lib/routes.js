@@ -68,6 +68,14 @@ var routes = exports.createRoutes = function (server) {
         });
     });
 
+    server.get('/users', [ authentication, pagination ], function (request, response) {
+        var options = { fields: { id: 1, first_name: 1, last_name: 1 }, sort: { created: -1  } };
+        models.user.find({ confirmation: true }, options, function (err, users) {
+            if (err) { throw err; }
+            response.send(users);
+        });
+    });
+
     /*
      * Get user with id
      */
