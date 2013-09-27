@@ -62,14 +62,15 @@ BioASQ.config(['$routeProvider', 'pages', function ($routeProvider, pages) {
         templateUrl: 'templates/authentication.html',
         controller: 'AuthenticationCtrl'
     });
+    $routeProvider.when('/404', {
+        templateUrl: 'templates/404.html',
+    });
 
     $routeProvider.when('/', {
         redirectTo: '/home'
     });
-
     $routeProvider.otherwise({
-        templateUrl: 'templates/authentication.html',
-        controller: 'AuthenticationCtrl'
+       redirectTo: '/404'
     });
 }]);
 
@@ -90,7 +91,9 @@ BioASQ.config(['$httpProvider', function ($httpProvider) {
                     $location.path('signin');
                 }
                 return $q.reject(response);
-            } else {
+            }if (response.status === 404) {
+                  $location.path('404');
+            }else {
                 return $q.reject(response);
             }
         }
