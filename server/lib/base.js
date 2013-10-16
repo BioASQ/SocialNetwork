@@ -9,6 +9,20 @@ Base.prototype._collection = function (name, cb) {
     this._db.collection(name, cb);
 };
 
+Base.prototype.makeID = function (tempID) {
+    if (typeof tempID !== 'string') {
+        return tempID;
+    }
+    if (tempID.length === 24) {
+        return new ObjectID(tempID);
+    }
+    var numberID = parseInt(tempID, 10);
+    if (numberID.toString(10) === tempID) {
+        return numberID;
+    }
+    return tempID;
+};
+
 Base.prototype.create = function (doc, cb) {
     this._collection(this._collectionName, function (err, collection) {
         collection.insert(doc, { save: true }, function (err, inserted) {
@@ -19,14 +33,14 @@ Base.prototype.create = function (doc, cb) {
 };
 
 Base.prototype.load = function (id, options, cb) {
+    var self = this;
     if (typeof cb === 'undefined') {
         cb = options;
         options = {};
     }
 
-    if (id.length === 24) { id = new ObjectID(id); }
     this._collection(this._collectionName, function (err, collection) {
-        collection.findOne({ _id: id }, options, function (err, doc) {
+        collection.findOne({ _id: self.makeID(id) }, options, function (err, doc) {
             if (err) { return cb(err); }
             if (doc) {
                 doc.id = String(doc._id);
@@ -96,10 +110,10 @@ Base.prototype.find = function (query, options, cb) {
 };
 
 Base.prototype.update = function (id, doc, cb) {
-    if (id.length === 24) { id = new ObjectID(id); }
+    var self = this;
     delete doc._id;
     this._collection(this._collectionName, function (err, collection) {
-        collection.update({ _id: id }, { $set: doc } , function (err) {
+        collection.update({ _id: self.makeID(id) }, { $set: doc } , function (err) {
             if (typeof cb !== 'undefined') {
                 if (err) { return cb(err); }
                 cb(null);
@@ -119,7 +133,7 @@ Base.prototype.remove = function (id, cb) {
 
 Base.prototype.findAndModify = function (query, sort, update, options, cb) {
     if (query.id) {
-        query._id = (query.id.length === 24) ? new ObjectID(query.id) : query.id;
+        query._id = this.makeID(query.id);
         delete query.id;
     }
     this._collection(this._collectionName, function (err, collection) {
