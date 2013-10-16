@@ -54,9 +54,11 @@ User.prototype.create = function (doc, cb) {
             // copy doc
             var user = JSON.parse(JSON.stringify(doc));
 
+            var mailDigest = crypto.createHash('md5').update(user.email).digest('hex');
+
             crypto.pseudoRandomBytes(8, function (err, bytes) {
                 user.type          = 'User';
-                user.img           = user.img || 'http://placehold.it/100x100&text=No%20image';
+                user.img           = user.img || 'http://gravatar.com/avatar/' + mailDigest + '?s=100';
                 user.notifications = user.notifications || true;
                 user.confirmation  = bytes.toString('hex');
 
