@@ -62,7 +62,7 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
         models.user.activate(email, code, function (err, user) {
             if (err) { response.send(400, err.message); }
             util.log('auth: account ' + user.id + ' activated');
-            util.log('auth: user ' + user.id + ' authenticated via email');
+            util.log('auth: user ' + user.id + ' authenticated via email secret');
             auth.generateToken(user.id, function (err, token, tokenDate) {
                 models.user.update(user.id, { last_login: new Date() } );
                 setAuthCookies(response, token, user.id, tokenDate, options);
