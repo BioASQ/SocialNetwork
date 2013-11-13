@@ -7,3 +7,7 @@ var Question = exports.Question = function (database) {
 };
 
 Question.prototype = Object.create(Base.prototype);
+
+Question.prototype.idProperties = function () {
+    return [ 'creator' ];
+};

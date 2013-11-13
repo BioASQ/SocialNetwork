@@ -10,6 +10,10 @@ var Activity = exports.Activity = function (database, questionModel) {
 
 Activity.prototype = Object.create(Base.prototype);
 
+Activity.prototype.idProperties = function () {
+    return [ 'creator', 'about', 'reply_of' ];
+};
+
 Activity.prototype.rank = function (questionID, cb) {
     Base.prototype.find.call(this, { type: 'Vote', about: questionID }, {}, function (err, votes) {
         if (err) { return cb(err); }
@@ -102,9 +106,13 @@ Activity.prototype.follow = function (followeeID, followeeType, followerID, cb) 
         about: followeeID,
         about_type: followeeType,
         creator: followerID,
-        created: new Date() };
+        created: new Date()
+    };
+
+    var self = this;
+    update = this.convertToIDs(update, this.idProperties());
     this._collection(this._collectionName, function (err, coll) {
-        coll.update({ type: 'Follow', about: followeeID, creator: followerID },
+        coll.update({ type: 'Follow', about: self.makeID(followeeID), creator: self.makeID(followerID) },
                     { $set: update },
                     { upsert: true },
                     cb);
@@ -112,7 +120,8 @@ Activity.prototype.follow = function (followeeID, followeeType, followerID, cb) 
 };
 
 Activity.prototype.unfollow = function (followeeID, followerID, cb) {
+    var self = this;
     this._collection(this._collectionName, function (err, coll) {
-        coll.remove({ type: 'Follow', about: followeeID, creator: followerID }, cb);
+        coll.remove({ type: 'Follow', about: self.makeID(followeeID), creator: self.makeID(followerID) }, cb);
     });
 };

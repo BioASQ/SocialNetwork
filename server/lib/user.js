@@ -11,6 +11,10 @@ var User = exports.User = function (database, options) {
 
 User.prototype = Object.create(Base.prototype);
 
+User.prototype.idProperties = function () {
+    return [];
+};
+
 User.prototype.setAuth = function (auth) {
     this._auth = auth;
 };

@@ -7,6 +7,10 @@ var Message = exports.Message = function (database) {
 
 Message.prototype = Object.create(Base.prototype);
 
+Message.prototype.idProperties = function () {
+    return [ 'creator', 'to' ];
+};
+
 Message.prototype.all = function (userID, withID, cb) {
     var query;
     if (typeof cb === 'undefined') {
@@ -28,7 +32,7 @@ Message.prototype.create = function (doc, cb) {
     if (missing.length) {
         return cb(new Error('missing ' + missing.join(', ') + '.'));
     }
-    
+
     var message = JSON.parse(JSON.stringify(doc));
     doc.created = new Date();
 
