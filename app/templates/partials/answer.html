@@ -2,6 +2,8 @@
   <dl style="margin-bottom:0.8em">
     <dt>ID</dt>
     <dd>{{question.id}}</dd>
+    <dt>Type</dt>
+    <dd>{{question.question_type}}</dd>
     <dt>Ideal answer</dt>
     <dd data-ng-bind-html="question.answer.ideal | newlines"></dd>
     <span data-ui-if="question.answer.exact">
@@ -13,23 +15,23 @@
           </ul>
         </span>
         <span data-ng-switch-when="factoid">{{question.answer.exact.join(', ')}}</span>
-        <span data-ng-switch-when="decisive">{{question.answer.exact}}</span>
+        <span data-ng-switch-when="yesno">{{question.answer.exact}}</span>
       </dd>
     </span>
   </dl>
 
   <ul class="nav nav-pills" style="margin-bottom:0.8em;padding-left:40px">
-    <li data-ng-class="{active:type=='concept'}">
-      <a data-ng-click="filterAnnotations(question.answer, 'concept')">concepts</a>
+    <li data-ng-class="{active:type=='concepts'}">
+      <a data-ng-click="filterAnnotations(question, 'concepts')">concepts</a>
     </li>
-    <li data-ng-class="{active:type=='document'}">
-      <a data-ng-click="filterAnnotations(question.answer, 'document')">documents</a>
+    <li data-ng-class="{active:type=='documents'}">
+      <a data-ng-click="filterAnnotations(question, 'documents')">documents</a>
     </li>
-    <li data-ng-class="{active:type=='snippet'}">
-      <a data-ng-click="filterAnnotations(question.answer, 'snippet')">snippets</a>
+    <li data-ng-class="{active:type=='snippets'}">
+      <a data-ng-click="filterAnnotations(question, 'snippets')">snippets</a>
     </li>
-    <li data-ng-class="{active:type=='statement'}">
-      <a data-ng-click="filterAnnotations(question.answer, 'statement')">statements</a>
+    <li data-ng-class="{active:type=='statements'}">
+      <a data-ng-click="filterAnnotations(question, 'statements')">statements</a>
     </li>
   </ul>
 
@@ -45,5 +47,5 @@
       </span>
     </li>
   </ul>
-  <div data-ng-show="filteredAnnotations && !filteredAnnotations.length">No {{type}}s found.</div>
+  <div data-ng-show="filteredAnnotations && !filteredAnnotations.length">No {{type}} found.</div>
 </div>

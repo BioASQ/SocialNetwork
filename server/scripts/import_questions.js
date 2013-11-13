@@ -61,10 +61,9 @@ connection.open(function (err, conn) {
                             doc.creator       = importerID;
 
                             var activity = {
-                                type:       'Question',
+                                type:       'Import',
                                 about:      doc._id,
                                 about_type: 'Question',
-                                creator:    importerID,
                                 created:    new Date()
                             };
 
