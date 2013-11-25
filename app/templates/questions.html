@@ -1,9 +1,10 @@
 <div class="container" data-ng-init="fetchQuestionsIfNeeded()">
   <div data-ng-controller="NavigationCtrl" data-ng-include="'templates/partials/navi.html'"></div>
   <div class="pull-right">Sort by:
-    <select class="span2" data-ng-model="sortProperty">
-      <option value="created">creation date</option>
-      <option value="rank">votes</option>
+    <select style="margin-top:0.4em" class="span3" data-ng-model="sortProperty">
+      <option value="created">date of creation</option>
+      <option value="modified">date of last update</option>
+      <option value="rank">number of votes</option>
     </select>
   </div>
   <div class="row" data-ng-repeat="question in questions">
