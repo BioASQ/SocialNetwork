@@ -14,7 +14,7 @@
         <button class="btn btn-mini" data-ng-click="vote(question, 'up')">
           <i class="icon-arrow-up"></i>
         </button>
-        <div>{{question.rank}}</div>
+        <div>{{question.rank || 0}}</div>
         <button class="btn btn-mini" 
                 data-ng-click="vote(question, 'down')">
           <i class="icon-arrow-down"></i>
@@ -22,7 +22,7 @@
       </div>
 
       <!-- creation info -->
-      <div class="span5">updated
+      <div class="span5">last updated
         <span class="label">{{question.modified | relativeDate}}</span>
 
         <div class="row" style="padding-top:22px">

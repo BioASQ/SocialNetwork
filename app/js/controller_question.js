@@ -134,11 +134,17 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
         }
     };
 
-    $scope.filterAnnotations = function (answer, type) {
+    $scope.filterAnnotations = function (question, type) {
         $scope.filteredAnnotations = [];
         $scope.type = type;
-        angular.forEach(answer.annotations, function (annotation) {
-            if (annotation.type === type) {
+        angular.forEach(question[type], function (annotation) {
+            if (annotation.type === 'statement') {
+                Array.prototype.push.apply($scope.filteredAnnotations,
+                                            _.map(annotation.triples, function (t) {
+                                                t.type = 'statement';
+                                                return t;
+                                            }));
+            } else {
                 $scope.filteredAnnotations.push(annotation);
             }
         });
