@@ -6,19 +6,24 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, $windo
         nameDeferred    = $q.defer(),
         currentInterval = null;
 
-    function setRefreshInterval(interval) {
+    function setRefreshInterval(interval, serverDate) {
+        if (serverDate) {
+            // if this is negative, the server is behind
+            var diff = Date.now() - Date.parse(serverDate);
+            interval = Math.max(interval - diff - 500, 10000);
+        }
         $window.clearInterval(currentInterval);
         $cookies.expiry = String(Date.now() + interval);
         currentInterval = $window.setInterval(function () {
             Backend.refresh({}, function (result, getHeader) {
                 var matches = $window.document.cookie.match(/exp=([0-9]+)/);
                 if (matches) {
-                    setRefreshInterval(parseInt(matches[1], 10));
+                    setRefreshInterval(parseInt(matches[1], 10), getHeader('Date'));
                 }
             }, function (response) {
                 $window.clearInterval(currentInterval);
             });
-        }, interval - 5000);
+        }, interval);
     }
 
     if (!!currentUser.id) {
@@ -43,12 +48,12 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, $windo
         signin: function (credentials, success, error) {
             Backend.login(
                 credentials,
-                function (user) {
-                    currentUser  = user;
+                function (user, headers) {
+                    currentUser = user;
                     nameDeferred.resolve([ user.first_name, user.last_name ].join(' '));
                     var matches = $window.document.cookie.match(/exp=([0-9]+)/);
                     if (matches) {
-                        setRefreshInterval(parseInt(matches[1], 10));
+                        setRefreshInterval(parseInt(matches[1], 10), headers('Date'));
                     }
                     success(currentUser);
                 }, function (response) {
