@@ -3,13 +3,28 @@
        data-ng-init="comment=activity"
        data-ng-include="'templates/partials/comment.html'"
        data-ng-controller="CommentController"></div>
-  <div data-ng-switch-when="Question">
+  <div data-ng-switch-when="Import">
     <div class="well">
       <i class="activity-icon icon-question-sign"></i>
       <div>
-        <a href="#!/users/{{activity.creator.id}}">{{activity.creator.name}}</a> imported
         <span data-ng-controller="QuestionController">
-          <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">a question</a>,
+          <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">A question</a>
+          was imported,
+          <span class="label">{{activity.created | relativeDate}}</span>.
+          <div data-ui-if="questionShown"
+               data-ng-include="'templates/partials/question.html'">
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div data-ng-switch-when="Update">
+    <div class="well">
+      <i class="activity-icon icon-question-sign"></i>
+      <div>
+        <span data-ng-controller="QuestionController">
+          <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">A question</a>
+          was updated,
           <span class="label">{{activity.created | relativeDate}}</span>.
           <div data-ui-if="questionShown"
                data-ng-include="'templates/partials/question.html'">
