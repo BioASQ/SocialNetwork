@@ -102,10 +102,10 @@ Auth.prototype.validateToken = function (token, cb) {
     if (!token) { throw new Error('Missing token'); }
     var self = this;
     self.verifyToken(token, function (err, valid, fields) {
-        if (err | !valid) { return cb(null, { success: false }); }
+        if (err | !valid) { return cb(null, { success: false, reason: 'invalid token' }); }
         self.generateToken(fields[0], function (err, encryptedToken, tokenDate) {
             self._userModel.load(fields[0], function (err, user) {
-                if (err || !user) { return cb(null, { success: false }); }
+                if (err || !user) { return cb(null, { success: false, reason: 'user not found' }); }
                 return cb(null, {
                     success: true,
                     token: encryptedToken,

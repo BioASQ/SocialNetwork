@@ -49,9 +49,15 @@ exports.createServer = function (config, database, cb) {
     // authentication middleware
     server.set('authentication', function (request, response, next) {
         var authCookie = request.cookies[kAuthCookieKey];
-        if (!authCookie) { return response.send(401); }
+        if (!authCookie) {
+            util.log('auth: missing auth cookie');
+            return response.send(401);
+        }
         auth.validateToken(authCookie, function (err, result) {
-            if (err || !result.success) { return response.send(401); }
+            if (err || !result.success) {
+                util.log('auth: could not authenticate: ' + result.reason);
+                return response.send(401);
+            }
             request.user = result.user;
             // override express' auth getter definition
             request.__defineGetter__('auth', function () { return result; });
