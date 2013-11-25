@@ -63,9 +63,20 @@ var routes = exports.createRoutes = function (server) {
                                     request.user.id,
                                     request.body.content,
                                     request.params.id,
-                                    function (err, comment) {
+                                    function (err, reply) {
                 if (err) { return response.send(500); }
-                response.send(201, comment);
+                response.send(201, reply);
+
+                // notify original comment author
+                models.user.load(comment.creator, function (err, receipient) {
+                    if (receipient.notifications) {
+                        var actionURL = url.format({
+                            protocol: 'http',
+                            host:     request.headers.host
+                        });
+                        mail.sendCommentReplyNotification(receipient, request.user, actionURL);
+                    }
+                });
             });
         });
     });
