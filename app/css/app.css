@@ -11,6 +11,15 @@ form, .form-horizontal {
   padding-bottom: 0;
 }
 
+.logo {
+  text-align: center;
+}
+
+.logo-navi {
+  margin-top: 2px;
+  margin-right: 1.8em;
+}
+
 .modal-body{
     height: 100%;
 	max-height: 100%;
