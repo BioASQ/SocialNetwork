@@ -3,7 +3,12 @@
 
   <div class="row">
     <div class="offset1 span2">
-      <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
+      <a target="_blank"
+         title="Change your profile picture at Gravatar."
+         href="http://www.gravatar.com/{{user.img | gravatar}}"
+         data-ui-if="me.id==user.id">
+        <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
+      </a>
     </div>
     <div class="span9">
       <h2>{{user.first_name}} {{user.last_name}}</h2>

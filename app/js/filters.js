@@ -33,3 +33,14 @@ filterModule.filter('rdf', function () {
         return [ '"', term, '"' ].join('');
     };
 });
+
+// Extracts a profile ID from a Gravatar image request URI.
+filterModule.filter('gravatar', function () {
+    return function (URL) {
+        var m = URL.match(/[0-9a-fA-F]{32}/);
+        if (m.length) {
+            return m[0];
+        }
+        return '';
+    };
+});
