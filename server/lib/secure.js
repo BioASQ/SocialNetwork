@@ -25,9 +25,10 @@ function setAuthCookies(response, token, userID, tokenDate, options) {
  */
 var routes = exports.createSecureRoutes = function (server, auth, options) {
     var models         = server.get('models'),
-        authentication = server.get('authentication');
+        authentication = server.get('authentication'),
+        config         = server.get('config');
 
-    var mail = new Mail();
+    var mail = new Mail(config.notifications);
 
     /*
      * Log out

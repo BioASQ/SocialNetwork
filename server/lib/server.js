@@ -39,6 +39,7 @@ exports.createServer = function (config, database, cb) {
         activity: new Activity(database, question),
         question: question
     });
+    server.set('config', config);
 
     var auth = new Auth(user, config.session.key, config.session.timeout * 60000); // in milliseconds
     util.log('auth: using session key ' + config.session.key);

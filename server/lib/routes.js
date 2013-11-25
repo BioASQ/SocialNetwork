@@ -1,14 +1,16 @@
 var fs   = require('fs'),
     url  = require('url'),
     path = require('path'),
+    util = require('util'),
     Mail = require('./mail').Mail;
 
 var routes = exports.createRoutes = function (server) {
     var models         = server.get('models'),
         authentication = server.get('authentication'),
-        pagination     = server.get('pagination');
+        pagination     = server.get('pagination'),
+        config         = server.get('config');
 
-    var mail = new Mail();
+    var mail = new Mail(config.notifications);
 
     server.get('/activities', [ authentication, pagination ], function (request, response) {
         models.activity.cursor({}, { sort: { created: -1 } }, function (err, cursor) {
@@ -410,5 +412,51 @@ var routes = exports.createRoutes = function (server) {
                 response.send({ rank: rank });
             });
         });
+    });
+
+    server.post('/updateQuestion', function (request, response) {
+        if (!request.body || !request.body.secret || !request.body.id || !request.body.data) {
+            util.log('rejecting question update (invalid request)');
+            return response.send(400);
+        }
+        if (!config.sharing || !config.sharing.enabled) {
+            util.log('questions: rejecting question update (sharing disabled)');
+            return response.send(204);
+        }
+
+        if (config.sharing.secret && (config.sharing.secret === request.body.secret)) {
+            models.question.import(request.body.id, request.body.data, function (err) {
+                if (err) { return response.send(404); }
+                var activity = {
+                    type:       'Update',
+                    about:      request.body.id,
+                    about_type: 'Question',
+                    created:    new Date()
+                };
+                models.activity.create(activity, function (err) {
+                    if (err) { return response.send(500); }
+                    util.log('questions: imported question update (' + request.body.id + ')');
+                    response.send(204);
+                    models.activity.followers(request.body.id, function (err, followers) {
+                        models.user.find(
+                            { id: { '$in': followers } },
+                            { fields: { first_name: true, email: true } },
+                            function (err, users) {
+                                var actionURL = url.format({
+                                    protocol: 'http',
+                                    host:     request.headers.host
+                                });
+                                users.forEach(function (u) {
+                                    mail.sendQuestionUpdateNotification(u, actionURL);
+                                });
+                            }
+                        );
+                    });
+                });
+            });
+        } else {
+            util.log('questions: rejecting question update (secret does not match)');
+            response.send(401);
+        }
     });
 };

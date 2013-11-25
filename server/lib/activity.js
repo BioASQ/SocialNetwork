@@ -125,3 +125,14 @@ Activity.prototype.unfollow = function (followeeID, followerID, cb) {
         coll.remove({ type: 'Follow', about: self.makeID(followeeID), creator: self.makeID(followerID) }, cb);
     });
 };
+
+Activity.prototype.followers = function (followeeID, cb) {
+    this.find({ type: 'Follow', about: followeeID },
+              { fields: { creator: true } },
+              function (err, followers) {
+                  if (err) return cb(err);
+                  cb(null, followers.map(function (r) {
+                      return r.creator;
+                  }));
+              });
+};
