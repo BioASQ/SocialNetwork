@@ -32,3 +32,23 @@ Question.prototype.import = function (id, doc, cb) {
         });
     });
 };
+
+Question.prototype.search = function (query, options, cb) {
+    var command = {
+        text: this._collectionName,
+        search: query
+    };
+    [ 'filter', 'project', 'limit', 'language' ].forEach(function (key) {
+        if (options.hasOwnProperty(key)) {
+            command[key] = options[key];
+        }
+    });
+    this._db.command(command, function (err, res) {
+        if (err) { return cb(err); }
+        cb(null, res.results.map(function (r) {
+            r.obj.id = r.obj._id;
+            delete r.obj._id;
+            return r.obj;
+        }));
+    });
+};

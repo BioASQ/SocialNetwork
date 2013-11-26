@@ -186,4 +186,3 @@ Base.prototype.findAndModify = function (query, sort, update, options, cb) {
         });
     });
 };
-

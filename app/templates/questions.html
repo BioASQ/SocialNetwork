@@ -1,12 +1,20 @@
 <div class="container" data-ng-init="fetchQuestionsIfNeeded()">
   <div data-ng-controller="NavigationCtrl" data-ng-include="'templates/partials/navi.html'"></div>
-  <div class="pull-right">Sort by:
-    <select style="margin-top:0.4em" class="span3" data-ng-model="sortProperty">
-      <option value="created">date of creation</option>
-      <option value="modified">date of last update</option>
-      <option value="rank">number of votes</option>
-    </select>
-  </div>
+  <form class="row form-search" style="height:3em;">
+    <div class="span pull-right" data-ng-hide="terms.length">
+      Sort by:
+      <select class="span3" data-ng-model="sortProperty">
+        <option value="created">date of creation</option>
+        <option value="modified">date of last update</option>
+        <option value="rank">number of votes</option>
+      </select>
+    </div>
+    <div class="input-append span6">
+      <input type="text" placeholder="Search terms …" class="span5 search-query" data-ng-model="terms">
+      <button class="btn" data-ng-click="searchQuestions()">Search</button>
+    </div>
+    <a class="btn btn-mini" data-ng-click="terms=''" style="border-radius:1.5em;position:relative;top:.35em;right:8.7em">✖︎</a>
+  </form>
   <div class="row" data-ng-repeat="question in questions">
     <div class="span12" data-ng-controller="QuestionController" data-ng-include="'templates/partials/question.html'"></div>
     <div><hr class="offset3 span6"></div>

@@ -44,11 +44,11 @@ resources.factory('User', function ($resource) {
 
 resources.factory('Question', function ($resource) {
     return $resource(
-        '/questions/:id/:action/:me',
-        { id: '@id', me: '@me' },
+        '/questions/:id/:action/:value',
+        { id: '@id', value: '@me' },
         {
-            query_id:  { method: 'GET' },
             query:     { method: 'GET', isArray: true },
+            search:    { method: 'GET', isArray: true, params: { action: 'search' } },
             followers: { method: 'GET', isArray: true, params: { action: 'followers'} },
             comments:  { method: 'GET', isArray: true, params: { action: 'comments'} },
             follow:    { method: 'POST',               params: { action: 'followers'} },

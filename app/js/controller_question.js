@@ -19,17 +19,6 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
 
     // fetch question list
     $scope.fetchQuestionsIfNeeded = function () {
-        if (!$scope.questions && id !== '') {
-            Question.query_id({id: id}, function (data, header) {
-                $scope.totalItems = 1;
-                data.follows = false;
-                Followings.isFollowing(data.id).then(function (value) {
-                    data.follows = value;
-                });
-                $scope.questions = [data];
-            });
-        }
-
         if (!$scope.questions) {
             var options = {
                 limit:  $scope.itemsPerPage,
@@ -58,7 +47,32 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
                 delete $scope.questions;
                 $scope.fetchQuestionsIfNeeded();
             });
+            $scope.$watch('terms', function (newVal, oldVal) {
+                if (newVal !== oldVal && newVal === '') {
+                    $scope.currentPage = 1;
+                    $scope.itemsPerPage = 10;
+                    delete $scope.questions;
+                    $scope.fetchQuestionsIfNeeded();
+                }
+            });
             _watches = true;
+        }
+    };
+
+    $scope.searchQuestions = function () {
+        if ($scope.terms) {
+            $scope.currentPage = 1;
+            delete $scope.questions;
+            $scope.questions = Question.search({ value: $scope.terms }, function (data, getHeader) {
+                $scope.totalItems = data.length;
+                $scope.itemsPerPage = data.length;
+                angular.forEach($scope.questions, function (question) {
+                    question.follows = false;
+                    Followings.isFollowing(question.id).then(function (value) {
+                        question.follows = value;
+                    });
+                });
+            });
         }
     };
 

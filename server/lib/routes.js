@@ -344,6 +344,13 @@ var routes = exports.createRoutes = function (server) {
         });
     });
 
+    server.get('/questions/search/:query', [ authentication, pagination ], function (request, response) {
+        models.question.search(request.params.query, {}, function (err, res) {
+            if (err) { throw err; }
+            response.send(res);
+        });
+    });
+
     /*
      * Get question with id
      */
