@@ -147,6 +147,24 @@ var routes = exports.createRoutes = function (server) {
     });
 
     /*
+     * All votes a user has cast
+     */
+    server.get('/users/:id/votes', [ authentication ], function (request, response) {
+        var query = { type: 'Vote', creator: request.params.id };
+        models.activity.cursor(query, { sort: { created: -1 } }, function (err, cursor) {
+            if (err) { throw err; }
+            cursor.count(function (err, count) {
+                if (err) { throw err; }
+                response.set('X-Result-Size', count);
+                cursor.limit(request.limit).skip(request.offset).toArray(function (err, res) {
+                    if (err) { return cb(err); }
+                    response.send(res);
+                });
+            });
+        });
+    });
+
+    /*
      * A user's followers
      */
     server.get('/users/:id/followers', [ authentication, pagination ], function (request, response) {
@@ -424,6 +442,19 @@ var routes = exports.createRoutes = function (server) {
      */
     server.post('/questions/:id/votes', authentication, function (request, response) {
         models.activity.vote(request.params.id, request.user.id, request.body.dir, function (err) {
+            if (err) { throw err; }
+            models.activity.rank(request.params.id, function (err, rank) {
+                if (err) { throw err; }
+                response.send({ rank: rank });
+            });
+        });
+    });
+
+    /*
+     * Delete a previous vote
+     */
+    server.delete('/questions/:id/votes', authentication, function (request, response) {
+        models.activity.unvote(request.params.id, request.user.id, function (err) {
             if (err) { throw err; }
             models.activity.rank(request.params.id, function (err, rank) {
                 if (err) { throw err; }

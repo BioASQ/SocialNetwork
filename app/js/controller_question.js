@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('QuestionController', function($scope, $routeParams, Question, Comment, Auth, Followings, Username) {
+controllers.controller('QuestionController', function($scope, $routeParams, Question, Comment, Auth, Followings, Votes, Username) {
     $scope.currentPage  = 1;
     $scope.itemsPerPage = 10;
     $scope.sortProperty = 'created';
@@ -32,6 +32,11 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
                     question.follows = false;
                     Followings.isFollowing(question.id).then(function (value) {
                         question.follows = value;
+                    });
+                    Votes.voteForID(question.id).then(function (value) {
+                        if (value === 'up' || value === 'down') {
+                            question.vote = value;
+                        }
                     });
                 });
             });
@@ -115,10 +120,17 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
 
     // vote on a question
     $scope.vote = function (question, dir) {
-        Question.vote({ id: question.id },
-                      { creator: Auth.user().id, about: question.id, dir: dir },
-                      function (response) { question.rank = response.rank; }
-        );
+        if (question.vote === dir) {
+            Votes.remove(question.id, function (newRank) {
+                question.rank = newRank;
+                delete question.vote;
+            });
+        } else {
+            Votes.add(question.id, dir, function (newRank) {
+                question.vote = dir;
+                question.rank = newRank;
+            });
+        }
     };
 
     $scope.createComment = function (question) {

@@ -36,7 +36,8 @@ Activity.prototype.vote = function (questionID, userID, direction, cb) {
             about: questionID,
             creator: userID,
             dir: direction,
-            created: new Date() } },
+            created: new Date()
+        } },
         { upsert: true },
         function (err, previousDocument) {
             if (err) { return cb(err); }
@@ -52,6 +53,29 @@ Activity.prototype.vote = function (questionID, userID, direction, cb) {
                 function (err, question) {
                     if (err) { return cb(err); }
                     cb(null, question.rank);
+                }
+            );
+        }
+    );
+};
+
+Activity.prototype.unvote = function (questionID, userID, cb) {
+    var self = this;
+    Base.prototype.findAndRemove.call(
+        this,
+        { type: 'Vote', about: questionID, creator: userID },
+        {},
+        {},
+        function (err, deletedVote) {
+            var increment = (deletedVote.dir === 'up') ? -1 : 1;
+            self._questionModel.findAndModify(
+                { id: questionID },
+                {},
+                { $inc: { rank: increment } },
+                { 'new': true },
+                function (err, updatedQuestion) {
+                    if (err) { return cb(err); }
+                    cb(null, updatedQuestion.rank);
                 }
             );
         }

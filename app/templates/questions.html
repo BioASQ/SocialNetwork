@@ -6,14 +6,14 @@
       <select class="span3" data-ng-model="sortProperty">
         <option value="created">date of creation</option>
         <option value="modified">date of last update</option>
-        <option value="rank">number of votes</option>
+        <option value="rank">voting rank</option>
       </select>
     </div>
     <div class="input-append span6">
-      <input type="text" placeholder="Search terms …" class="span5 search-query" data-ng-model="terms">
+      <input type="text" placeholder="Search questions &hellip;" class="span5 search-query" data-ng-model="terms">
       <button class="btn" data-ng-click="searchQuestions()">Search</button>
     </div>
-    <a class="btn btn-mini" data-ng-click="terms=''" style="border-radius:1.5em;position:relative;top:.35em;right:8.7em">✖︎</a>
+    <a class="btn btn-mini" data-ng-hide="!terms.length" data-ng-click="terms=''" style="border-radius:1.5em;position:relative;top:.35em;right:8.7em">✖︎</a>
   </form>
   <div class="row" data-ng-repeat="question in questions">
     <div class="span12" data-ng-controller="QuestionController" data-ng-include="'templates/partials/question.html'"></div>

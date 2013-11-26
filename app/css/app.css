@@ -20,6 +20,16 @@ form, .form-horizontal {
   margin-right: 1.8em;
 }
 
+.vote-buttons .btn {
+  width: 21px;
+  height: 21px;
+  padding: 0;
+}
+
+.vote-buttons .btn i {
+  margin: -1px 0 0 1px;
+}
+
 .modal-body{
     height: 100%;
 	max-height: 100%;

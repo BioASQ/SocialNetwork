@@ -16,7 +16,8 @@ resources.factory('Activity', function ($resource) {
             home:      { method: 'GET', isArray: true, params: { action: 'home'} },
             query:     { method: 'GET', isArray: true, params: { action: 'activities'} },
             following: { method: 'GET', isArray: true, params: { action: 'following'} },
-            followers: { method: 'GET', isArray: true, params: { action: 'followers'} }
+            followers: { method: 'GET', isArray: true, params: { action: 'followers'} },
+            votes:     { method: 'GET', isArray: true, params: { action: 'votes'} }
         }
     );
 });
@@ -54,6 +55,7 @@ resources.factory('Question', function ($resource) {
             follow:    { method: 'POST',               params: { action: 'followers'} },
             unfollow:  { method: 'DELETE',             params: { action: 'followers'} },
             vote:      { method: 'POST',               params: { action: 'votes'} },
+            unvote:    { method: 'DELETE',             params: { action: 'votes'} },
             comment:   { method: 'POST',               params: { action: 'comments'} }
         }
     );

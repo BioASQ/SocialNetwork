@@ -186,3 +186,20 @@ Base.prototype.findAndModify = function (query, sort, update, options, cb) {
         });
     });
 };
+
+Base.prototype.findAndRemove = function (query, sort, options, cb) {
+    if (query.id) {
+        query._id = this.makeID(query.id);
+        delete query.id;
+    }
+    query = this.convertToIDs(query, this.idProperties());
+    if (options.fields) {
+        options.fields = this.convertToIDs(options.fields, this.idProperties());
+    }
+    this._collection(this._collectionName, function (err, collection) {
+        collection.findAndRemove(query, sort, options, function (err, doc) {
+            if (err) { return cb(err); }
+            cb(null, doc);
+        });
+    });
+};
