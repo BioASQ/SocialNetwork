@@ -201,13 +201,27 @@ var routes = exports.createRoutes = function (server) {
                 }
             });
 
+            // convert ID strings to real ID type
+            var userID = models.user.makeID(request.params.id);
+            uniqueQuestionIDs = Object.keys(uniqueQuestionIDs).map(function (stringID) {
+                return models.question.makeID(stringID);
+            });
+            uniqueUserIDs = Object.keys(uniqueUserIDs).map(function (stringID) {
+                return models.activity.makeID(stringID);
+            });
+
             /*
              * Activities obout questions the user follows but not created by her or
              * activities created by users she follows.
              */
-            var query2 = { $or: [ { about: { $in: Object.keys(uniqueQuestionIDs) },
-                                    creator: { $ne: request.params.id } },
-                                  { creator: { $in: Object.keys(uniqueUserIDs) } } ] };
+            var query2 = { $or: [
+                // about questions user follows but has not created
+                { about: { $in: uniqueQuestionIDs }, creator: { $ne: userID } },
+                // about the user
+                { about: userID },
+                // created by other users he follows
+                { creator: { $in: uniqueUserIDs } }
+            ] };
             models.activity.cursor(query2, { sort: { created: -1 } }, function (err, cursor) {
                 if (err) { throw err; }
                 cursor.count(function (err, count) {
