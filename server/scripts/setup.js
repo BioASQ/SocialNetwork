@@ -7,7 +7,7 @@ dbConn.open(function (err, db) {
     if (err) { return console.error(err); }
     db.collection('question', function (err, question) {
         if (err) { return console.error(err); }
-        question.ensureIndex({ body: 'text' });
+        question.ensureIndex({ body: 'text', 'answer.ideal': 'text' }, { name: 'question_text' });
         question.ensureIndex({ created: 1 });
         question.ensureIndex({ updated: 1 });
         question.ensureIndex({ rank: 1 });

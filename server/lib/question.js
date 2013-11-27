@@ -49,6 +49,7 @@ Question.prototype.search = function (query, options, cb) {
     });
     this._db.command(command, function (err, res) {
         if (err) { return cb(err); }
+        if (!res) { return cb(Error('error searching text index')); }
         cb(null, res.results.map(function (r) {
             r.obj.id = r.obj._id;
             delete r.obj._id;
