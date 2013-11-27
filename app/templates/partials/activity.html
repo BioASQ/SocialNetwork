@@ -8,8 +8,8 @@
       <i class="activity-icon icon-question-sign"></i>
       <div>
         <span data-ng-controller="QuestionController">
-          <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">A question</a>
-          was imported,
+          <a data-ng-click="fetchQuestionIfNeeded(activity.about);questionShown=!questionShown">A new question</a>
+          was created,
           <span class="label">{{activity.created | relativeDate}}</span>.
           <div data-ui-if="questionShown"
                data-ng-include="'templates/partials/question.html'">

@@ -474,17 +474,21 @@ var routes = exports.createRoutes = function (server) {
         }
 
         if (config.sharing.secret && (config.sharing.secret === request.body.secret)) {
-            models.question.import(request.body.id, request.body.data, function (err) {
+            models.question.import(request.body.id, request.body.data, function (err, inserted) {
                 if (err) { return response.send(404); }
                 var activity = {
-                    type:       'Update',
+                    type:       inserted ? 'Import' : 'Update',
                     about:      request.body.id,
                     about_type: 'Question',
                     created:    new Date()
                 };
                 models.activity.create(activity, function (err) {
                     if (err) { return response.send(500); }
-                    util.log('questions: imported question update (' + request.body.id + ')');
+                    if (inserted) {
+                        util.log('questions: new question imported (' + request.body.id + ')');
+                    } else {
+                        util.log('questions: imported question update (' + request.body.id + ')');
+                    }
                     response.send(204);
                     models.activity.followers(request.body.id, function (err, followers) {
                         models.user.find(

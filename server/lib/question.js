@@ -24,12 +24,16 @@ Question.prototype.import = function (id, doc, cb) {
     delete doc._id;
     doc = this.convertToIDs(doc, this.idProperties());
     this._collection(this._collectionName, function (err, collection) {
-        collection.update({ _id: self.makeID(id) }, { $set: doc } , function (err) {
-            if (typeof cb !== 'undefined') {
-                if (err) { return cb(err); }
-                cb(null);
-            }
-        });
+        collection.update(
+            { _id: self.makeID(id) },
+            { $set: doc },
+            { upsert: true, journal: true },
+            function (err, result, details) {
+                if (typeof cb !== 'undefined') {
+                    if (err) { return cb(err); }
+                    cb(null, !details.updatedExisting);
+                }
+            });
     });
 };
 
