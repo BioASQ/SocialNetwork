@@ -14,14 +14,37 @@ Activity.prototype.idProperties = function () {
     return [ 'creator', 'about', 'reply_of' ];
 };
 
-Activity.prototype.rank = function (questionID, cb) {
-    Base.prototype.find.call(this, { type: 'Vote', about: questionID }, {}, function (err, votes) {
+Activity.prototype.rank = function (id, cb) {
+    var self = this;
+    this.aggregate([
+        { $match: { type: 'Vote', about: this.makeID(id) } },
+        { $group: { _id: '$about', count: { $sum: { $cond: [ { $eq: [ '$dir', 'down' ] }, -1, 1 ] } } } }
+    ], function (err, result) {
         if (err) { return cb(err); }
-        cb(null, votes.reduce(function (rank, vote) {
-            if (vote.dir === 'up') { return (rank + 1); }
-            else if (vote.dir === 'down') { return (rank - 1); }
-            else { return rank; }
-        }, 0));
+        if (result.length) {
+            return cb(null, result[0].count);
+        }
+        // no voting activity for question found
+        // rank is 0
+        cb(null, 0);
+    });
+};
+
+Activity.prototype.updateRank = function (id, cb) {
+    var self = this;
+    self.rank(id, function (err, rank) {
+        if (err) { return cb(err); }
+        self._questionModel.findAndModify(
+            { id: id },
+            {},
+            { $set: { rank: rank } },
+            { 'new': true },
+            function (err, updatedQuestion) {
+                if (err) { return cb(err); }
+                if (!updatedQuestion) { return cb(Error('question not found')); }
+                cb(null, updatedQuestion.rank);
+            }
+        );
     });
 };
 
@@ -39,22 +62,11 @@ Activity.prototype.vote = function (questionID, userID, direction, cb) {
             created: new Date()
         } },
         { upsert: true },
-        function (err, previousDocument) {
-            if (err) { return cb(err); }
-            var increment = (direction === 'up') ? 1 : -1;
-            if (previousDocument.dir) {
-                increment -= (previousDocument.dir === 'up') ? 1 : -1;
-            }
-            self._questionModel.findAndModify(
-                { id: questionID },
-                {},
-                { $inc: { rank: increment } },
-                { 'new': true },
-                function (err, question) {
-                    if (err) { return cb(err); }
-                    cb(null, question.rank);
-                }
-            );
+        function (err) {
+            self.updateRank(questionID, function (err, newRank) {
+                if (err) { return cb(err); }
+                cb(null, newRank);
+            });
         }
     );
 };
@@ -66,18 +78,11 @@ Activity.prototype.unvote = function (questionID, userID, cb) {
         { type: 'Vote', about: questionID, creator: userID },
         {},
         {},
-        function (err, deletedVote) {
-            var increment = (deletedVote.dir === 'up') ? -1 : 1;
-            self._questionModel.findAndModify(
-                { id: questionID },
-                {},
-                { $inc: { rank: increment } },
-                { 'new': true },
-                function (err, updatedQuestion) {
-                    if (err) { return cb(err); }
-                    cb(null, updatedQuestion.rank);
-                }
-            );
+        function (err) {
+            self.updateRank(questionID, function (err, newRank) {
+                if (err) { return cb(err); }
+                cb(null, newRank);
+            });
         }
     );
 };

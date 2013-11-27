@@ -164,6 +164,13 @@ Base.prototype.remove = function (id, cb) {
     });
 };
 
+Base.prototype.aggregate = function (pipeline, cb) {
+    this._collection(this._collectionName, function (err, coll) {
+        if (err) { return cb(err); }
+        coll.aggregate(pipeline, cb);
+    });
+};
+
 Base.prototype.findAndModify = function (query, sort, update, options, cb) {
     if (query.id) {
         query._id = this.makeID(query.id);
