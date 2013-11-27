@@ -76,6 +76,11 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
                     Followings.isFollowing(question.id).then(function (value) {
                         question.follows = value;
                     });
+                    Votes.voteForID(question.id).then(function (value) {
+                        if (value === 'up' || value === 'down') {
+                            question.vote = value;
+                        }
+                    });
                 });
             });
         }
@@ -88,6 +93,11 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
                 $scope.question.follows = false;
                 Followings.isFollowing($scope.question.id).then(function (value) {
                     $scope.question.follows = value;
+                });
+                Votes.voteForID($scope.question.id).then(function (value) {
+                    if (value === 'up' || value === 'down') {
+                        $scope.question.vote = value;
+                    }
                 });
             });
         }

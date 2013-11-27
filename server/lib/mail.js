@@ -73,7 +73,7 @@ Mail.prototype.sendResetMail = function (user, resetURL, cb) {
 
     var htmlMail = this.templates.reset({
         userName:     user.first_name,
-        projectName:   this.projectName,
+        projectName:  this.projectName,
         resetURL:     resetURL
     });
 
