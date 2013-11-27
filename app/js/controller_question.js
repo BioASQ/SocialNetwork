@@ -17,6 +17,14 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
         };
     }
 
+    $scope.init = function () {
+        if ($routeParams.id) {
+            this.fetchQuestionIfNeeded($routeParams.id);
+        } else {
+            this.fetchQuestionsIfNeeded();
+        }
+    };
+
     // fetch question list
     $scope.fetchQuestionsIfNeeded = function () {
         if (!$scope.questions) {
@@ -99,6 +107,8 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
                         $scope.question.vote = value;
                     }
                 });
+                // TODO(nheino) better way to handle single question
+                $scope.questions = [ $scope.question ];
             });
         }
     };
