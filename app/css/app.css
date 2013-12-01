@@ -11,8 +11,35 @@ form, .form-horizontal {
   padding-bottom: 0;
 }
 
+.css-image {
+  background-size: cover;
+}
+
 .logo {
   text-align: center;
+}
+
+.logo .css-image {
+  width: 251px;
+  height: 86px;
+  margin: 0 auto;
+  background-image: url('/img/BioASQ_logo_86px.png');
+}
+
+.logo-nav {
+  width: 77px;
+}
+
+.logo-nav .css-image {
+  margin-top: 7px;
+  width: 67px;
+  height: 23px;
+  background-image: url('/img/BioASQ_logo_23px.png');
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+  .logo .css-image { background-image: url('/img/BioASQ_logo_172px.png'); }
+  .logo-nav .css-image { background-image: url('/img/BioASQ_logo_46px.png'); }
 }
 
 .logo-navi {
