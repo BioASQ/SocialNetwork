@@ -4,12 +4,12 @@
       <div class="css-image"></div>
     </div>
   </div>
-  <ul class="nav" data-ng-init="inflectorType='humanize'">
-    <li data-ng-repeat="(page, config) in pages"
+  <ul class="nav">
+    <li data-ng-repeat="(_, config) in pages"
         data-ng-class="{active: $uiRoute}"
-        data-ui-route="#/{{page}}">
-        <a data-ng-href="#!/{{page}}">
-        {{page | inflector:inflectorType}}
+        data-ui-route="#/{{config.routeName}}">
+        <a data-ng-href="#!/{{config.routeName}}">
+        {{config.label}}
       </a>
     </li>
   </ul>

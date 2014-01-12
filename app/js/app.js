@@ -6,26 +6,30 @@ var dependencies = [
     'bioasq.controllers',
     'bioasq.services',
     'ngSanitize',
-    'ui.bootstrap',
     'ui',
+    'ui.bootstrap',
+    'ui.filters',
     'ngCookies'
 ];
 
 var BioASQ = angular.module('BioASQ', dependencies);
 
-BioASQ.constant('pages', {
-    home: { controllerName: 'HomeCtrl', description: 'activitites of people/things you follow' },
-    messages: { controllerName: 'MessageCtrl', description: 'received/sent messages' },
-    timeline: { controllerName: 'TimelineCtrl', description: 'all activities' },
-    questions: { controllerName: 'QuestionController', description: 'all questions' }
-});
+BioASQ.constant('pages', [
+    { routeName: 'home', controllerName: 'HomeCtrl', description: 'activitites of people/things you follow' },
+    { routeName: 'messages', controllerName: 'MessageCtrl', description: 'received/sent messages' },
+    { routeName: 'timeline', controllerName: 'TimelineCtrl', description: 'all activities' },
+    { routeName: 'questions', controllerName: 'QuestionController', description: 'all questions' }
+]);
 
 BioASQ.config(['$routeProvider', 'pages', function ($routeProvider, pages) {
-    angular.forEach(pages, function (config, page) {
-        $routeProvider.when('/' + page, {
-            templateUrl: 'templates/' + page + '.html',
+    angular.forEach(pages, function (config) {
+        $routeProvider.when('/' + config.routeName, {
+            templateUrl: 'templates/' + config.routeName + '.html',
             controller: config.controllerName
         });
+        if (!config.label) {
+            config.label = config.routeName.substr(0, 1).toUpperCase() + config.routeName.substr(1);
+        }
     });
 
     $routeProvider.when('/questions/:id', {
@@ -91,9 +95,9 @@ BioASQ.config(['$httpProvider', function ($httpProvider) {
                     $location.path('signin');
                 }
                 return $q.reject(response);
-            }if (response.status === 404) {
+            } if (response.status === 404) {
                   $location.path('404');
-            }else {
+            } else {
                 return $q.reject(response);
             }
         }
