@@ -22,6 +22,7 @@ var Mail = exports.Mail = function (config) {
             followers:  path.join.apply(this, templatePathParts.concat('followers.ejs')),
             comment:    path.join.apply(this, templatePathParts.concat('comment.ejs')),
             question:   path.join.apply(this, templatePathParts.concat('question.ejs')),
+            invitation: path.join.apply(this, templatePathParts.concat('invitation.ejs')),
             message:    path.join.apply(this, templatePathParts.concat('message.ejs'))
     };
     this.templates = {
@@ -30,6 +31,7 @@ var Mail = exports.Mail = function (config) {
         followers:  ejs.compile(String(fs.readFileSync(templatePaths.followers))),
         comment:    ejs.compile(String(fs.readFileSync(templatePaths.comment))),
         question:   ejs.compile(String(fs.readFileSync(templatePaths.question))),
+        invitation: ejs.compile(String(fs.readFileSync(templatePaths.invitation))),
         message:    ejs.compile(String(fs.readFileSync(templatePaths.message)))
     };
 
@@ -147,6 +149,22 @@ Mail.prototype.sendQuestionUpdateNotification = function (receipient, URL, cb) {
     var subject = 'Question Updates';
     this.transport.sendMail(this._mailOptions(receipient.email, this.sender, subject, htmlMail), function () {
         util.log('notify: question update notification sent to ' + receipient.email);
+        if (cb) { cb(); }
+    });
+};
+
+Mail.prototype.sendInvitationNotification = function (name, address, URL, code, codeURL, cb) {
+    var htmlMail = this.templates.invitation({
+        userName:           name,
+        projectName:        this.projectName,
+        registrationPage:   URL,
+        inviteCode:         code,
+        registrationLink:   codeURL
+    });
+
+    var subject = this.projectName + ' Invitation';
+    this.transport.sendMail(this._mailOptions(address, this.sender, subject, htmlMail), function () {
+        util.log('notify: invitation email sent to ' + address);
         if (cb) { cb(); }
     });
 };

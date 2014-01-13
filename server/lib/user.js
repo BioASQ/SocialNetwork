@@ -11,6 +11,21 @@ var User = exports.User = function (database, options) {
 
 User.prototype = Object.create(Base.prototype);
 
+User.prototype._nextID = function (cb) {
+    var self = this;
+    self._collection('counters', function (err, counters) {
+        var ret = counters.findAndModify(
+            { _id: self._collectionName },
+            {},
+            { $inc: { seq: 1 } },
+            { 'new': true },
+            function (err, ret) {
+                if (err) { return cb(err); }
+                cb(null, ret.seq);
+            });
+    });
+};
+
 User.prototype.idProperties = function () {
     return [];
 };
@@ -35,6 +50,29 @@ User.prototype.load = function (id, cb) {
 
 User.prototype.details = function (id, cb) {
     Base.prototype.load.call(this, id, { password: false }, cb);
+};
+
+User.prototype.invite = function (name, email, cb) {
+    var self = this;
+    self._nextID(function (err, id) {
+        if (err) return cb(err);
+
+        crypto.pseudoRandomBytes(4, function (err, bytes) {
+            var inviteCode = bytes.toString('hex');
+            self._collection(self._collectionName, function (err, collection) {
+                collection.insert(
+                    {   _id:   id,
+                        code:  inviteCode,
+                        email: email
+                    },
+                    { w: 1 },
+                    function (err, res) {
+                        if (err) { return cb(err); }
+                        return cb(null, inviteCode);
+                    });
+            });
+        });
+    });
 };
 
 User.prototype.create = function (doc, cb) {

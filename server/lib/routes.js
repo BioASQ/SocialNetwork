@@ -12,6 +12,39 @@ var routes = exports.createRoutes = function (server) {
 
     var mail = new Mail(config.notifications);
 
+    /*
+     * params: name, email
+     */
+    server.post('/invite', authentication, function (request, response) {
+        if (!request.body.name || !request.body.email) {
+            return response.send(400, 'missing parameters');
+        }
+        models.user.find({ email: request.body.email }, {}, function (err, res) {
+            if (res.length) {
+                return response.send(400, 'user already registered or invited');
+            }
+
+            models.user.invite(request.body.name, request.body.email, function (err, inviteCode) {
+                if (err) {
+                    console.log(err);
+                    return response.send(500);
+                }
+
+                var URL = url.format({
+                    protocol: 'http',
+                    host:     request.headers.host,
+                    hash:     '!/register'
+                });
+                mail.sendInvitationNotification(request.body.name,
+                                                request.body.email,
+                                                URL,
+                                                inviteCode,
+                                                URL + '/' + inviteCode);
+                return response.send(201);
+            });
+        });
+    });
+
     server.get('/activities', [ authentication, pagination ], function (request, response) {
         models.activity.cursor({}, { sort: { created: -1 } }, function (err, cursor) {
             if (err) { throw err; }

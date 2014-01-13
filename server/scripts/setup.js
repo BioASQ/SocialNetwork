@@ -11,6 +11,10 @@ dbConn.open(function (err, db) {
         question.ensureIndex({ created: 1 });
         question.ensureIndex({ updated: 1 });
         question.ensureIndex({ rank: 1 });
-        process.exit(0);
+    });
+
+    db.collection('counters', function (err, counters) {
+        if (err) { return console.error(err); }
+        counters.insert({ _id: 'user', seq: 0 });
     });
 });
