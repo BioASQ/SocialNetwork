@@ -21,6 +21,7 @@ var Mail = exports.Mail = function (config) {
             reset:      path.join.apply(this, templatePathParts.concat('reset.ejs')),
             followers:  path.join.apply(this, templatePathParts.concat('followers.ejs')),
             comment:    path.join.apply(this, templatePathParts.concat('comment.ejs')),
+            reply:      path.join.apply(this, templatePathParts.concat('reply.ejs')),
             question:   path.join.apply(this, templatePathParts.concat('question.ejs')),
             invitation: path.join.apply(this, templatePathParts.concat('invitation.ejs')),
             message:    path.join.apply(this, templatePathParts.concat('message.ejs'))
@@ -30,6 +31,7 @@ var Mail = exports.Mail = function (config) {
         reset:      ejs.compile(String(fs.readFileSync(templatePaths.reset))),
         followers:  ejs.compile(String(fs.readFileSync(templatePaths.followers))),
         comment:    ejs.compile(String(fs.readFileSync(templatePaths.comment))),
+        reply:      ejs.compile(String(fs.readFileSync(templatePaths.reply))),
         question:   ejs.compile(String(fs.readFileSync(templatePaths.question))),
         invitation: ejs.compile(String(fs.readFileSync(templatePaths.invitation))),
         message:    ejs.compile(String(fs.readFileSync(templatePaths.message)))
@@ -120,10 +122,26 @@ Mail.prototype.sendMessageNotification = function (receipient, sender, URL, cb) 
     });
 };
 
-Mail.prototype.sendCommentReplyNotification = function (receipient, replier, URL, cb) {
+Mail.prototype.sendCommentNotification = function (receipient, URL, cb) {
     if (!this.config.enabled) { return; }
 
     var htmlMail = this.templates.comment({
+        userName:    receipient.first_name,
+        projectName: this.projectName,
+        signInURL:   URL
+    });
+
+    var subject = 'New Comments';
+    this.transport.sendMail(this._mailOptions(receipient.email, this.sender, subject, htmlMail), function () {
+        util.log('notify: comment notification sent to ' + receipient.email);
+        if (cb) { cb(); }
+    });
+};
+
+Mail.prototype.sendCommentReplyNotification = function (receipient, replier, URL, cb) {
+    if (!this.config.enabled) { return; }
+
+    var htmlMail = this.templates.reply({
         userName:    receipient.first_name,
         sender:      [ replier.first_name, replier.last_name ].join(' '),
         projectName: this.projectName,

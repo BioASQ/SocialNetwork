@@ -19,7 +19,7 @@ var routes = exports.createRoutes = function (server) {
         if (!request.body.name || !request.body.email) {
             return response.send(400, 'missing parameters');
         }
-        models.user.find({ email: request.body.email }, {}, function (err, res) {
+        models.user.find({ invited: request.body.email }, {}, function (err, res) {
             if (res.length) {
                 return response.send(400, 'user already registered or invited');
             }
@@ -481,6 +481,24 @@ var routes = exports.createRoutes = function (server) {
         models.activity.comment(request.params.id, request.user.id, request.body.content, function (err, comment) {
             if (err) { return response.send(500); }
             response.send(201, comment);
+
+            // notify question author
+            models.question.load(request.params.id, { fields: { creator: true } }, function (err, doc) {
+                if (err) { return; }
+                models.user.find({ email: doc.creator }, {}, function (err, usr) {
+                    if (err) { return; }
+                    if (usr.length) {
+                        var user = usr[0];
+                        if (user.notifications) {
+                            var actionURL = url.format({
+                                protocol: 'http',
+                                host:     request.headers.host
+                            });
+                            mail.sendCommentNotification(user, actionURL);
+                        }
+                    }
+                });
+            });
         });
     });
 
@@ -547,7 +565,9 @@ var routes = exports.createRoutes = function (server) {
                                     host:     request.headers.host
                                 });
                                 users.forEach(function (u) {
-                                    mail.sendQuestionUpdateNotification(u, actionURL);
+                                    if (u.notifications) {
+                                        mail.sendQuestionUpdateNotification(u, actionURL);
+                                    }
                                 });
                             }
                         );

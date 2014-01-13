@@ -61,9 +61,9 @@ User.prototype.invite = function (name, email, cb) {
             var inviteCode = bytes.toString('hex');
             self._collection(self._collectionName, function (err, collection) {
                 collection.insert(
-                    {   _id:   id,
-                        code:  inviteCode,
-                        email: email
+                    {   _id:     id,
+                        code:    inviteCode,
+                        invited: email
                     },
                     { w: 1 },
                     function (err, res) {
