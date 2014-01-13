@@ -17,7 +17,6 @@ Question.prototype.import = function (id, doc, cb) {
     doc.question_type = doc.type;
     doc.type = 'Question';
     
-    delete doc.creator;
     delete doc.finalized;
 
     var self = this;

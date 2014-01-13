@@ -396,7 +396,7 @@ var routes = exports.createRoutes = function (server) {
         var sort = request.param('sort') || 'created',
             sortOptions = {};
         sortOptions[sort] = -1;
-        models.question.cursor({}, { sort: sortOptions }, function (err, cursor) {
+        models.question.cursor({}, { sort: sortOptions, fields: { creator: false } }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
                 if (err) { throw err; }
@@ -410,7 +410,7 @@ var routes = exports.createRoutes = function (server) {
     });
 
     server.get('/questions/search/:query', [ authentication, pagination ], function (request, response) {
-        models.question.search(request.params.query, {}, function (err, res) {
+        models.question.search(request.params.query, { fields: { creator: false } }, function (err, res) {
             if (err) { throw err; }
             response.send(res);
         });
@@ -420,7 +420,7 @@ var routes = exports.createRoutes = function (server) {
      * Get question with id
      */
     server.get('/questions/:id', authentication, function (request, response) {
-        models.question.load(request.params.id, function (err, doc) {
+        models.question.load(request.params.id, { fields: { creator: false } }, function (err, doc) {
             if (err) { throw err; }
             if (!doc) { return response.send(404); }
             response.send(doc);
