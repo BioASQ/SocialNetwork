@@ -23,7 +23,7 @@
      -     </div>
      - </div>
      -->
-  <div data-ng-bind-html="comment.content | newlines"></div>
+  <div data-ng-bind-html="comment.content | newlines | idlinky"></div>
   <span data-ui-if="!displayActivity">
     by <a href="#!/users/{{comment.creator.id}}">{{comment.creator.name}}</a>,
     <span class="label">{{comment.created | relativeDate}}</span>.

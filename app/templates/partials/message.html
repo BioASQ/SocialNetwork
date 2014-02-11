@@ -9,7 +9,7 @@
   </span>
 </span>
 <h4 class="clearfix">{{message.title || '[No subject]'}}</h4>
-<div data-ng-bind-html="message.content | newlines"></div>
+<div data-ng-bind-html="message.content | newlines | idlinky"></div>
 <hr data-ui-if="newMessage.reply_of==message.id">
 <div class="row" data-ui-if="section=='inbox'" data-ng-init="newMessage.reply_of==message.id">
   <div data-ui-if="newMessage.reply_of==message.id" data-ng-include="'templates/partials/create_message.html'"></div>
