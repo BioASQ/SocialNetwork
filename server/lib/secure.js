@@ -28,7 +28,7 @@ var routes = exports.createSecureRoutes = function (server, auth, options) {
         authentication = server.get('authentication'),
         config         = server.get('config');
 
-    var mail = new Mail(config.notifications);
+    var mail = new Mail(config);
 
     /*
      * Log out
