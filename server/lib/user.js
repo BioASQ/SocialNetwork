@@ -43,7 +43,8 @@ User.prototype.load = function (id, cb) {
         email:         true,
         img:           true,
         description:   true,
-        notifications: true
+        notifications: true,
+        black_list:    true
     };
     Base.prototype.load.call(this, id, { fields: fields }, cb);
 };

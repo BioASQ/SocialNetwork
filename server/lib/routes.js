@@ -12,6 +12,13 @@ var routes = exports.createRoutes = function (server) {
 
     var mail = new Mail(config);
 
+    var makeBlackList = function (user) {
+        var bl = user.black_list || [];
+        return bl.map(function (id) {
+            return models.question.makeID(id);
+        });
+    };
+
     /*
      * params: name, email
      */
@@ -46,7 +53,7 @@ var routes = exports.createRoutes = function (server) {
     });
 
     server.get('/activities', [ authentication, pagination ], function (request, response) {
-        models.activity.cursor({}, { sort: { created: -1 } }, function (err, cursor) {
+        models.activity.cursor({ about: { $nin: makeBlackList(request.user) } }, { sort: { created: -1 } }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
                 if (err) { throw err; }
@@ -136,7 +143,7 @@ var routes = exports.createRoutes = function (server) {
      * Get a user's activity
      */
     server.get('/users/:id/activities', [ authentication, pagination ], function (request, response) {
-        var query = { creator: request.params.id };
+        var query = { creator: request.params.id, about: { $nin: makeBlackList(request.user) } };
         models.activity.cursor(query, { sort: { created: -1 } }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
@@ -165,7 +172,7 @@ var routes = exports.createRoutes = function (server) {
      * What a user follows
      */
     server.get('/users/:id/following', [ authentication, pagination ], function (request, response) {
-        var query = { type: 'Follow', creator: request.params.id };
+        var query = { type: 'Follow', creator: request.params.id, about: { $nin: makeBlackList(request.user) } };
         models.activity.cursor(query, { sort: { created: -1 } }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
@@ -219,7 +226,7 @@ var routes = exports.createRoutes = function (server) {
      * Activities of things a user follows
      */
     server.get('/users/:id/home', [ authentication, pagination ], function (request, response) {
-        var query   = { type: 'Follow', creator: request.params.id },
+        var query   = { type: 'Follow', creator: request.params.id, about: { $nin: makeBlackList(request.user) } },
             options = { fields: [ 'about', 'about_type' ], sort: { created: -1 } };
 
         models.activity.find(query, options, function (err, res) {
@@ -249,7 +256,7 @@ var routes = exports.createRoutes = function (server) {
              */
             var query2 = { $or: [
                 // about questions user follows but has not created
-                { about: { $in: uniqueQuestionIDs }, creator: { $ne: userID } },
+                { about: { $in: uniqueQuestionIDs, $nin: makeBlackList(request.user) }, creator: { $ne: userID } },
                 // about the user
                 { about: userID },
                 // created by other users he follows
@@ -396,7 +403,7 @@ var routes = exports.createRoutes = function (server) {
         var sort = request.param('sort') || 'created',
             sortOptions = {};
         sortOptions[sort] = -1;
-        models.question.cursor({}, { sort: sortOptions, fields: { creator: false } }, function (err, cursor) {
+        models.question.cursor({ _id: {$nin: makeBlackList(request.user) } }, { sort: sortOptions, fields: { creator: false } }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
                 if (err) { throw err; }
@@ -410,16 +417,24 @@ var routes = exports.createRoutes = function (server) {
     });
 
     server.get('/questions/search/:query', [ authentication, pagination ], function (request, response) {
-        models.question.search(request.params.query, { fields: { creator: false } }, function (err, res) {
-            if (err) { throw err; }
-            response.send(res);
-        });
+        models.question.search(
+            request.params.query,
+            { fields: { creator: false }, filter: { _id: { $nin: makeBlackList(request.user) } } },
+            function (err, res) {
+                if (err) { throw err; }
+                response.send(res);
+            }
+        );
     });
 
     /*
      * Get question with id
      */
     server.get('/questions/:id', authentication, function (request, response) {
+        var blackList = makeBlackList(request.user);
+        if (blackList.some(function (id) { return (String(id) === request.params.id); })) {
+            return response.send(404);
+        }
         models.question.load(request.params.id, { fields: { creator: false } }, function (err, doc) {
             if (err) { throw err; }
             if (!doc) { return response.send(404); }
