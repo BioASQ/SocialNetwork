@@ -111,6 +111,7 @@ BioASQ.run(function (pages, $rootScope, $location, Auth, Alert) {
     $rootScope.pages = pages;
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (!Auth.isSignedIn() && next.controller !== 'AuthenticationCtrl') {
+            $rootScope.previousPath = $location.path().replace(/^.*#!\//,'');
             $location.path('signin');
         }
         Alert.reset();

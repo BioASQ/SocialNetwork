@@ -507,7 +507,8 @@ var routes = exports.createRoutes = function (server) {
                         if (user.notifications) {
                             var actionURL = url.format({
                                 protocol: 'http',
-                                host:     request.headers.host
+                                host:     request.headers.host,
+                                hash: [ '!/questions', String(doc.id) ].join('/')
                             });
                             mail.sendCommentNotification(user, actionURL);
                         }

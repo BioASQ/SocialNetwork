@@ -9,7 +9,13 @@ controllers.controller('AuthenticationCtrl', function($rootScope, $route, $route
                 Auth.signin(
                     $scope.login,
                     function (user) {
-                        $location.path('/');
+                        if ($rootScope.previousPath) {
+                            console.log('previous path: ' + $rootScope.previousPath);
+                            $location.path($rootScope.previousPath);
+                            delete $rootScope.previousPath;
+                        } else {
+                            $location.path('/');
+                        }
                     }, function (error) {
                         if (error.status === 401) {
                             Alert.add({ type: 'error', message: 'Invalid login!' });
