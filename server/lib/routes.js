@@ -10,7 +10,7 @@ var routes = exports.createRoutes = function (server) {
         pagination     = server.get('pagination'),
         config         = server.get('config');
 
-    var mail = new Mail(config);
+    var mail = new Mail(config.notifications);
 
     var makeBlackList = function (user) {
         var bl = user.black_list || [];
