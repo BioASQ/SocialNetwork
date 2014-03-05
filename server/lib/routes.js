@@ -125,11 +125,13 @@ var routes = exports.createRoutes = function (server) {
      * Gets all sorted users
      */
     server.get('/users', [ authentication, pagination ], function (request, response) {
-        var sort = request.param('sort') || 'last_name',
-            sortOptions = {};
+        var sort        = request.param('sort') || 'last_name',
+            sortOptions = {},
+            search      = request.param('search') || '';
         sortOptions[sort] = 1;
-        var options = { fields: { id: 1, first_name: 1, last_name: 1 }, sort: sortOptions };
-        var query = { confirmation: true };
+        search = new RegExp(search,"g");
+        var options = { fields: { id: 1, first_name: 1, last_name: 1, img: 1 }, sort: sortOptions };
+        var query = { confirmation: true, last_name: search};
         models.user.cursor(query, options, function (err, cursor){
             if (err) { throw err; }
             cursor.count(function (err, count) {
