@@ -45,115 +45,40 @@ filterModule.filter('gravatar', function() {
     };
 });
 
-filterModule.filter('idlinky', ['$sanitize', function($sanitize) {
+// Converts question IDs to links.
+filterModule.filter('idlinky', function() {
+    return function(text, target) {
+        if (!text || !typeof(text) === 'string') return text;
+
         var ID_REGEXP = /[0-9a-f]{24}/,
-            PATH = '#!/questions/';
+            PATH = '#!/questions/',
+            raw = text,
+            match,
+            i,
+            html = [];
 
-        return function(text, target) {
-            if (!text) return text;
-            var match;
-            var raw = text;
-            var html = [];
-            var url;
-            var i;
+        while ((match = raw.match(ID_REGEXP))) {
+            text = match[0];
+            i = match.index;
+            html.push(raw.substr(0, i))
 
-            function addText(text) {
-                if (!text) {
-                    return;
-                }
-                html.push(sanitizeText(text));
+            html.push('<a ');
+            if (angular.isDefined(target)) {
+                html.push('target="');
+                html.push(target);
+                html.push('" ');
             }
+            html.push('href="');
+            html.push(PATH);
+            html.push(text);
+            html.push('">');
+            html.push(text);
+            html.push('</a>');
 
-            function addLink(url, text) {
-                html.push('<a ');
-                if (angular.isDefined(target)) {
-                    html.push('target="');
-                    html.push(target);
-                    html.push('" ');
-                }
-                html.push('href="');
-                html.push(url);
-                html.push('">');
-                addText(text);
-                html.push('</a>');
-            }
+            raw = raw.substring(i + text.length);
+        }
+        html.push(raw);
 
-            while ((match = raw.match(ID_REGEXP))) {
-                text = match[0];
-                i = match.index;
-                addText(raw.substr(0, i));
-                addLink(PATH + text, text);
-                raw = raw.substring(i + text.length);
-            }
-            addText(raw);
-            var rtn = $sanitize(html.join(''));
-            return rtn;
-
-            /**
-             * angular-sanitize.js  1.2.9
-             **/
-            function sanitizeText(chars) {
-                var buf = [];
-                var writer = htmlSanitizeWriter(buf, angular.noop);
-                writer.chars(chars);
-                return buf.join('');
-            }
-            /**
-             * angular-sanitize.js  1.2.9
-             *
-             * create an HTML/XML writer which writes to buffer
-             * @param {Array} buf use buf.jain('') to get out sanitized html string
-             * @returns {object} in the form of {
-             *     start: function(tag, attrs, unary) {},
-             *     end: function(tag) {},
-             *     chars: function(text) {},
-             *     comment: function(text) {}
-             * }
-             */
-            function htmlSanitizeWriter(buf, uriValidator) {
-                var ignore = false;
-                var out = angular.bind(buf, buf.push);
-                return {
-                    start: function(tag, attrs, unary) {
-                        tag = angular.lowercase(tag);
-                        if (!ignore && specialElements[tag]) {
-                            ignore = tag;
-                        }
-                        if (!ignore && validElements[tag] === true) {
-                            out('<');
-                            out(tag);
-                            angular.forEach(attrs, function(value, key) {
-                                var lkey = angular.lowercase(key);
-                                var isImage = (tag === 'img' && lkey === 'src') || (lkey === 'background');
-                                if (validAttrs[lkey] === true && (uriAttrs[lkey] !== true || uriValidator(value, isImage))) {
-                                    out(' ');
-                                    out(key);
-                                    out('="');
-                                    out(value);
-                                    out('"');
-                                }
-                            });
-                            out(unary ? '/>' : '>');
-                        }
-                    },
-                    end: function(tag) {
-                        tag = angular.lowercase(tag);
-                        if (!ignore && validElements[tag] === true) {
-                            out('</');
-                            out(tag);
-                            out('>');
-                        }
-                        if (tag == ignore) {
-                            ignore = false;
-                        }
-                    },
-                    chars: function(chars) {
-                        if (!ignore) {
-                            out((chars));
-                        }
-                    }
-                };
-            }
-        };
-    }
-]);
+        return html.join('');
+    };
+});
