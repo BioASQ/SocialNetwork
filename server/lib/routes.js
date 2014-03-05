@@ -121,11 +121,25 @@ var routes = exports.createRoutes = function (server) {
         });
     });
 
+    /*
+     * Gets all sorted users
+     */
     server.get('/users', [ authentication, pagination ], function (request, response) {
-        var options = { fields: { id: 1, first_name: 1, last_name: 1 }, sort: { created: -1  } };
-        models.user.find({ confirmation: true }, options, function (err, users) {
+        var sort = request.param('sort') || 'last_name',
+            sortOptions = {};
+        sortOptions[sort] = 1;
+        var options = { fields: { id: 1, first_name: 1, last_name: 1 }, sort: sortOptions };
+        var query = { confirmation: true };
+        models.user.cursor(query, options, function (err, cursor){
             if (err) { throw err; }
-            response.send(users);
+            cursor.count(function (err, count) {
+            if (err) { throw err; }
+            response.set('X-Result-Size', count);
+                cursor.limit(request.limit).skip(request.offset).toArray(function (err, res) {
+                    if (err) { return cb(err); }
+                    response.send(res);
+                });
+            });
         });
     });
 
