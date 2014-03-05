@@ -6,16 +6,33 @@ controllers.controller('UsersCtrl', function($scope, User, Auth) {
     $scope.currentPage = 1;
     $scope.itemsPerPage = 5;
     $scope.sortProperty = 'last_name';
-
-    $scope.$watch('sortProperty', function() {
-        $scope.currentPage = 1;
-        delete $scope.users;
+    $scope.totalItems = 0;
+    $scope.fetchUsers = function() {
         var options = {
             limit: $scope.itemsPerPage,
             offset: ($scope.currentPage - 1) * $scope.itemsPerPage,
-            sort: $scope.sortProperty
+            sort: $scope.sortProperty,
+            search: $scope.query
         };
+        delete $scope.users;
+        $scope.users = User.query(options, function(results, getHeader) {
+            var resultSize = parseInt(getHeader('X-Result-Size'), 10);
+            $scope.totalItems = resultSize;
+        });
+    };
 
-        $scope.users = User.query(options);
+    $scope.$watch('sortProperty', function() {
+        $scope.currentPage = 1;
+        $scope.query = '';
+        $scope.fetchUsers();
     });
+
+    $scope.$watch('currentPage', function() {
+        $scope.fetchUsers();
+    });
+
+    $scope.searchUsers = function() {
+        $scope.currentPage = 1;
+        $scope.fetchUsers();
+    };
 });
