@@ -18,7 +18,8 @@ BioASQ.constant('pages', [
     { routeName: 'home', controllerName: 'HomeCtrl', description: 'activitites of people/things you follow' },
     { routeName: 'messages', controllerName: 'MessageCtrl', description: 'received/sent messages' },
     { routeName: 'timeline', controllerName: 'TimelineCtrl', description: 'all activities' },
-    { routeName: 'questions', controllerName: 'QuestionController', description: 'all questions' }
+    { routeName: 'questions', controllerName: 'QuestionController', description: 'all questions' },
+    { routeName: 'users', controllerName: 'UsersCtrl', description: 'all users' }
 ]);
 
 BioASQ.config(['$routeProvider', 'pages', function ($routeProvider, pages) {

@@ -31,9 +31,10 @@ resources.factory('Home', function ($resource) {
 
 resources.factory('User', function ($resource) {
     return $resource(
-        '/users/:id/:action/:me',
-        { id: '@id', me: '@me' },
+        '/users/:id/:action/:value',
+        { id: '@id', value: '@me' },
         {
+            query:     { method: 'GET', isArray: true },
             follow:      { method: 'POST',   params: { action: 'followers' } },
             unfollow:    { method: 'DELETE', params: { action: 'followers' } },
             message:     { method: 'POST',   params: { action: 'messages' } },
