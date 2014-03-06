@@ -48,7 +48,9 @@ filterModule.filter('gravatar', function() {
 // Converts question IDs to links.
 filterModule.filter('idlinky', function() {
     return function(text, target) {
-        if (!text || !typeof(text) === 'string') return text;
+        if (!text || typeof(text) !== 'string') {
+            return text;
+        }
 
         var ID_REGEXP = /[0-9a-f]{24}/,
             PATH = '#!/questions/',
@@ -60,7 +62,7 @@ filterModule.filter('idlinky', function() {
         while ((match = raw.match(ID_REGEXP))) {
             text = match[0];
             i = match.index;
-            html.push(raw.substr(0, i))
+            html.push(raw.substr(0, i));
 
             html.push('<a ');
             if (angular.isDefined(target)) {
@@ -80,5 +82,50 @@ filterModule.filter('idlinky', function() {
         html.push(raw);
 
         return html.join('');
+    };
+});
+
+// Converts a number and a given activity (questions, votes, comments) to html rewards.
+filterModule.filter('rewards', function() {
+    var commentsMap   = { greenhorn: 0, beginner: 1, advanced: 10, expert: 100 },
+        votesMap      = { greenhorn: 0, beginner: 1, advanced: 10, expert: 100 },
+        questionsMap = { greenhorn: 0, beginner: 1, advanced: 10, expert: 100 };
+    var greenhorn = 'greenhorn',
+        beginner  = 'beginner',
+        advanced  = 'advanced',
+        expert    = 'expert';
+
+    var tier = function(num, activity, map) {
+        var html = [];
+        html.push('<span class="label" title="');
+        html.push(num);
+        html.push('"><span class="');
+
+        var lvl = greenhorn;
+        if (num >= _.values(_.pick(map, expert))) {
+            lvl = expert;
+        }else if (num >= _.values(_.pick(map, beginner))) {
+            lvl = beginner;
+        } else if (num >= _.values(_.pick(map, advanced))) {
+            lvl = advanced;
+        }
+        html.push(lvl);
+        html.push('">&#9733;</span>&nbsp;')
+        html.push(activity);
+        html.push('</span>');
+
+        return html.join('');
+    };
+
+    return function(num, activity) {
+        if (activity === 'questions') {
+            return tier(num, activity, questionsMap);
+        } else if (activity === 'votes') {
+            return tier(num, activity, votesMap);
+        } else if (activity === 'comments') {
+            return tier(num, activity, commentsMap);
+        } else {
+            return '';
+        }
     };
 });
