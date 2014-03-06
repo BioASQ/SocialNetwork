@@ -2,11 +2,13 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('UsersCtrl', function($scope, User, Auth) {
+controllers.controller('UsersCtrl', function($scope, User, Rewards) {
+
     $scope.currentPage = 1;
     $scope.itemsPerPage = 5;
     $scope.sortProperty = 'last_name';
     $scope.totalItems = 0;
+
     $scope.fetchUsers = function() {
         var options = {
             limit: $scope.itemsPerPage,
@@ -15,9 +17,10 @@ controllers.controller('UsersCtrl', function($scope, User, Auth) {
             search: $scope.query
         };
         delete $scope.users;
-        $scope.users = User.query(options, function(results, getHeader) {
+        User.query(options, function(results, getHeader) {
             var resultSize = parseInt(getHeader('X-Result-Size'), 10);
             $scope.totalItems = resultSize;
+            $scope.users = Rewards.forUsers(results);
         });
     };
 

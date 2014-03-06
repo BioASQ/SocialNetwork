@@ -1,2 +1,7 @@
-<img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
-<a data-ng-href="#!/users/{{user.id}}">{{user.last_name}}, {{user.first_name}}</a>
+<div class="well">
+    <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
+    <a data-ng-href="#!/users/{{user.id}}">{{user.last_name}}, {{user.first_name}}</a><br>
+    <span data-ng-bind-html="user.nOfQuestions | rewards: 'questions'"></span>
+    <span data-ng-bind-html="user.nOfComments | rewards: 'comments'"></span>
+    <span data-ng-bind-html="user.nOfVotes | rewards: 'votes'"></span>
+</div>
