@@ -1,17 +1,17 @@
 'use strict';
 
+// Rewards for the last 1000 activities
 angular.module('bioasq.services').factory('Rewards', function(User) {
     return {
-        // counts user activities
         forUser: function(user) {
             User.query({
                 id: user.id,
-                action: 'activities'
+                action: 'activities',
+                limit: 1000
             }, function(activities, header) {
                 user.nOfQuestions = 0;
                 user.nOfComments = 0;
                 user.nOfVotes = 0;
-
                 angular.forEach(activities, function(activity) {
                     if (activity.type === 'Comment') {
                         user.nOfComments++;
