@@ -2,11 +2,14 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Auth, Followings, Username, Alert) {
+controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Auth, Followings, Username, Alert, Rewards) {
     var userID     = $routeParams.creator;
     $scope.me      = Auth.user();
-    $scope.user    = User.get({ id: userID });
     $scope.follows = false;
+
+    User.get({ id: userID },function(user){
+        $scope.user = Rewards.forUsers([user])[0];
+    });
 
     $scope.itemsPerPage = 10;
     $scope.currentPage  = 1;
