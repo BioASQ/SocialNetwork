@@ -1,24 +1,9 @@
 <div class="container">
   <div data-ng-controller="NavigationCtrl" data-ng-include="'templates/partials/navi.html'"></div>
-
   <div class="row">
-    <div class="offset1 span2">
-      <a data-ui-if="me.id==user.id"
-         target="_blank"
-         title="Change your profile picture at Gravatar."
-         href="http://www.gravatar.com/{{user.img | gravatar}}">
-        <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
-      </a>
-      <img data-ui-if="me.id!=user.id" class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
-    </div>
-    <div class="span9">
-      <h2>{{user.first_name}} {{user.last_name}}</h2>
-      <p>{{user.description}}</p>
-    </div>
+    <div data-ng-include="'templates/partials/user.html'"></div>
   </div>
-
   <div class="vspace"></div>
-
   <div class="row" data-ng-controller="MessageCtrl">
     <div class="offset1 span12 btn-group" data-ng-hide="me.id==user.id">
       <button class="btn" data-ng-click="toggleFollow()">

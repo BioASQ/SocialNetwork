@@ -16,8 +16,9 @@
         </div>
         <a class="btn btn-mini" data-ng-hide="!query.length" data-ng-click="query=''" style="border-radius:1.5em;position:relative;top:.35em;right:8.7em">✖︎</a>
     </form>
-    <div class="row" data-ng-repeat="user in users">
-      <div class="offset1 span10" data-ng-include="'templates/partials/user.html'"></div>
+    <div  data-ng-repeat="user in users">
+      <div class="row" data-ng-include="'templates/partials/user.html'"></div>
+      <div class="vspace"></div>
     </div>
     <div data-ui-if="users.length && totalItems > itemsPerPage">
         <div data-pagination data-max-size="5" data-boundary-links="true" data-total-items="totalItems" data-items-per-page="itemsPerPage" data-page="$parent.currentPage"></div>

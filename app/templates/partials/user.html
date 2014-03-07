@@ -1,7 +1,18 @@
-<div class="well">
+<div class="offset1 span2">
+  <a data-ui-if="me.id==user.id"
+     target="_blank"
+     title="Change your profile picture at Gravatar."
+     href="http://www.gravatar.com/{{user.img | gravatar}}">
     <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
-    <a data-ng-href="#!/users/{{user.id}}">{{user.last_name}}, {{user.first_name}}</a><br>
-    <span data-ng-bind-html="user.nOfQuestions | rewards: 'questions'"></span>
-    <span data-ng-bind-html="user.nOfComments | rewards: 'comments'"></span>
-    <span data-ng-bind-html="user.nOfVotes | rewards: 'votes'"></span>
+  </a>
+  <img data-ui-if="me.id!=user.id" class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
+</div>
+<div class="span9">
+  <h3>{{user.first_name}} {{user.last_name}}</h3>
+  <p>{{user.description}}</p>
+</div>
+<div class="offset1 span11">
+  <span data-ui-if="user.nOfComments"  data-ng-bind-html="user.nOfComments  | rewards: 'comments'"></span>
+  <span data-ui-if="user.nOfQuestions" data-ng-bind-html="user.nOfQuestions | rewards: 'questions'"></span>
+  <span data-ui-if="user.nOfVotes"     data-ng-bind-html="user.nOfVotes     | rewards: 'votes'"></span>
 </div>
