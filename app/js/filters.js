@@ -87,30 +87,49 @@ filterModule.filter('idlinky', function() {
 
 // Converts a number and a given activity (questions, votes, comments) to html rewards.
 filterModule.filter('rewards', function() {
-    var commentsMap   = { greenhorn: 0, beginner: 1, advanced: 10, expert: 100 },
-        votesMap      = { greenhorn: 0, beginner: 1, advanced: 10, expert: 100 },
-        questionsMap = { greenhorn: 0, beginner: 1, advanced: 10, expert: 100 };
+    var defaultLabel = 'greenhorn',
+        commentsMap = {
+            beginner: { label: 'beginner', threshold: 1},
+            advanced: { label: 'advanced', threshold: 10},
+            expert:   { label: 'expert',   threshold: 100}
+        },
+        votesMap = {
+            beginner: { label: 'beginner', threshold: 1},
+            advanced: { label: 'advanced', threshold: 10},
+            expert:   { label: 'expert',   threshold: 100}
+        },
+        questionsMap = {
+            beginner: { label: 'beginner', threshold: 1},
+            advanced: { label: 'advanced', threshold: 10},
+            expert:   { label: 'expert',   threshold: 100}
+        };
+    // css classes
     var greenhorn = 'greenhorn',
         beginner  = 'beginner',
         advanced  = 'advanced',
         expert    = 'expert';
-
     var tier = function(num, activity, map) {
         var html = [];
         html.push('<span class="label" title="');
         html.push(num);
         html.push('"><span class="');
 
-        var lvl = greenhorn;
-        if (num >= _.values(_.pick(map, expert))) {
-            lvl = expert;
-        }else if (num >= _.values(_.pick(map, beginner))) {
-            lvl = beginner;
-        } else if (num >= _.values(_.pick(map, advanced))) {
-            lvl = advanced;
+        var css = greenhorn;
+        var title = defaultLabel;
+        if (num >= map.expert.threshold) {
+            css = expert;
+            title = map.expert.label;
+        }else if (num >= map.advanced.threshold) {
+            css = advanced;
+            title = map.advanced.label;
+        } else if (num >= map.beginner.threshold) {
+            css = beginner;
+            title = map.beginner.label;
         }
-        html.push(lvl);
-        html.push('">&#9733;</span>&nbsp;')
+        html.push(css);
+        html.push('">&#9733;</span>&nbsp;');
+        //html.push(title);
+        //html.push(' ');
         html.push(activity);
         html.push('</span>');
 
