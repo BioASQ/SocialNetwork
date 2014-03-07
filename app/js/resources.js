@@ -34,7 +34,6 @@ resources.factory('User', function ($resource) {
         '/users/:id/:action/:value',
         { id: '@id', value: '@me' },
         {
-            query:     { method: 'GET', isArray: true },
             follow:      { method: 'POST',   params: { action: 'followers' } },
             unfollow:    { method: 'DELETE', params: { action: 'followers' } },
             message:     { method: 'POST',   params: { action: 'messages' } },
@@ -49,7 +48,6 @@ resources.factory('Question', function ($resource) {
         '/questions/:id/:action/:value',
         { id: '@id', value: '@me' },
         {
-            query:     { method: 'GET', isArray: true },
             search:    { method: 'GET', isArray: true, params: { action: 'search' } },
             followers: { method: 'GET', isArray: true, params: { action: 'followers'} },
             comments:  { method: 'GET', isArray: true, params: { action: 'comments'} },
