@@ -3,9 +3,11 @@
      target="_blank"
      title="Change your profile picture at Gravatar."
      href="http://www.gravatar.com/{{user.img | gravatar}}">
-    <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
+    <img class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" width="90" />
   </a>
-  <img data-ui-if="me.id!=user.id" class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" />
+  <a href="#!/users/{{user.id}}">
+    <img data-ui-if="me.id!=user.id" class="img-rounded img-polaroid" data-ng-src={{user.img}} alt="{{user.first_name}} {{user.last_name}}" width="90" />
+  </a>
 </div>
 <div class="span9">
   <h3>{{user.first_name}} {{user.last_name}}</h3>
