@@ -1,0 +1,33 @@
+<!-- <div class="row"> -->
+  <div class="span8 center">
+    <div class="form-horizontal well">
+      <h4>Invite A Friend</h4>
+      <hr>
+      <form name="inviteForm">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label" for="input.name">Name</label>
+            <div class="controls">
+              <input type="text" id="input.name" data-ng-model="invite.name" class="span4" required>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="input.email">E-mail address</label>
+            <div class="controls">
+              <input type="text" id="input.email" data-ng-model="invite.email" class="span4" required>
+            </div>
+          </div>
+          <div class="form-actions">
+            <div class="pull-right" style="margin-right:80px">
+              <button type="button" class="btn" data-ng-click="$dismiss()">Cancel</button>
+              <button type="submit" class="btn btn-primary" data-ng-click="sendInvite(inviteForm)">
+                Send invitation
+              </button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  <span data-ng-include="'templates/partials/alert.html'"></span>
+  </div>
+<!-- </div> -->

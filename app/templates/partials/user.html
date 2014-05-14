@@ -11,7 +11,17 @@
 </div>
 <div class="span9">
   <h3>{{user.first_name}} {{user.last_name}}</h3>
-  <p>{{user.description}}</p>
+  <div data-ui-if="isAdmin()">
+    <select class="span3" data-ng-model="user.roles">
+        <option value="1">User</option>
+        <option value="3">Senior User</option>
+        <option value="7">Admin</option>
+    </select>
+    <button class="btn btn-small btn-form" ng-click="updateUser(user)">Save</button>
+  </div>
+  <div data-ui-if="!isAdmin()">
+    <p>{{user.description}}</p>
+  </div>
 </div>
 <div class="offset1 span11">
   <span data-ui-if="user.nOfComments"  data-ng-bind-html="user.nOfComments  | rewards: 'comments'"></span>

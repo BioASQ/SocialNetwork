@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, Activity, User, Auth, Followings, Username, Alert, Rewards) {
+controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $modal, $location, $http, Activity, User, Auth, Followings, Username, Alert, Rewards) {
     var userID     = $routeParams.creator;
     $scope.me      = Auth.user();
     $scope.follows = false;
@@ -126,4 +126,41 @@ controllers.controller('UserCtrl', function ($routeParams, $scope, $rootScope, $
             }
         }
     };
+
+    $scope.inviteOpen = function () {
+        $scope.invite = {};
+        var modal = $modal.open({
+                templateUrl: 'templates/partials/invite.html',
+                backdrop: true,
+                scope: $scope,
+                windowClass: 'modal-wide'
+        });
+        $scope.modal = modal;
+
+        modal.result.then(function () {
+            delete $scope.invite;
+        }, function () {
+            delete $scope.invite;
+        });
+    }
+
+    $scope.sendInvite = function (form) {
+        if (form.$valid) {
+            $http.post('/invite', $scope.invite)
+            .success(function (data) {
+                alert($scope.invite.name + ' successfully invited');
+                $scope.modal.close();
+                delete $scope.modal;
+            })
+            .error(function (data, status) {
+                alert('invitation failed: ' + data);
+                $scope.modal.close();
+                delete $scope.modal;
+            });
+        }
+    }
+
+    $scope.isSeniorUser = function () {
+        return Auth.isSeniorUser();
+    }
 });

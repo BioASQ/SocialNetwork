@@ -19,6 +19,11 @@ form, .form-horizontal {
   text-align: center;
 }
 
+button.btn-form {
+  margin-left: .5em;
+  margin-top: -1em;
+}
+
 .logo .css-image {
   width: 251px;
   height: 86px;
