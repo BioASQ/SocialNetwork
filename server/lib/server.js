@@ -72,14 +72,14 @@ exports.createServer = function (config, database, cb) {
     });
 
     server.set('requireSeniorUser', function (request, response, next) {
-        if (request.user.roles & roles.SeniorUser === roles.SeniorUser) {
+        if ((request.user.roles & roles.SeniorUser) === roles.SeniorUser) {
             return next();
         }
         return response.send(403, 'insufficient role');
     });
 
     server.set('requireAdminUser', function (request, response, next) {
-        if (request.user.roles & roles.AdminUser === roles.AdminUser) {
+        if ((request.user.roles & roles.AdminUser) === roles.AdminUser) {
             return next();
         }
         return response.send(403, 'insufficient role');

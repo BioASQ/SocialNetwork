@@ -52,10 +52,10 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, $windo
             return (currentUser.id !== defaultUser.id);
         },
         isAdminUser: function () {
-            return (currentUser.roles & roles.AdminUser === roles.AdminUser);
+            return ((currentUser.roles & roles.AdminUser) === roles.AdminUser);
         },
         isSeniorUser: function () {
-            return (currentUser.roles & roles.SeniorUser === roles.SeniorUser);
+            return ((currentUser.roles & roles.SeniorUser) === roles.SeniorUser);
         },
         signin: function (credentials, success, error) {
             Backend.login(
