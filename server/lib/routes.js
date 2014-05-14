@@ -5,10 +5,12 @@ var fs   = require('fs'),
     Mail = require('./mail').Mail;
 
 var routes = exports.createRoutes = function (server) {
-    var models         = server.get('models'),
-        authentication = server.get('authentication'),
-        pagination     = server.get('pagination'),
-        config         = server.get('config');
+    var models            = server.get('models'),
+        authentication    = server.get('authentication'),
+        requireSeniorUser = server.get('requireSeniorUser'),
+        requireAdminUser  = server.get('requireAdminUser'),
+        pagination        = server.get('pagination'),
+        config            = server.get('config');
 
     var mail = new Mail(config.notifications);
 
@@ -22,11 +24,11 @@ var routes = exports.createRoutes = function (server) {
     /*
      * params: name, email
      */
-    server.post('/invite', authentication, function (request, response) {
+    server.post('/invite', authentication, requireSeniorUser, function (request, response) {
         if (!request.body.name || !request.body.email) {
             return response.send(400, 'missing parameters');
         }
-        models.user.find({ invited: request.body.email }, {}, function (err, res) {
+        models.user.find({ $or: [{email: request.body.email}, {invited: request.body.email}]}, {}, function (err, res) {
             if (res.length) {
                 return response.send(400, 'user already registered or invited');
             }
@@ -130,7 +132,7 @@ var routes = exports.createRoutes = function (server) {
             search      = request.param('search') || '';
         sortOptions[sort] = 1;
         search = new RegExp(search,"g");
-        var options = { fields: { id: 1, first_name: 1, last_name: 1, img: 1 }, sort: sortOptions };
+        var options = { fields: { id: 1, first_name: 1, last_name: 1, roles: 1, img: 1 }, sort: sortOptions };
         var query = { confirmation: true, last_name: search};
         models.user.cursor(query, options, function (err, cursor){
             if (err) { throw err; }
@@ -152,6 +154,13 @@ var routes = exports.createRoutes = function (server) {
         models.user.load(request.params.id, function (err, doc) {
             if (!doc) { response.send(404); }
             else { response.send(doc); }
+        });
+    });
+
+    server.post('/users/:id', authentication, requireAdminUser, function (request, response) {
+        models.user.update(request.params.id, request.body, function (err, res) {
+            if (err) { return response.send(500); }
+            response.send(201);
         });
     });
 

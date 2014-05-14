@@ -58,3 +58,9 @@ db.question.find().forEach(function (q) {
     });
     db.question.save(q);
 });
+
+// add roles key (default: User)
+db.user.find().forEach(function (u) {
+    u.roles = 1;
+    db.user.save(u);
+});

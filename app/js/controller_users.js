@@ -2,7 +2,7 @@
 
 var controllers = angular.module('bioasq.controllers');
 
-controllers.controller('UsersCtrl', function($scope, User, Rewards) {
+controllers.controller('UsersCtrl', function($scope, User, Rewards, Auth) {
 
     $scope.currentPage = 1;
     $scope.itemsPerPage = 5;
@@ -38,4 +38,16 @@ controllers.controller('UsersCtrl', function($scope, User, Rewards) {
         $scope.currentPage = 1;
         $scope.fetchUsers();
     };
+
+    $scope.isAdmin = function () {
+        return Auth.isAdminUser();
+    }
+
+    $scope.updateUser = function (user) {
+        User.update({ id: user.id }, { roles: parseInt(user.roles, 10) },
+        function () {
+        },
+        function () {
+        });
+    }
 });

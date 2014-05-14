@@ -38,7 +38,8 @@ resources.factory('User', function ($resource) {
             unfollow:    { method: 'DELETE', params: { action: 'followers' } },
             message:     { method: 'POST',   params: { action: 'messages' } },
             details:     { method: 'GET',    params: { action: 'preferences'} },
-            preferences: { method: 'POST',   params: { action: 'preferences'} }
+            preferences: { method: 'POST',   params: { action: 'preferences'} },
+            update:      { method: 'POST' }
         }
     );
 });

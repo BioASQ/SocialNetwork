@@ -1,5 +1,11 @@
 'use strict';
 
+var roles = {
+    User:       1 << 0,
+    SeniorUser: 1 << 1,
+    AdminUser:  1 << 2
+}
+
 angular.module('bioasq.services').factory('Auth', function ($q, $cookies, $window, Backend, User) {
     var defaultUser     = { id: '' },
         currentUser     = { id: $cookies.uid || defaultUser.id },
@@ -44,6 +50,12 @@ angular.module('bioasq.services').factory('Auth', function ($q, $cookies, $windo
         },
         isSignedIn: function () {
             return (currentUser.id !== defaultUser.id);
+        },
+        isAdminUser: function () {
+            return (currentUser.roles & roles.AdminUser === roles.AdminUser);
+        },
+        isSeniorUser: function () {
+            return (currentUser.roles & roles.SeniorUser === roles.SeniorUser);
         },
         signin: function (credentials, success, error) {
             Backend.login(
