@@ -131,9 +131,9 @@ var routes = exports.createRoutes = function (server) {
             sortOptions = {},
             search      = request.param('search') || '';
         sortOptions[sort] = 1;
-        search = new RegExp(search,"g");
+        var regexp = new RegExp('\\b(' + search + ')', 'gi');
         var options = { fields: { id: 1, first_name: 1, last_name: 1, roles: 1, img: 1 }, sort: sortOptions };
-        var query = { confirmation: true, last_name: search};
+        var query = { confirmation: true, last_name: regexp};
         models.user.cursor(query, options, function (err, cursor){
             if (err) { throw err; }
             cursor.count(function (err, count) {
