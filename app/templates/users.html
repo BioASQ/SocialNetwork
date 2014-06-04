@@ -15,7 +15,7 @@
             <input type="text" placeholder="Search users last names &hellip;" class="span5 search-query" data-ng-model="query">
             <button class="btn" data-ng-click="searchUsers()">Search</button>
         </div>
-        <a class="btn btn-mini" data-ng-hide="!query.length" data-ng-click="query=''" style="border-radius:1.5em;position:relative;top:.35em;right:8.7em">✖︎</a>
+        <a class="btn btn-mini" data-ng-hide="!query.length" data-ng-model="query" data-ng-click="query=''; searchUsers()" style="border-radius:1.5em;position:relative;top:.35em;right:8.7em">✖︎</a>
     </form>
     <div  data-ng-repeat="user in users">
       <div class="row" data-ng-include="'templates/partials/user.html'"></div>
