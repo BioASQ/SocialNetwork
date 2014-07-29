@@ -1,5 +1,11 @@
 var crypto = require('crypto');
 
+var roles = {
+    User:       1 << 0,
+    SeniorUser: 1 << 1,
+    AdminUser:  1 << 2
+};
+
 var Base = require('./base').Base;
 
 var User = exports.User = function (database, options) {
@@ -10,6 +16,14 @@ var User = exports.User = function (database, options) {
 };
 
 User.prototype = Object.create(Base.prototype);
+
+User.prototype.isSeniorUser = function (user) {
+    return ((user.roles & roles.SeniorUser) === roles.SeniorUser);
+}
+
+User.prototype.isAdminUser = function (user) {
+    return ((user.roles & roles.AdminUser) === roles.AdminUser);
+}
 
 User.prototype._nextID = function (cb) {
     var self = this;

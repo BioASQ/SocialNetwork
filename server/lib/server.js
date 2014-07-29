@@ -8,12 +8,6 @@ const kAuthCookieKey       = '_auth',
       kUserIDCookieKey     = 'uid',
       kExpirationCookieKey = 'exp';
 
-var roles = {
-    User:       1 << 0,
-    SeniorUser: 1 << 1,
-    AdminUser:  1 << 2
-}
-
 // models
 var User     = require('./user').User,
     Question = require('./question').Question,
@@ -72,14 +66,14 @@ exports.createServer = function (config, database, cb) {
     });
 
     server.set('requireSeniorUser', function (request, response, next) {
-        if ((request.user.roles & roles.SeniorUser) === roles.SeniorUser) {
+        if (user.isSeniorUser(request.user)) {
             return next();
         }
         return response.send(403, 'insufficient role');
     });
 
     server.set('requireAdminUser', function (request, response, next) {
-        if ((request.user.roles & roles.AdminUser) === roles.AdminUser) {
+        if (user.isAdminUser(request.user)) {
             return next();
         }
         return response.send(403, 'insufficient role');

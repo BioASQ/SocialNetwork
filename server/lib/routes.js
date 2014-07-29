@@ -14,11 +14,42 @@ var routes = exports.createRoutes = function (server) {
 
     var mail = new Mail(config.notifications);
 
-    var makeBlackList = function (user) {
+    var idFilterForUser = function (user) {
         var bl = user.black_list || [];
-        return bl.map(function (id) {
+        bl.map(function (id) {
             return models.question.makeID(id);
         });
+        return { $nin: bl };
+    };
+
+/*
+ *     Role    pub. level  creator match                 result
+ *     --------------------------------------------------------
+ *     User    private     creatore does match      -->  not shown
+ *     User    private     creatore does not match  -->  not shown
+ *
+ *     User    restricted  creatore does match      -->  shown
+ *     User    restricted  creatore does not match  -->  not shown
+ *
+ *     User    public      creatore does match      -->  shown
+ *     User    public      creatore does not match  -->  shown
+ *
+ *     Senior  private     creatore does match      -->  not shown
+ *     Senior  private     creatore does not match  -->  not shown
+ *
+ *     Senior  restricted  creatore does match      -->  shown
+ *     Senior  restricted  creatore does not match  -->  shown
+ *
+ *     Senior  public      creatore does match      -->  shown
+ *     Senior  public      creatore does not match  -->  shown
+ */
+
+    var publicationFilterForUser = function (user) {
+        if (models.user.isSeniorUser(user)) {
+            return { $nin: [ 'private' ] };
+        } else {
+            return { $nin: [ 'private', 'restricted' ] };
+        }
     };
 
     /*
@@ -55,7 +86,9 @@ var routes = exports.createRoutes = function (server) {
     });
 
     server.get('/activities', [ authentication, pagination ], function (request, response) {
-        models.activity.cursor({ about: { $nin: makeBlackList(request.user) } }, { sort: { created: -1 } }, function (err, cursor) {
+        models.activity.cursor({ about: idFilterForUser(request.user),
+                                 about_publication: publicationFilterForUser(request.user) },
+                               { sort: { created: -1 } }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
                 if (err) { throw err; }
@@ -168,7 +201,9 @@ var routes = exports.createRoutes = function (server) {
      * Get a user's activity
      */
     server.get('/users/:id/activities', [ authentication, pagination ], function (request, response) {
-        var query = { creator: request.params.id, about: { $nin: makeBlackList(request.user) } };
+        var query = { creator: request.params.id,
+                      about: idFilterForUser(request.user),
+                      about_publication: publicationFilterForUser(request.user) };
         models.activity.cursor(query, { sort: { created: -1 } }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
@@ -197,7 +232,10 @@ var routes = exports.createRoutes = function (server) {
      * What a user follows
      */
     server.get('/users/:id/following', [ authentication, pagination ], function (request, response) {
-        var query = { type: 'Follow', creator: request.params.id, about: { $nin: makeBlackList(request.user) } };
+        var query = { type: 'Follow',
+                      creator: request.params.id,
+                      about: idFilterForUser(request.user),
+                      about_publication: publicationFilterForUser(request.user) };
         models.activity.cursor(query, { sort: { created: -1 } }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
@@ -251,7 +289,10 @@ var routes = exports.createRoutes = function (server) {
      * Activities of things a user follows
      */
     server.get('/users/:id/home', [ authentication, pagination ], function (request, response) {
-        var query   = { type: 'Follow', creator: request.params.id, about: { $nin: makeBlackList(request.user) } },
+        var query   = { type: 'Follow',
+                        creator: request.params.id,
+                        about: idFilterForUser(request.user),
+                        about_publication: publicationFilterForUser(request.user) },
             options = { fields: [ 'about', 'about_type' ], sort: { created: -1 } };
 
         models.activity.find(query, options, function (err, res) {
@@ -279,13 +320,15 @@ var routes = exports.createRoutes = function (server) {
              * Activities obout questions the user follows but not created by her or
              * activities created by users she follows.
              */
+            var idFilter = idFilterForUser(request.user);
+            idFilter.$in = uniqueQuestionIDs;
             var query2 = { $or: [
                 // about questions user follows but has not created
-                { about: { $in: uniqueQuestionIDs, $nin: makeBlackList(request.user) }, creator: { $ne: userID } },
+                { about: idFilter, creator: { $ne: userID }, about_publication: publicationFilterForUser(request.user) },
                 // about the user
-                { about: userID },
+                { about: userID, about_publication: publicationFilterForUser(request.user) },
                 // created by other users he follows
-                { creator: { $in: uniqueUserIDs } }
+                { creator: { $in: uniqueUserIDs }, about_publication: publicationFilterForUser(request.user) }
             ] };
             models.activity.cursor(query2, { sort: { created: -1 } }, function (err, cursor) {
                 if (err) { throw err; }
@@ -428,7 +471,7 @@ var routes = exports.createRoutes = function (server) {
         var sort = request.param('sort') || 'created',
             sortOptions = {};
         sortOptions[sort] = -1;
-        models.question.cursor({ _id: {$nin: makeBlackList(request.user) } }, { sort: sortOptions, fields: { creator: false } }, function (err, cursor) {
+        models.question.cursor({ _id: idFilterForUser(request.user), about_publication: publicationFilterForUser(request.user) }, { sort: sortOptions, fields: { creator: false } }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
                 if (err) { throw err; }
@@ -444,7 +487,7 @@ var routes = exports.createRoutes = function (server) {
     server.get('/questions/search/:query', [ authentication, pagination ], function (request, response) {
         models.question.search(
             request.params.query,
-            { fields: { creator: false }, filter: { _id: { $nin: makeBlackList(request.user) } } },
+            { fields: { creator: false }, filter: { _id: idFilterForUser(request.user), about_publication: publicationFilterForUser(request.user) } },
             function (err, res) {
                 if (err) { throw err; }
                 response.send(res);
@@ -456,8 +499,8 @@ var routes = exports.createRoutes = function (server) {
      * Get question with id
      */
     server.get('/questions/:id', authentication, function (request, response) {
-        var blackList = makeBlackList(request.user);
-        if (blackList.some(function (id) { return (String(id) === request.params.id); })) {
+        var idFilter = idFilterForUser(request.user);
+        if (idFilter.$nin && idFilter.$nin.some(function (id) { return (String(id) === request.params.id); })) {
             return response.send(404);
         }
         models.question.load(request.params.id, { fields: { creator: false } }, function (err, doc) {
@@ -585,8 +628,9 @@ var routes = exports.createRoutes = function (server) {
                 var activity = {
                     type:       inserted ? 'Import' : 'Update',
                     about:      request.body.id,
+                    created:    new Date(),
                     about_type: 'Question',
-                    created:    new Date()
+                    about_publication: request.body.publication
                 };
                 models.activity.create(activity, function (err) {
                     if (err) { return response.send(500); }
@@ -594,6 +638,12 @@ var routes = exports.createRoutes = function (server) {
                         util.log('questions: new question imported (' + request.body.id + ')');
                     } else {
                         util.log('questions: imported question update (' + request.body.id + ')');
+                    }
+                    if (typeof request.body.publication != 'undefined') {
+                        // update all activities with publication level
+                        models.activity.update({ about: request.body.id },
+                                               { $set: { about_publication: request.body.publication } },
+                                               { w: 0, multi: true });
                     }
                     response.send(204);
                     models.activity.followers(request.body.id, function (err, followers) {
