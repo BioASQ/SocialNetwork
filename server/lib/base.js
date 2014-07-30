@@ -140,15 +140,24 @@ Base.prototype.find = function (query, options, cb) {
     });
 };
 
-Base.prototype.update = function (id, doc, cb) {
+Base.prototype.update = function (id, doc, options, cb) {
+    this.update2({ _id: id }, doc, options, cb);
+};
+
+Base.prototype.update2 = function (query, doc, options, cb) {
     var self = this;
     delete doc._id;
+    if (typeof options == 'function') {
+        cb = options;
+        options = {};
+    }
+    query = this.convertToIDs(query, this.idProperties());
     doc = this.convertToIDs(doc, this.idProperties());
     this._collection(this._collectionName, function (err, collection) {
-        collection.update({ _id: self.makeID(id) }, { $set: doc } , function (err) {
+        collection.update(query, { $set: doc }, options, function (err, res) {
             if (typeof cb !== 'undefined') {
                 if (err) { return cb(err); }
-                cb(null);
+                cb(null, res);
             }
         });
     });

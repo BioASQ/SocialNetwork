@@ -471,7 +471,9 @@ var routes = exports.createRoutes = function (server) {
         var sort = request.param('sort') || 'created',
             sortOptions = {};
         sortOptions[sort] = -1;
-        models.question.cursor({ _id: idFilterForUser(request.user), about_publication: publicationFilterForUser(request.user) }, { sort: sortOptions, fields: { creator: false } }, function (err, cursor) {
+        models.question.cursor({ _id:               idFilterForUser(request.user),
+                                 publication: publicationFilterForUser(request.user) },
+                               { sort: sortOptions, fields: { creator: false } }, function (err, cursor) {
             if (err) { throw err; }
             cursor.count(function (err, count) {
                 if (err) { throw err; }
@@ -487,7 +489,8 @@ var routes = exports.createRoutes = function (server) {
     server.get('/questions/search/:query', [ authentication, pagination ], function (request, response) {
         models.question.search(
             request.params.query,
-            { fields: { creator: false }, filter: { _id: idFilterForUser(request.user), about_publication: publicationFilterForUser(request.user) } },
+            { fields: { creator: false }, filter: { _id: idFilterForUser(request.user),
+                                                    about_publication: publicationFilterForUser(request.user) } },
             function (err, res) {
                 if (err) { throw err; }
                 response.send(res);
@@ -499,10 +502,22 @@ var routes = exports.createRoutes = function (server) {
      * Get question with id
      */
     server.get('/questions/:id', authentication, function (request, response) {
-        var idFilter = idFilterForUser(request.user);
+        var idFilter = idFilterForUser(request.user),
+            publicationFilter = publicationFilterForUser(request.user);
+
         if (idFilter.$nin && idFilter.$nin.some(function (id) { return (String(id) === request.params.id); })) {
             return response.send(404);
         }
+
+        models.question.find({ _id: request.params.id, publication: publicationFilter },
+                             { fields: { creator: false } },
+                             function (err, docs) {
+                                if (err) { throw err; }
+                                if (docs.length === 0) { return response.send(404); }
+                                if (docs.length > 1) { return response.send(500); }
+                                response.send(docs[0]);
+                             });
+
         models.question.load(request.params.id, { fields: { creator: false } }, function (err, doc) {
             if (err) { throw err; }
             if (!doc) { return response.send(404); }
@@ -630,20 +645,21 @@ var routes = exports.createRoutes = function (server) {
                     about:      request.body.id,
                     created:    new Date(),
                     about_type: 'Question',
-                    about_publication: request.body.publication
+                    about_publication: request.body.data.publication
                 };
                 models.activity.create(activity, function (err) {
                     if (err) { return response.send(500); }
+                    var sharingInfo = [ request.body.id, request.body.data.publication ];
                     if (inserted) {
-                        util.log('questions: new question imported (' + request.body.id + ')');
+                        util.log('questions: new question imported (' + sharingInfo.join(', ') + ')');
                     } else {
-                        util.log('questions: imported question update (' + request.body.id + ')');
+                        util.log('questions: imported question update (' + sharingInfo.join(', ') + ')');
                     }
-                    if (typeof request.body.publication != 'undefined') {
+                    if (typeof request.body.data.publication != 'undefined') {
                         // update all activities with publication level
-                        models.activity.update({ about: request.body.id },
-                                               { $set: { about_publication: request.body.publication } },
-                                               { w: 0, multi: true });
+                        models.activity.update2({ about: request.body.id },
+                                                { about_publication: request.body.data.publication },
+                                                { w: 0, multi: true });
                     }
                     response.send(204);
                     models.activity.followers(request.body.id, function (err, followers) {
