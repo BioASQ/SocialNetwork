@@ -167,14 +167,14 @@ controllers.controller('QuestionController', function($scope, $routeParams, Ques
     };
 
     $scope.save = function (form) {
-        if(form.$valid){
+        if (form.$valid) {
             Question.comment({ id: $scope.temp.comment.about }, $scope.temp.comment, function (result) {
                 if (typeof $scope.question.comments === 'undefined') {
                     $scope.question.comments = [];
                 }
                 populateCreator(result);
                 $scope.question.comments.unshift(result);
-                $scope.question.comment_count += 1;
+                $scope.question.comment_count = $scope.question.comment_count + 1 | 1;
                 delete $scope.temp.comment;
             });
         }
