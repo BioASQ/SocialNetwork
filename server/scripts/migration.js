@@ -66,7 +66,7 @@ db.user.find().forEach(function (u) {
 });
 
 // copy questions from one account to another
-db.questions.count({"creator":"christoforos.nikolaou@gmail.com"}).forEach(function (question) {
+db.questions.count({"creator":"<creator ID>"}).forEach(function (question) {
     var copy = JSON.parse(JSON.stringify(question));
     delete copy._id;
     copy.creator = "test@bioasq.org";

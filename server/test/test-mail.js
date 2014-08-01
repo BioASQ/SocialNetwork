@@ -13,8 +13,8 @@ exports.testSendActivationMail = nodeunit.testCase({
     'test mail sent': function (test) {
         test.expect(2);
         this.fixture.sendActivationMail({
-            first_name: 'Norman',
-            email:      'heino@informatik.uni-leipzig.de'
+            first_name: 'BioASQ',
+            email:      'bioasqat@gmail.com'
         }, 'http://example.com/activate', function (err, status) {
             test.equals(null, err);
             test.ok(status);
