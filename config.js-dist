@@ -25,8 +25,17 @@ var defaults = exports.defaults = {
     /*
      * Credentials for Gmail account.
      */
-    mail: {
+    notifications:{
+        enabled: true,
         user: '',
         pass: ''
+    },
+
+    /*
+     * Allows to post updated question.
+     */
+    sharing:{
+        enabled: false,
+        secret:  '<shared secret>'
     }
 };
